@@ -103,7 +103,7 @@ fun IncomeScreen(
             },
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .padding(16.dp),
+                .padding(Providers.spacing.m),
             contentDescription = stringResource(ru.fav.moneytrace.base.R.string.add),
             painter = painterResource(ru.fav.moneytrace.base.R.drawable.ic_add),
         )
