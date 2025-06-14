@@ -1,20 +1,25 @@
 package ru.fav.moneytrace.expenses.ui
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ru.fav.moneytrace.base.component.MTEmojiIcon
+import ru.fav.moneytrace.base.component.MTFloatingActionButton
 import ru.fav.moneytrace.base.component.MTIcon
 import ru.fav.moneytrace.base.component.MTIconButton
 import ru.fav.moneytrace.base.component.MTListItem
@@ -51,45 +56,59 @@ fun ExpensesScreen(
         topAppBarSetter(topAppBarState)
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
+    Box(
+        modifier = Modifier.fillMaxSize()
     ) {
 
-        MTListItem(
-            title = stringResource(ru.fav.moneytrace.base.R.string.total),
-            trailingTitle = "${state.total} ${state.currency.toCurrencySymbol()}",
-            onClick = { },
-            textPadding = PaddingValues(
-                horizontal = Providers.spacing.none,
-                vertical = Providers.spacing.m
-            ),
-            backgroundColor = Providers.color.secondaryContainer
-        )
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
 
-        HorizontalDivider()
+            MTListItem(
+                title = stringResource(ru.fav.moneytrace.base.R.string.total),
+                trailingTitle = "${state.total} ${state.currency.toCurrencySymbol()}",
+                onClick = { },
+                textPadding = PaddingValues(
+                    horizontal = Providers.spacing.none,
+                    vertical = Providers.spacing.m
+                ),
+                backgroundColor = Providers.color.secondaryContainer
+            )
 
-        LazyColumn {
-            items(
-                count = state.expenses.size,
-                key = { index -> state.expenses[index].id }
-            ) { index ->
-                val expense = state.expenses[index]
-                MTListItem(
-                    leadingIcon = { MTEmojiIcon(expense.emoji) },
-                    title = expense.category,
-                    subtitle = expense.comment,
-                    trailingTitle =  "${expense.amount} ${expense.currency.toCurrencySymbol()}",
-                    trailingIcon = {
-                        MTIcon(
-                            painter = painterResource(ru.fav.moneytrace.base.R.drawable.ic_more),
-                            contentDescription = stringResource(ru.fav.moneytrace.base.R.string.more),
-                        )
-                    },
-                    onClick = { }
-                )
-                HorizontalDivider()
+            HorizontalDivider()
+
+            LazyColumn {
+                items(
+                    count = state.expenses.size,
+                    key = { index -> state.expenses[index].id }
+                ) { index ->
+                    val expense = state.expenses[index]
+                    MTListItem(
+                        leadingIcon = { MTEmojiIcon(expense.emoji) },
+                        title = expense.category,
+                        subtitle = expense.comment,
+                        trailingTitle = "${expense.amount} ${expense.currency.toCurrencySymbol()}",
+                        trailingIcon = {
+                            MTIcon(
+                                painter = painterResource(ru.fav.moneytrace.base.R.drawable.ic_more),
+                                contentDescription = stringResource(ru.fav.moneytrace.base.R.string.more),
+                            )
+                        },
+                        onClick = { }
+                    )
+                    HorizontalDivider()
+                }
             }
         }
+        MTFloatingActionButton(
+            onClick = {
+            },
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(16.dp),
+            contentDescription = stringResource(ru.fav.moneytrace.base.R.string.add),
+            painter = painterResource(ru.fav.moneytrace.base.R.drawable.ic_add),
+        )
     }
 }

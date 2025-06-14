@@ -107,40 +107,6 @@ class TransactionRepositoryImpl @Inject constructor(
                 currency = "RUB",
                 amount = "1500"
             ),
-            Transaction(
-                id = 12,
-                category = "Образование",
-                emoji = "📚",
-                isIncome = false,
-                comment = "Онлайн курс по Android",
-                currency = "RUB",
-                amount = "15000"
-            ),
-            Transaction(
-                id = 13,
-                category = "Спорт",
-                emoji = "🏋️",
-                isIncome = false,
-                currency = "RUB",
-                amount = "3000"
-            ),
-            Transaction(
-                id = 14,
-                category = "Подарки",
-                emoji = "🎁",
-                isIncome = false,
-                comment = "Подарок маме",
-                currency = "RUB",
-                amount = "5000"
-            ),
-            Transaction(
-                id = 15,
-                category = "Инвестиции",
-                emoji = "📈",
-                isIncome = true,
-                currency = "RUB",
-                amount = "3200"
-            )
         )
     }
 }
