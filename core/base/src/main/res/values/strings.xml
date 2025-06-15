@@ -1,0 +1,13 @@
+<resources>
+    <string name="account">Счет</string>
+    <string name="income">Доходы</string>
+    <string name="stats">Статьи</string>
+    <string name="settings">Настройки</string>
+    <string name="expenses">Расходы</string>
+    <string name="edit">Редактировать</string>
+    <string name="history">История</string>
+    <string name="details">Детали</string>
+    <string name="more">Больше</string>
+    <string name="total">Всего</string>
+    <string name="add">Добавить</string>
+</resources>
