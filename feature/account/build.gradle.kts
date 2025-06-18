@@ -48,10 +48,10 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:domain"))
-    implementation(project(":core:base"))
-    implementation(project(":core:base-feature"))
-    implementation(project(":core:navigation"))
+    implementation(project(":common:domain"))
+    implementation(project(":common:ui"))
+    implementation(project(":common:util"))
+    implementation(project(":common:navigation"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

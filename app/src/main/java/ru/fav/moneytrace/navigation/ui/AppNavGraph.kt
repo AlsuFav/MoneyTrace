@@ -6,13 +6,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import ru.fav.moneytrace.account.ui.AccountFeature
-import ru.fav.moneytrace.base.state.TopAppBarState
 import ru.fav.moneytrace.navigation.NavigationManager
 
 @Composable
 fun AppNavGraph(
     navigationManager: NavigationManager,
-    onTopAppBarStateChange: (TopAppBarState) -> Unit,
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController()
 ) {
@@ -21,6 +19,6 @@ fun AppNavGraph(
         startDestination = AccountFeature.navGraph.route,
         modifier = modifier
     ) {
-        navigationManager.buildNavGraph(this, navController, onTopAppBarStateChange)
+        navigationManager.buildNavGraph(this, navController)
     }
 }

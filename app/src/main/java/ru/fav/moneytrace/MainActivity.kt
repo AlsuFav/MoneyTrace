@@ -5,7 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import dagger.hilt.android.AndroidEntryPoint
-import ru.fav.moneytrace.base.theme.MTTheme
+import ru.fav.moneytrace.ui.theme.MTTheme
 import ru.fav.moneytrace.navigation.NavigationManager
 import javax.inject.Inject
 import androidx.compose.runtime.*

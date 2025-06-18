@@ -1,6 +1,6 @@
 package ru.fav.moneytrace
 
-import ru.fav.moneytrace.base.theme.Providers
+import ru.fav.moneytrace.ui.theme.Providers
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize

@@ -51,11 +51,11 @@ android {
 }
 
 dependencies {
-    implementation(project(path = ":core:domain"))
-    implementation(project(path = ":core:data"))
-    implementation(project(path = ":core:base"))
-    implementation(project(path = ":core:navigation"))
-    implementation(project(path = ":core:base-feature"))
+    implementation(project(path = ":common:domain"))
+    implementation(project(path = ":common:data"))
+    implementation(project(path = ":common:ui"))
+    implementation(project(path = ":common:navigation"))
+    implementation(project(path = ":common:util"))
 
     implementation(project(path = ":feature:account"))
     implementation(project(path = ":feature:settings"))
