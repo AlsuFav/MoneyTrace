@@ -48,6 +48,7 @@ android {
 }
 
 dependencies {
+    implementation(project(path = ":common:util"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

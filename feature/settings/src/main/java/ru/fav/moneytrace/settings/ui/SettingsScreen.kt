@@ -35,17 +35,15 @@ fun SettingsScreen() {
 
     var isDarkMode by remember { mutableStateOf(false) }
 
-    Scaffold(
-        topBar = {
-            MTCenterAlignedTopAppBar(
-                title = stringResource(R.string.settings)
-            )
-        }
-    ) { innerPadding ->
+    Column(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        MTCenterAlignedTopAppBar(
+            title = stringResource(R.string.settings)
+        )
+
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
+            modifier = Modifier.fillMaxSize()
         ) {
             MTListItem(
                 title = stringResource(R.string.dark_theme),

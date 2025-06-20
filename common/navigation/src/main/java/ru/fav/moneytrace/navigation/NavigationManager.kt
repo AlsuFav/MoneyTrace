@@ -12,6 +12,8 @@ interface NavigationManager {
     fun navigateToSettings(navController: NavController)
     fun navigateToIncome(navController: NavController)
     fun navigateToExpenses(navController: NavController)
-    fun navigateToStats(navController: NavController)
+    fun navigateToCategories(navController: NavController)
     fun navigateToAccount(navController: NavController)
+
+    fun navigateBack(navController: NavController)
 }

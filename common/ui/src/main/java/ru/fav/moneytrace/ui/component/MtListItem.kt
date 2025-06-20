@@ -1,6 +1,5 @@
 package ru.fav.moneytrace.ui.component
 
-import androidx.collection.emptyLongSet
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
@@ -64,19 +63,22 @@ fun MTListItem(
             Column(
                 modifier = Modifier.weight(1f)
             ) {
-
                 if (subtitle.isNullOrEmpty()) {
                     MTText(
                         text = title,
-                        contentPadding = textPadding
+                        contentPadding = textPadding,
+                        maxLines = 1
                     )
                 } else {
                     MTText(
                         text = title,
                         contentPadding = PaddingValues(
-                            horizontal = Providers.spacing.none,
-                            vertical = Providers.spacing.xxs
-                        )
+                            start = Providers.spacing.none,
+                            end = Providers.spacing.none,
+                            top = Providers.spacing.s,
+                            bottom = Providers.spacing.xxs,
+                        ),
+                        maxLines = 1
                     )
 
                     MTText(
@@ -84,30 +86,52 @@ fun MTListItem(
                         style = Providers.typography.bodyM,
                         color = Providers.color.onSurfaceVariant,
                         contentPadding = PaddingValues(
-                            horizontal = Providers.spacing.none,
-                            vertical = Providers.spacing.xxs
-                        )
+                            start = Providers.spacing.none,
+                            end = Providers.spacing.none,
+                            top = Providers.spacing.xxs,
+                            bottom = Providers.spacing.s,
+                        ),
+                        maxLines = 1
                     )
                 }
             }
 
             if (!trailingTitle.isNullOrEmpty()) {
-                if (trailingSubtitle.isNullOrEmpty()) {
-                    MTText(
-                        text = trailingTitle,
-                        contentPadding = textPadding
-                    )
-                } else {
-                    MTText(trailingTitle)
+                Column(
+                    horizontalAlignment = Alignment.End
+                ) {
+                    if (trailingSubtitle.isNullOrEmpty()) {
+                        MTText(
+                            text = trailingTitle,
+                            contentPadding = textPadding,
+                            maxLines = 1
+                        )
+                    } else {
+                        MTText(
+                            text = trailingTitle,
+                            contentPadding = PaddingValues(
+                                start = Providers.spacing.none,
+                                end = Providers.spacing.none,
+                                top = Providers.spacing.s,
+                                bottom = Providers.spacing.xs,
+                            ),
+                            maxLines = 1
+                        )
 
-                    MTText(
-                        text = trailingSubtitle,
-                        style = Providers.typography.bodyM,
-                        color = Providers.color.onSurfaceVariant
-                    )
+                        MTText(
+                            text = trailingSubtitle,
+                            color = Providers.color.onSurfaceVariant,
+                            contentPadding = PaddingValues(
+                                start = Providers.spacing.none,
+                                end = Providers.spacing.none,
+                                top = Providers.spacing.xs,
+                                bottom = Providers.spacing.s,
+                            ),
+                            maxLines = 1
+                        )
+                    }
                 }
             }
-
 
             trailingIcon?.let {
                 Box(modifier = Modifier.padding(start = Providers.spacing.s)) {

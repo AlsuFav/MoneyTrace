@@ -49,6 +49,8 @@ android {
 
 dependencies {
     implementation(project(path = ":common:domain"))
+    implementation(project(path = ":common:network"))
+    implementation(project(path = ":common:util"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

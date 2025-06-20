@@ -1,0 +1,18 @@
+package ru.fav.moneytrace.income.ui.screen.today.component
+
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.runtime.Composable
+import ru.fav.moneytrace.ui.component.MTShimmerListItem
+import ru.fav.moneytrace.ui.theme.Providers
+
+@Composable
+fun IncomeTodayTotalShimmerItem() {
+    MTShimmerListItem(
+        showTrailingTitle = true,
+        textPadding = PaddingValues(
+            horizontal = Providers.spacing.none,
+            vertical = Providers.spacing.m
+        ),
+        backgroundColor = Providers.color.secondaryContainer
+    )
+}

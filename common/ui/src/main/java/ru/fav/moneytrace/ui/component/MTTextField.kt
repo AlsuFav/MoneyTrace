@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -27,7 +29,9 @@ fun MTTextField(
         horizontal = Providers.spacing.none,
         vertical = Providers.spacing.none
     ),
-    height: Dp = Providers.componentSize.textFieldMedium
+    height: Dp = Providers.componentSize.textFieldMedium,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    keyboardActions: KeyboardActions = KeyboardActions.Default
 ) {
     Surface(
         color = backgroundColor,
@@ -40,6 +44,8 @@ fun MTTextField(
             leadingIcon = leadingIcon,
             trailingIcon = trailingIcon,
             singleLine = true,
+            keyboardOptions = keyboardOptions,
+            keyboardActions = keyboardActions,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(contentPadding),

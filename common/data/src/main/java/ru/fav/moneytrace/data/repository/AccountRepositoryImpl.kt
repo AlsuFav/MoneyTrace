@@ -1,71 +1,41 @@
 package ru.fav.moneytrace.data.repository
 
-import ru.fav.moneytrace.domain.model.Account
-import ru.fav.moneytrace.domain.model.Stat
+import ru.fav.moneytrace.data.mapper.AccountDetailsMapper
+import ru.fav.moneytrace.data.mapper.AccountMapper
+import ru.fav.moneytrace.domain.model.AccountDetailsModel
+import ru.fav.moneytrace.domain.model.AccountModel
 import ru.fav.moneytrace.domain.repository.AccountRepository
+import ru.fav.moneytrace.network.AccountApi
+import ru.fav.moneytrace.network.util.ApiClient
+import ru.fav.moneytrace.util.result.Result
 import javax.inject.Inject
 
 class AccountRepositoryImpl @Inject constructor(
+    private val accountApi: AccountApi,
+    private val accountMapper: AccountMapper,
+    private val accountDetailsMapper: AccountDetailsMapper,
+    private val apiClient: ApiClient,
 ): AccountRepository {
-    override suspend fun getAccount(): Account {
-        return Account(
-            id = 1,
-            name = "Основной счёт",
-            balance = "1000.00",
-            currency = "RUB",
-        )
+
+    override suspend fun getAllAccounts(): Result<List<AccountModel>> {
+        return when (val result = apiClient.call { accountApi.getAllAccounts() }) {
+            is Result.Success -> {
+                val accounts = accountMapper.mapList(result.data)
+                Result.Success(accounts)
+            }
+            is Result.NetworkError -> result
+            is Result.HttpError -> result
+        }
     }
 
-    override suspend fun getAllExpenseStats(): List<Stat> {
-        return listOf(
-            Stat(
-                categoryId = 7,
-                categoryName = "Жильё",
-                emoji = "🏠",
-                amount = "35000.00",
-            ),
-            Stat(
-                categoryId = 8,
-                categoryName = "Продукты",
-                emoji = "🍎",
-                amount = "12500.00",
-            ),
-            Stat(
-                categoryId = 9,
-                categoryName = "Транспорт",
-                emoji = "🚗",
-                amount = "8500.00",
-            ),
-            Stat(
-                categoryId = 10,
-                categoryName = "Развлечения",
-                emoji = "🎭",
-                amount = "6000.00",
-            ),
-            Stat(
-                categoryId = 11,
-                categoryName = "Рестораны",
-                emoji = "🍽️",
-                amount = "7500.00",
-            ),
-            Stat(
-                categoryId = 12,
-                categoryName = "Одежда",
-                emoji = "👕",
-                amount = "9000.00",
-            ),
-            Stat(
-                categoryId = 13,
-                categoryName = "Здоровье",
-                emoji = "🏥",
-                amount = "12000.00",
-            ),
-            Stat(
-                categoryId = 15,
-                categoryName = "Техника",
-                emoji = "📱",
-                amount = "30000.00",
-            ),
-        )
+    override suspend fun getAccountDetails(id: Int): Result<AccountDetailsModel> {
+        return when (val result = apiClient.call { accountApi.getAccountById(id) }) {
+            is Result.Success -> {
+                val accountDetails = accountDetailsMapper.map(result.data)
+                Result.Success(accountDetails)
+            }
+            is Result.NetworkError -> result
+            is Result.HttpError -> result
+        }
     }
 }
