@@ -1,6 +1,5 @@
 package ru.fav.moneytrace.ui.component
 
-import androidx.collection.emptyLongSet
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box

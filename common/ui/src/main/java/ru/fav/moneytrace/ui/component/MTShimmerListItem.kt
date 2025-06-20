@@ -21,6 +21,10 @@ import androidx.compose.ui.graphics.Brush
 @Composable
 fun MTShimmerListItem(
     modifier: Modifier = Modifier,
+    title: String? = null,
+    subtitle: String? = null,
+    trailingTitle: String? = null,
+    trailingSubtitle: String? = null,
     showLeadingIcon: Boolean = false,
     showSubtitle: Boolean = false,
     showTrailingTitle: Boolean = false,
@@ -60,61 +64,33 @@ fun MTShimmerListItem(
                 modifier = Modifier.weight(1f)
             ) {
                 if (!showSubtitle) {
-                    Box(
-                        modifier = Modifier
-                            .padding(textPadding)
-                            .height(20.dp)
-                            .fillMaxWidth(0.7f)
-                            .clip(Providers.shape.xs)
-                            .background(shimmerBrush)
-                    )
-                } else {
-                    Box(
-                        modifier = Modifier
-                            .padding(
-                                PaddingValues(
-                                    start = Providers.spacing.none,
-                                    end = Providers.spacing.none,
-                                    top = Providers.spacing.s,
-                                    bottom = Providers.spacing.xxs,
-                                )
-                            )
-                            .height(20.dp)
-                            .fillMaxWidth(0.7f)
-                            .clip(Providers.shape.xs)
-                            .background(shimmerBrush)
-                    )
-
-                    Box(
-                        modifier = Modifier
-                            .padding(
-                                PaddingValues(
-                                    start = Providers.spacing.none,
-                                    end = Providers.spacing.none,
-                                    top = Providers.spacing.xxs,
-                                    bottom = Providers.spacing.s,
-                                )
-                            )
-                            .height(16.dp)
-                            .fillMaxWidth(0.4f)
-                            .clip(Providers.shape.xs)
-                            .background(shimmerBrush)
-                    )
-                }
-            }
-
-            if (showTrailingTitle) {
-                Column(
-                    horizontalAlignment = Alignment.End
-                ) {
-                    if (!showTrailingSubtitle) {
+                    if (title != null) {
+                        MTText(
+                            text = title,
+                            contentPadding = textPadding,
+                            maxLines = 1
+                        )
+                    } else {
                         Box(
                             modifier = Modifier
                                 .padding(textPadding)
                                 .height(20.dp)
-                                .width(60.dp)
+                                .fillMaxWidth(0.7f)
                                 .clip(Providers.shape.xs)
                                 .background(shimmerBrush)
+                        )
+                    }
+                } else {
+                    if (title != null) {
+                        MTText(
+                            text = title,
+                            contentPadding = PaddingValues(
+                                start = Providers.spacing.none,
+                                end = Providers.spacing.none,
+                                top = Providers.spacing.s,
+                                bottom = Providers.spacing.xxs,
+                            ),
+                            maxLines = 1
                         )
                     } else {
                         Box(
@@ -124,30 +100,129 @@ fun MTShimmerListItem(
                                         start = Providers.spacing.none,
                                         end = Providers.spacing.none,
                                         top = Providers.spacing.s,
-                                        bottom = Providers.spacing.xs,
+                                        bottom = Providers.spacing.xxs,
                                     )
                                 )
                                 .height(20.dp)
-                                .width(60.dp)
+                                .fillMaxWidth(0.7f)
                                 .clip(Providers.shape.xs)
                                 .background(shimmerBrush)
                         )
+                    }
 
+                    if (subtitle != null) {
+                        MTText(
+                            text = subtitle,
+                            style = Providers.typography.bodyM,
+                            color = Providers.color.onSurfaceVariant,
+                            contentPadding = PaddingValues(
+                                start = Providers.spacing.none,
+                                end = Providers.spacing.none,
+                                top = Providers.spacing.xxs,
+                                bottom = Providers.spacing.s,
+                            ),
+                            maxLines = 1
+                        )
+                    } else {
                         Box(
                             modifier = Modifier
                                 .padding(
                                     PaddingValues(
                                         start = Providers.spacing.none,
                                         end = Providers.spacing.none,
-                                        top = Providers.spacing.xs,
+                                        top = Providers.spacing.xxs,
                                         bottom = Providers.spacing.s,
                                     )
                                 )
-                                .height(20.dp)
-                                .width(40.dp)
+                                .height(16.dp)
+                                .fillMaxWidth(0.4f)
                                 .clip(Providers.shape.xs)
                                 .background(shimmerBrush)
                         )
+                    }
+                }
+            }
+
+            if (showTrailingTitle) {
+                Column(
+                    horizontalAlignment = Alignment.End
+                ) {
+                    if (!showTrailingSubtitle) {
+                        if (trailingTitle != null) {
+                            MTText(
+                                text = trailingTitle,
+                                contentPadding = textPadding,
+                                maxLines = 1
+                            )
+                        } else {
+                            Box(
+                                modifier = Modifier
+                                    .padding(textPadding)
+                                    .height(20.dp)
+                                    .width(60.dp)
+                                    .clip(Providers.shape.xs)
+                                    .background(shimmerBrush)
+                            )
+                        }
+                    } else {
+                        if (trailingTitle != null) {
+                            MTText(
+                                text = trailingTitle,
+                                contentPadding = PaddingValues(
+                                    start = Providers.spacing.none,
+                                    end = Providers.spacing.none,
+                                    top = Providers.spacing.s,
+                                    bottom = Providers.spacing.xs,
+                                ),
+                                maxLines = 1
+                            )
+                        } else {
+                            Box(
+                                modifier = Modifier
+                                    .padding(
+                                        PaddingValues(
+                                            start = Providers.spacing.none,
+                                            end = Providers.spacing.none,
+                                            top = Providers.spacing.s,
+                                            bottom = Providers.spacing.xs,
+                                        )
+                                    )
+                                    .height(20.dp)
+                                    .width(60.dp)
+                                    .clip(Providers.shape.xs)
+                                    .background(shimmerBrush)
+                            )
+                        }
+
+                        if (trailingSubtitle != null) {
+                            MTText(
+                                text = trailingSubtitle,
+                                color = Providers.color.onSurfaceVariant,
+                                contentPadding = PaddingValues(
+                                    start = Providers.spacing.none,
+                                    end = Providers.spacing.none,
+                                    top = Providers.spacing.xs,
+                                    bottom = Providers.spacing.s,
+                                ),
+                                maxLines = 1
+                            )
+                        } else {
+                            Box(
+                                modifier = Modifier
+                                    .padding(
+                                        PaddingValues(
+                                            start = Providers.spacing.none,
+                                            end = Providers.spacing.none,
+                                            top = Providers.spacing.xs,
+                                            bottom = Providers.spacing.s,
+                                        )
+                                    )
+                                    .height(20.dp)
+                                    .width(40.dp)
+                                    .clip(Providers.shape.xs)
+                                    .background(shimmerBrush)
+                            )
+                        }
                     }
                 }
             }

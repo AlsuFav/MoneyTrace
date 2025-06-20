@@ -14,17 +14,18 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import ru.fav.moneytrace.expenses.ui.screen.history.component.ExpensesHistoryHeaderItem
+import ru.fav.moneytrace.expenses.ui.screen.history.component.ExpensesHistoryTotalItem
 import ru.fav.moneytrace.ui.component.MTIcon
 import ru.fav.moneytrace.ui.component.MTIconButton
 import ru.fav.moneytrace.expenses.ui.screen.history.component.ExpensesHistoryList
 import ru.fav.moneytrace.expenses.ui.screen.history.component.ExpensesHistoryShimmerList
-import ru.fav.moneytrace.expenses.ui.screen.history.component.ExpensesHistoryHeaderShimmerItem
+import ru.fav.moneytrace.expenses.ui.screen.history.component.ExpensesHistoryTotalShimmerItem
 import ru.fav.moneytrace.expenses.ui.screen.history.state.ExpensesHistoryEvent
 import ru.fav.moneytrace.ui.R
 import ru.fav.moneytrace.ui.component.MTCenterAlignedTopAppBar
 import ru.fav.moneytrace.ui.component.MTDatePicker
 import ru.fav.moneytrace.ui.component.MTErrorDialog
+import ru.fav.moneytrace.ui.component.MTPeriodItem
 import ru.fav.moneytrace.util.DateHelper
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -78,19 +79,25 @@ fun ExpensesHistoryScreen(
             Column(
                 modifier = Modifier.fillMaxSize()
             ) {
+                MTPeriodItem(
+                    startDate = state.startDate,
+                    endDate = state.endDate,
+                    onStartDateClick = {
+                        viewModel.reduce(ExpensesHistoryEvent.ShowStartDatePicker)
+                    },
+                    onEndDateClick = {
+                        viewModel.reduce(ExpensesHistoryEvent.ShowEndDatePicker)
+                    },
+                )
+
+                HorizontalDivider()
+
                 if (state.isLoading) {
-                    ExpensesHistoryHeaderShimmerItem()
+                    ExpensesHistoryTotalShimmerItem()
                 } else {
-                    ExpensesHistoryHeaderItem(
-                        startDate = state.startDate,
-                        endDate = state.endDate,
+
+                    ExpensesHistoryTotalItem(
                         totalSum = state.total,
-                        onStartDateClick = {
-                            viewModel.reduce(ExpensesHistoryEvent.ShowStartDatePicker)
-                        },
-                        onEndDateClick = {
-                            viewModel.reduce(ExpensesHistoryEvent.ShowEndDatePicker)
-                        },
                     )
                 }
 

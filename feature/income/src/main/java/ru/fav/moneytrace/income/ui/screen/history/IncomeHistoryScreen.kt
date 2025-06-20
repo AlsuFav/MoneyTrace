@@ -14,8 +14,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import ru.fav.moneytrace.income.ui.screen.history.component.IncomeHistoryHeaderItem
-import ru.fav.moneytrace.income.ui.screen.history.component.IncomeHistoryHeaderShimmerItem
+import ru.fav.moneytrace.income.ui.screen.history.component.IncomeHistoryTotalItem
+import ru.fav.moneytrace.income.ui.screen.history.component.IncomeHistoryTotalShimmerItem
 import ru.fav.moneytrace.income.ui.screen.history.component.IncomeHistoryList
 import ru.fav.moneytrace.income.ui.screen.history.component.IncomeHistoryShimmerList
 import ru.fav.moneytrace.income.ui.screen.history.state.IncomeHistoryEvent
@@ -25,6 +25,7 @@ import ru.fav.moneytrace.ui.R
 import ru.fav.moneytrace.ui.component.MTCenterAlignedTopAppBar
 import ru.fav.moneytrace.ui.component.MTDatePicker
 import ru.fav.moneytrace.ui.component.MTErrorDialog
+import ru.fav.moneytrace.ui.component.MTPeriodItem
 import ru.fav.moneytrace.util.DateHelper
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -78,19 +79,24 @@ fun IncomeHistoryScreen(
             Column(
                 modifier = Modifier.fillMaxSize()
             ) {
+                MTPeriodItem(
+                    startDate = state.startDate,
+                    endDate = state.endDate,
+                    onStartDateClick = {
+                        viewModel.reduce(IncomeHistoryEvent.ShowStartDatePicker)
+                    },
+                    onEndDateClick = {
+                        viewModel.reduce(IncomeHistoryEvent.ShowEndDatePicker)
+                    },
+                )
+
+                HorizontalDivider()
+
                 if (state.isLoading) {
-                    IncomeHistoryHeaderShimmerItem()
+                    IncomeHistoryTotalShimmerItem()
                 } else {
-                    IncomeHistoryHeaderItem(
-                        startDate = state.startDate,
-                        endDate = state.endDate,
+                    IncomeHistoryTotalItem(
                         totalSum = state.total,
-                        onStartDateClick = {
-                            viewModel.reduce(IncomeHistoryEvent.ShowStartDatePicker)
-                        },
-                        onEndDateClick = {
-                            viewModel.reduce(IncomeHistoryEvent.ShowEndDatePicker)
-                        },
                     )
                 }
 
