@@ -3,6 +3,7 @@ package ru.fav.moneytrace.categories.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,10 +19,10 @@ import ru.fav.moneytrace.categories.ui.state.CategoriesState
 import ru.fav.moneytrace.domain.provider.ResourceProvider
 import ru.fav.moneytrace.categories.domain.usecase.GetExpenseCategoriesUseCase
 import ru.fav.moneytrace.categories.ui.mapper.CategoryDetailsUIMapper
-import ru.fav.moneytrace.categories.ui.model.CategoryDetailsUIModel
 import ru.fav.moneytrace.util.result.FailureReason
 import ru.fav.moneytrace.util.result.Result
 import ru.fav.moneytrace.ui.R
+import ru.fav.moneytrace.ui.base.BaseViewModel
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,15 +30,17 @@ class CategoriesViewModel @Inject constructor(
     private val getExpenseCategoriesUseCase: GetExpenseCategoriesUseCase,
     private val categoryDetailsUIMapper: CategoryDetailsUIMapper,
     private val resourceProvider: ResourceProvider
-): ViewModel() {
+) : BaseViewModel<CategoriesState, CategoriesEvent, CategoriesEffect>() {
 
-    private val _state = MutableStateFlow(CategoriesState())
-    val state: StateFlow<CategoriesState> = _state.asStateFlow()
+    override val _state = MutableStateFlow(CategoriesState())
+    override val state: StateFlow<CategoriesState> = _state.asStateFlow()
 
-    private val _effect = MutableSharedFlow<CategoriesEffect>()
-    val effect: SharedFlow<CategoriesEffect> = _effect.asSharedFlow()
+    override val _effect = MutableSharedFlow<CategoriesEffect>()
+    override val effect: SharedFlow<CategoriesEffect> = _effect.asSharedFlow()
 
-    fun reduce(event: CategoriesEvent) {
+    private var loadCategoriesJob: Job? = null
+
+    override fun reduce(event: CategoriesEvent) {
         when (event) {
             is CategoriesEvent.OnInputChanged -> {
                 _state.update {
@@ -50,14 +53,13 @@ class CategoriesViewModel @Inject constructor(
             is CategoriesEvent.OnSearch -> {
                 loadExpenseCategories()
             }
-
             CategoriesEvent.HideErrorDialog ->
                 _state.update {
                     it.copy(
                         showErrorDialog = null
                     )
                 }
-            CategoriesEvent.Retry -> {
+            CategoriesEvent.LoadCategories -> {
                 _state.update {
                     it.copy(
                         showErrorDialog = null
@@ -68,12 +70,10 @@ class CategoriesViewModel @Inject constructor(
         }
     }
 
-    init {
-        loadExpenseCategories()
-    }
-
     private fun loadExpenseCategories() {
-        viewModelScope.launch {
+        loadCategoriesJob?.cancel()
+
+        loadCategoriesJob = launchTask {
             _state.update { it.copy(isLoading = true) }
             delay(1000)
 
@@ -117,9 +117,5 @@ class CategoriesViewModel @Inject constructor(
                 showErrorDialog = message
             )
         }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
     }
 }

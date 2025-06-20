@@ -1,8 +1,7 @@
 package ru.fav.moneytrace.income.ui.screen.history
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -11,7 +10,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import ru.fav.moneytrace.domain.provider.ResourceProvider
 import ru.fav.moneytrace.domain.usecase.GetTransactionTotalSumUseCase
 import ru.fav.moneytrace.util.result.FailureReason
@@ -22,6 +20,7 @@ import ru.fav.moneytrace.income.ui.screen.history.state.IncomeHistoryEffect
 import ru.fav.moneytrace.income.ui.screen.history.state.IncomeHistoryEvent
 import ru.fav.moneytrace.income.ui.screen.history.state.IncomeHistoryState
 import ru.fav.moneytrace.ui.R
+import ru.fav.moneytrace.ui.base.BaseViewModel
 import ru.fav.moneytrace.util.DateHelper
 import javax.inject.Inject
 
@@ -31,15 +30,17 @@ class IncomeHistoryViewModel @Inject constructor(
     private val getTransactionTotalSumUseCase: GetTransactionTotalSumUseCase,
     private val incomeUIMapper: IncomeUIMapper,
     private val resourceProvider: ResourceProvider
-): ViewModel() {
+) : BaseViewModel<IncomeHistoryState, IncomeHistoryEvent, IncomeHistoryEffect>() {
 
-    private val _state = MutableStateFlow(IncomeHistoryState())
-    val state: StateFlow<IncomeHistoryState> = _state.asStateFlow()
+    override val _state = MutableStateFlow(IncomeHistoryState())
+    override val state: StateFlow<IncomeHistoryState> = _state.asStateFlow()
 
-    private val _effect = MutableSharedFlow<IncomeHistoryEffect>()
-    val effect: SharedFlow<IncomeHistoryEffect> = _effect.asSharedFlow()
+    override val _effect = MutableSharedFlow<IncomeHistoryEffect>()
+    override val effect: SharedFlow<IncomeHistoryEffect> = _effect.asSharedFlow()
 
-    fun reduce(event: IncomeHistoryEvent) {
+    private var loadIncomeJob: Job? = null
+
+    override fun reduce(event: IncomeHistoryEvent) {
         when (event) {
             is IncomeHistoryEvent.ShowStartDatePicker -> {
                 _state.update { it.copy(showStartDatePicker = true) }
@@ -75,14 +76,13 @@ class IncomeHistoryViewModel @Inject constructor(
                 }
                 loadIncomeByPeriod()
             }
-
             IncomeHistoryEvent.HideErrorDialog ->
                 _state.update {
                     it.copy(
                         showErrorDialog = null
                     )
                 }
-            IncomeHistoryEvent.Retry -> {
+            IncomeHistoryEvent.LoadIncome -> {
                 _state.update {
                     it.copy(
                         showErrorDialog = null
@@ -93,12 +93,10 @@ class IncomeHistoryViewModel @Inject constructor(
         }
     }
 
-    init {
-        loadIncomeByPeriod()
-    }
-
     private fun loadIncomeByPeriod() {
-        viewModelScope.launch {
+        loadIncomeJob?.cancel()
+
+        loadIncomeJob = launchTask {
             _state.update { it.copy(isLoading = true) }
             delay(1000)
 
@@ -148,9 +146,5 @@ class IncomeHistoryViewModel @Inject constructor(
                 showErrorDialog = message
             )
         }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
     }
 }

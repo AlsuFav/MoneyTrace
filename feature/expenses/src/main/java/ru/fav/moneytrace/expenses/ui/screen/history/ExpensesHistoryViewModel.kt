@@ -1,8 +1,7 @@
 package ru.fav.moneytrace.expenses.ui.screen.history
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -11,7 +10,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import ru.fav.moneytrace.domain.provider.ResourceProvider
 import ru.fav.moneytrace.domain.usecase.GetTransactionTotalSumUseCase
 import ru.fav.moneytrace.util.result.FailureReason
@@ -22,6 +20,7 @@ import ru.fav.moneytrace.expenses.ui.screen.history.state.ExpensesHistoryEvent
 import ru.fav.moneytrace.expenses.ui.screen.history.state.ExpensesHistoryState
 import ru.fav.moneytrace.expenses.ui.mapper.ExpenseUIMapper
 import ru.fav.moneytrace.ui.R
+import ru.fav.moneytrace.ui.base.BaseViewModel
 import ru.fav.moneytrace.util.DateHelper
 import javax.inject.Inject
 
@@ -31,15 +30,17 @@ class ExpensesHistoryViewModel @Inject constructor(
     private val getTransactionTotalSumUseCase: GetTransactionTotalSumUseCase,
     private val expenseUIMapper: ExpenseUIMapper,
     private val resourceProvider: ResourceProvider
-): ViewModel() {
+) : BaseViewModel<ExpensesHistoryState, ExpensesHistoryEvent, ExpensesHistoryEffect>() {
 
-    private val _state = MutableStateFlow(ExpensesHistoryState())
-    val state: StateFlow<ExpensesHistoryState> = _state.asStateFlow()
+    override val _state = MutableStateFlow(ExpensesHistoryState())
+    override val state: StateFlow<ExpensesHistoryState> = _state.asStateFlow()
 
-    private val _effect = MutableSharedFlow<ExpensesHistoryEffect>()
-    val effect: SharedFlow<ExpensesHistoryEffect> = _effect.asSharedFlow()
+    override val _effect = MutableSharedFlow<ExpensesHistoryEffect>()
+    override val effect: SharedFlow<ExpensesHistoryEffect> = _effect.asSharedFlow()
 
-    fun reduce(event: ExpensesHistoryEvent) {
+    private var loadExpensesJob: Job? = null
+
+    override fun reduce(event: ExpensesHistoryEvent) {
         when (event) {
             is ExpensesHistoryEvent.ShowStartDatePicker -> {
                 _state.update { it.copy(showStartDatePicker = true) }
@@ -75,14 +76,13 @@ class ExpensesHistoryViewModel @Inject constructor(
                 }
                 loadExpensesByPeriod()
             }
-
             ExpensesHistoryEvent.HideErrorDialog ->
                 _state.update {
                     it.copy(
                         showErrorDialog = null
                     )
                 }
-            ExpensesHistoryEvent.Retry -> {
+            ExpensesHistoryEvent.LoadExpenses -> {
                 _state.update {
                     it.copy(
                         showErrorDialog = null
@@ -93,12 +93,10 @@ class ExpensesHistoryViewModel @Inject constructor(
         }
     }
 
-    init {
-        loadExpensesByPeriod()
-    }
-
     private fun loadExpensesByPeriod() {
-        viewModelScope.launch {
+        loadExpensesJob?.cancel()
+
+        loadExpensesJob = launchTask {
             _state.update { it.copy(isLoading = true) }
             delay(1000)
 
@@ -148,9 +146,5 @@ class ExpensesHistoryViewModel @Inject constructor(
                 showErrorDialog = message
             )
         }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
     }
 }

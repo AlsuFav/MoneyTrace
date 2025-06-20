@@ -8,6 +8,6 @@ sealed class IncomeHistoryEvent {
     object HideDatePicker : IncomeHistoryEvent()
     data class OnStartDateSelected(val date: Date) : IncomeHistoryEvent()
     data class OnEndDateSelected(val date: Date) : IncomeHistoryEvent()
-    object Retry : IncomeHistoryEvent()
+    object LoadIncome : IncomeHistoryEvent()
     object HideErrorDialog : IncomeHistoryEvent()
 }

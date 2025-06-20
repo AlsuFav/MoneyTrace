@@ -1,8 +1,7 @@
 package ru.fav.moneytrace.income.ui.screen.today
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -11,7 +10,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import ru.fav.moneytrace.domain.provider.ResourceProvider
 import ru.fav.moneytrace.domain.usecase.GetTransactionTotalSumUseCase
 import ru.fav.moneytrace.util.result.FailureReason
@@ -22,6 +20,7 @@ import ru.fav.moneytrace.income.ui.screen.today.state.IncomeTodayEffect
 import ru.fav.moneytrace.income.ui.screen.today.state.IncomeTodayEvent
 import ru.fav.moneytrace.income.ui.screen.today.state.IncomeTodayState
 import ru.fav.moneytrace.ui.R
+import ru.fav.moneytrace.ui.base.BaseViewModel
 import javax.inject.Inject
 
 @HiltViewModel
@@ -30,15 +29,17 @@ class IncomeTodayViewModel @Inject constructor(
     private val getTransactionTotalSumUseCase: GetTransactionTotalSumUseCase,
     private val incomeUIMapper: IncomeUIMapper,
     private val resourceProvider: ResourceProvider
-): ViewModel() {
+) : BaseViewModel<IncomeTodayState, IncomeTodayEvent, IncomeTodayEffect>() {
 
-    private val _state = MutableStateFlow(IncomeTodayState())
-    val state: StateFlow<IncomeTodayState> = _state.asStateFlow()
+    override val _state = MutableStateFlow(IncomeTodayState())
+    override val state: StateFlow<IncomeTodayState> = _state.asStateFlow()
 
-    private val _effect = MutableSharedFlow<IncomeTodayEffect>()
-    val effect: SharedFlow<IncomeTodayEffect> = _effect.asSharedFlow()
+    override val _effect = MutableSharedFlow<IncomeTodayEffect>()
+    override val effect: SharedFlow<IncomeTodayEffect> = _effect.asSharedFlow()
 
-    fun reduce(event: IncomeTodayEvent) {
+    private var loadIncomeJob: Job? = null
+
+    override fun reduce(event: IncomeTodayEvent) {
         when (event) {
             IncomeTodayEvent.HideErrorDialog ->
                 _state.update {
@@ -46,7 +47,7 @@ class IncomeTodayViewModel @Inject constructor(
                         showErrorDialog = null
                     )
                 }
-            IncomeTodayEvent.Retry -> {
+            IncomeTodayEvent.LoadIncome -> {
                 _state.update {
                     it.copy(
                         showErrorDialog = null
@@ -57,12 +58,10 @@ class IncomeTodayViewModel @Inject constructor(
         }
     }
 
-    init {
-        loadTodayIncome()
-    }
-
     private fun loadTodayIncome() {
-        viewModelScope.launch {
+        loadIncomeJob?.cancel()
+
+        loadIncomeJob = launchTask {
             _state.update { it.copy(isLoading = true) }
             delay(1000)
 
@@ -109,9 +108,5 @@ class IncomeTodayViewModel @Inject constructor(
                 showErrorDialog = message
             )
         }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
     }
 }

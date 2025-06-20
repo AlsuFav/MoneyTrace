@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -32,6 +34,16 @@ fun ExpensesHistoryScreen(
     viewModel: ExpensesHistoryViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+        viewModel.reduce(ExpensesHistoryEvent.LoadExpenses)
+    }
+
+    DisposableEffect(viewModel) {
+        onDispose {
+            viewModel.cancelAllTasks()
+        }
+    }
 
     Column(
         modifier = Modifier.fillMaxSize()
@@ -132,7 +144,7 @@ fun ExpensesHistoryScreen(
             confirmButtonText = stringResource(R.string.repeat),
             dismissButtonText = stringResource(R.string.exit),
             onConfirm = {
-                viewModel.reduce(ExpensesHistoryEvent.Retry)
+                viewModel.reduce(ExpensesHistoryEvent.LoadExpenses)
             },
             onDismiss = {
                 viewModel.reduce(ExpensesHistoryEvent.HideErrorDialog)

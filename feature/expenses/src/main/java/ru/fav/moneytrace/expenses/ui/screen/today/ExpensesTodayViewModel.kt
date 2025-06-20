@@ -1,8 +1,7 @@
 package ru.fav.moneytrace.expenses.ui.screen.today
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -11,7 +10,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import ru.fav.moneytrace.domain.provider.ResourceProvider
 import ru.fav.moneytrace.expenses.domain.usecase.GetTodayExpensesUseCase
 import ru.fav.moneytrace.domain.usecase.GetTransactionTotalSumUseCase
@@ -22,6 +20,7 @@ import ru.fav.moneytrace.expenses.ui.screen.today.state.ExpensesTodayEffect
 import ru.fav.moneytrace.expenses.ui.screen.today.state.ExpensesTodayEvent
 import ru.fav.moneytrace.expenses.ui.screen.today.state.ExpensesTodayState
 import ru.fav.moneytrace.ui.R
+import ru.fav.moneytrace.ui.base.BaseViewModel
 import javax.inject.Inject
 
 @HiltViewModel
@@ -30,15 +29,17 @@ class ExpensesTodayViewModel @Inject constructor(
     private val getTransactionTotalSumUseCase: GetTransactionTotalSumUseCase,
     private val expenseUIMapper: ExpenseUIMapper,
     private val resourceProvider: ResourceProvider
-): ViewModel() {
+) : BaseViewModel<ExpensesTodayState, ExpensesTodayEvent, ExpensesTodayEffect>() {
 
-    private val _state = MutableStateFlow(ExpensesTodayState())
-    val state: StateFlow<ExpensesTodayState> = _state.asStateFlow()
+    override val _state = MutableStateFlow(ExpensesTodayState())
+    override val state: StateFlow<ExpensesTodayState> = _state.asStateFlow()
 
-    private val _effect = MutableSharedFlow<ExpensesTodayEffect>()
-    val effect: SharedFlow<ExpensesTodayEffect> = _effect.asSharedFlow()
+    override val _effect = MutableSharedFlow<ExpensesTodayEffect>()
+    override val effect: SharedFlow<ExpensesTodayEffect> = _effect.asSharedFlow()
 
-    fun reduce(event: ExpensesTodayEvent) {
+    private var loadExpensesJob: Job? = null
+
+    override fun reduce(event: ExpensesTodayEvent) {
         when (event) {
             ExpensesTodayEvent.HideErrorDialog ->
                 _state.update {
@@ -46,7 +47,7 @@ class ExpensesTodayViewModel @Inject constructor(
                         showErrorDialog = null
                     )
                 }
-            ExpensesTodayEvent.Retry -> {
+            ExpensesTodayEvent.LoadExpenses -> {
                 _state.update {
                     it.copy(
                         showErrorDialog = null
@@ -57,12 +58,10 @@ class ExpensesTodayViewModel @Inject constructor(
         }
     }
 
-    init {
-        loadTodayExpenses()
-    }
-
     private fun loadTodayExpenses() {
-        viewModelScope.launch {
+        loadExpensesJob?.cancel()
+
+        loadExpensesJob = launchTask {
             _state.update { it.copy(isLoading = true) }
             delay(1000)
 
@@ -95,7 +94,7 @@ class ExpensesTodayViewModel @Inject constructor(
         }
     }
 
-    private suspend fun handleFailure(failureReason: FailureReason) {
+    private fun handleFailure(failureReason: FailureReason) {
         val message = when (failureReason) {
             is FailureReason.Unauthorized -> resourceProvider.getString(R.string.failure_unauthorized)
             is FailureReason.Server -> resourceProvider.getString(R.string.failure_server)
@@ -109,9 +108,5 @@ class ExpensesTodayViewModel @Inject constructor(
                 showErrorDialog = message
             )
         }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
     }
 }

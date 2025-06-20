@@ -1,8 +1,7 @@
 package ru.fav.moneytrace.account.ui
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -11,7 +10,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import ru.fav.moneytrace.account.ui.state.AccountEffect
 import ru.fav.moneytrace.account.ui.state.AccountEvent
 import ru.fav.moneytrace.account.ui.state.AccountState
@@ -23,21 +21,24 @@ import ru.fav.moneytrace.util.result.FailureReason
 import javax.inject.Inject
 import ru.fav.moneytrace.util.result.Result
 import ru.fav.moneytrace.ui.R
+import ru.fav.moneytrace.ui.base.BaseViewModel
 
 @HiltViewModel
 class AccountViewModel @Inject constructor(
     private val getAccountUseCase: GetAccountUseCase,
     private val accountUIMapper: AccountUIMapper,
     private val resourceProvider: ResourceProvider
-): ViewModel() {
+) : BaseViewModel<AccountState, AccountEvent, AccountEffect>() {
 
-    private val _state = MutableStateFlow(AccountState())
-    val state: StateFlow<AccountState> = _state.asStateFlow()
+    override val _state = MutableStateFlow(AccountState())
+    override val state: StateFlow<AccountState> = _state.asStateFlow()
 
-    private val _effect = MutableSharedFlow<AccountEffect>()
-    val effect: SharedFlow<AccountEffect> = _effect.asSharedFlow()
+    override val _effect = MutableSharedFlow<AccountEffect>()
+    override val effect: SharedFlow<AccountEffect> = _effect.asSharedFlow()
 
-    fun reduce(event: AccountEvent) {
+    private var loadAccountJob: Job? = null
+
+    override fun reduce(event: AccountEvent) {
         when (event) {
             AccountEvent.HideErrorDialog ->
                 _state.update {
@@ -45,7 +46,7 @@ class AccountViewModel @Inject constructor(
                         showErrorDialog = null
                     )
                 }
-            AccountEvent.Retry -> {
+            AccountEvent.LoadAccount -> {
                 _state.update {
                     it.copy(
                         showErrorDialog = null
@@ -56,12 +57,10 @@ class AccountViewModel @Inject constructor(
         }
     }
 
-    init {
-        loadAccount()
-    }
-
     private fun loadAccount() {
-        viewModelScope.launch {
+        loadAccountJob?.cancel()
+
+        loadAccountJob = launchTask {
             _state.update { it.copy(isLoading = true) }
             delay(1000)
 
@@ -104,9 +103,5 @@ class AccountViewModel @Inject constructor(
                 showErrorDialog = message
             )
         }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
     }
 }

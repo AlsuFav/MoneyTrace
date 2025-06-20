@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,6 +36,16 @@ fun IncomeTodayScreen(
     viewModel: IncomeTodayViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+        viewModel.reduce(IncomeTodayEvent.LoadIncome)
+    }
+
+    DisposableEffect(viewModel) {
+        onDispose {
+            viewModel.cancelAllTasks()
+        }
+    }
 
     Column(
         modifier = Modifier.fillMaxSize()
@@ -99,7 +111,7 @@ fun IncomeTodayScreen(
             confirmButtonText = stringResource(ru.fav.moneytrace.ui.R.string.repeat),
             dismissButtonText = stringResource(ru.fav.moneytrace.ui.R.string.exit),
             onConfirm = {
-                viewModel.reduce(IncomeTodayEvent.Retry)
+                viewModel.reduce(IncomeTodayEvent.LoadIncome)
             },
             onDismiss = {
                 viewModel.reduce(IncomeTodayEvent.HideErrorDialog)

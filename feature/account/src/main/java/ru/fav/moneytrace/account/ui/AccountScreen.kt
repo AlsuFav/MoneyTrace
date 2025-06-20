@@ -5,12 +5,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.SnackbarDuration
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -20,14 +18,12 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ru.fav.moneytrace.account.R
 import ru.fav.moneytrace.account.ui.component.AccountItem
 import ru.fav.moneytrace.account.ui.component.AccountShimmerItem
-import ru.fav.moneytrace.account.ui.state.AccountEffect
 import ru.fav.moneytrace.account.ui.state.AccountEvent
 import ru.fav.moneytrace.ui.component.MTCenterAlignedTopAppBar
 import ru.fav.moneytrace.ui.component.MTErrorDialog
 import ru.fav.moneytrace.ui.component.MTFloatingActionButton
 import ru.fav.moneytrace.ui.component.MTIcon
 import ru.fav.moneytrace.ui.component.MTIconButton
-import ru.fav.moneytrace.ui.component.MTSnackbarHost
 import ru.fav.moneytrace.ui.theme.Providers
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -36,6 +32,16 @@ fun AccountScreen(
     viewModel: AccountViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+        viewModel.reduce(AccountEvent.LoadAccount)
+    }
+
+    DisposableEffect(viewModel) {
+        onDispose {
+            viewModel.cancelAllTasks()
+        }
+    }
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -86,7 +92,7 @@ fun AccountScreen(
             confirmButtonText = stringResource(ru.fav.moneytrace.ui.R.string.repeat),
             dismissButtonText = stringResource(ru.fav.moneytrace.ui.R.string.exit),
             onConfirm = {
-                viewModel.reduce(AccountEvent.Retry)
+                viewModel.reduce(AccountEvent.LoadAccount)
             },
             onDismiss = {
                 viewModel.reduce(AccountEvent.HideErrorDialog)

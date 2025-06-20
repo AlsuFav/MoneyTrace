@@ -1,6 +1,6 @@
 package ru.fav.moneytrace.income.ui.screen.today.state
 
 sealed class IncomeTodayEvent {
-    object Retry : IncomeTodayEvent()
+    object LoadIncome : IncomeTodayEvent()
     object HideErrorDialog : IncomeTodayEvent()
 }

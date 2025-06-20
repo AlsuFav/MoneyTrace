@@ -8,6 +8,6 @@ sealed class ExpensesHistoryEvent {
     object HideDatePicker : ExpensesHistoryEvent()
     data class OnStartDateSelected(val date: Date) : ExpensesHistoryEvent()
     data class OnEndDateSelected(val date: Date) : ExpensesHistoryEvent()
-    object Retry : ExpensesHistoryEvent()
+    object LoadExpenses : ExpensesHistoryEvent()
     object HideErrorDialog : ExpensesHistoryEvent()
 }
