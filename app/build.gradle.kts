@@ -6,6 +6,8 @@ plugins {
     alias(libs.plugins.ktlint)
     alias(libs.plugins.kotlin.ksp)
     alias(libs.plugins.hilt)
+    alias(libs.plugins.safe.args)
+    alias(libs.plugins.gradle.secrets)
 }
 
 android {
@@ -56,11 +58,12 @@ dependencies {
     implementation(project(path = ":common:ui"))
     implementation(project(path = ":common:navigation"))
     implementation(project(path = ":common:util"))
+    implementation(project(path = ":common:network"))
 
     implementation(project(path = ":feature:account"))
     implementation(project(path = ":feature:settings"))
     implementation(project(path = ":feature:income"))
-    implementation(project(path = ":feature:stats"))
+    implementation(project(path = ":feature:categories"))
     implementation(project(path = ":feature:expenses"))
 
     implementation(libs.androidx.core.ktx)

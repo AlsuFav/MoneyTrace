@@ -9,15 +9,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
-import ru.fav.moneytrace.account.ui.AccountFeature
+import ru.fav.moneytrace.account.ui.nav.AccountNav
+import ru.fav.moneytrace.categories.ui.nav.CategoriesNav
 import ru.fav.moneytrace.ui.R
-import ru.fav.moneytrace.expenses.ui.ExpensesNav
-import ru.fav.moneytrace.income.ui.IncomeNav
+import ru.fav.moneytrace.expenses.ui.nav.ExpensesNav
+import ru.fav.moneytrace.income.ui.nav.IncomeNav
 import ru.fav.moneytrace.navigation.BottomNavIds
 import ru.fav.moneytrace.navigation.BottomNavItem
 import ru.fav.moneytrace.navigation.NavigationManager
 import ru.fav.moneytrace.settings.ui.SettingsNav
-import ru.fav.moneytrace.stats.ui.StatsNav
 import kotlin.collections.forEach
 
 @Composable
@@ -46,8 +46,8 @@ fun rememberBottomNavItems(
                 labelResourceId = R.string.account
             ),
             BottomNavItem(
-                id = BottomNavIds.Stats.id,
-                onClick = { navigationManager.navigateToStats(navController) },
+                id = BottomNavIds.Categories.id,
+                onClick = { navigationManager.navigateToCategories(navController) },
                 iconResourceId = R.drawable.ic_stats,
                 labelResourceId = R.string.stats
             ),
@@ -69,11 +69,11 @@ fun BottomNavigationBar(
     NavigationBar {
         bottomNavItems.forEach { item ->
             val isSelected = when(item.id) {
-                BottomNavIds.Account.id -> currentRoute?.startsWith(AccountFeature.navGraph.route) == true
+                BottomNavIds.Account.id -> currentRoute?.startsWith(AccountNav.navGraph.route) == true
                 BottomNavIds.Income.id -> currentRoute?.startsWith(IncomeNav.navGraph.route) == true
                 BottomNavIds.Settings.id -> currentRoute?.startsWith(SettingsNav.navGraph.route) == true
                 BottomNavIds.Expenses.id -> currentRoute?.startsWith(ExpensesNav.navGraph.route) == true
-                BottomNavIds.Stats.id -> currentRoute?.startsWith(StatsNav.navGraph.route) == true
+                BottomNavIds.Categories.id -> currentRoute?.startsWith(CategoriesNav.navGraph.route) == true
                 else -> false
             }
 

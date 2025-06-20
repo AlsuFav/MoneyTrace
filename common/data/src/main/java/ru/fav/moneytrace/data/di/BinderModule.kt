@@ -4,10 +4,10 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import ru.fav.moneytrace.data.provider.DateProviderImpl
+import ru.fav.moneytrace.data.provider.ResourceProviderImpl
 import ru.fav.moneytrace.data.repository.AccountRepositoryImpl
 import ru.fav.moneytrace.data.repository.TransactionRepositoryImpl
-import ru.fav.moneytrace.domain.provider.DateProvider
+import ru.fav.moneytrace.domain.provider.ResourceProvider
 import ru.fav.moneytrace.domain.repository.AccountRepository
 import ru.fav.moneytrace.domain.repository.TransactionRepository
 import javax.inject.Singleton
@@ -24,9 +24,7 @@ interface BinderModule {
     @Singleton
     fun bindTransactionRepositoryToImpl(impl: TransactionRepositoryImpl): TransactionRepository
 
-
     @Binds
     @Singleton
-    fun bindDateProviderToImpl(impl: DateProviderImpl): DateProvider
-
+    fun bindResourceProviderToImpl(impl: ResourceProviderImpl): ResourceProvider
 }

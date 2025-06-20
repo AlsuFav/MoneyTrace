@@ -5,5 +5,5 @@ sealed class BottomNavIds(val id: String) {
     object Income : BottomNavIds("income")
     object Settings : BottomNavIds("settings")
     object Expenses : BottomNavIds("expenses")
-    object Stats : BottomNavIds("stats")
+    object Categories : BottomNavIds("categories")
 }

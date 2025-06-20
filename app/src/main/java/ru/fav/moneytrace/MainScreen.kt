@@ -1,5 +1,6 @@
 package ru.fav.moneytrace
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -13,6 +14,7 @@ import ru.fav.moneytrace.navigation.NavigationManager
 import ru.fav.moneytrace.navigation.ui.AppNavGraph
 import ru.fav.moneytrace.navigation.ui.BottomNavigationBar
 import ru.fav.moneytrace.navigation.ui.rememberBottomNavItems
+import ru.fav.moneytrace.ui.theme.Providers
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -23,7 +25,9 @@ fun MainScreen(navigationManager: NavigationManager) {
     val bottomNavItems = rememberBottomNavItems(navController, navigationManager)
 
 
-    Column {
+    Column(
+        Modifier.background(Providers.color.surface)
+    ) {
         Box(
             modifier = Modifier.weight(1f)
         ) {

@@ -5,7 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import ru.fav.moneytrace.account.ui.AccountFeature
+import ru.fav.moneytrace.account.ui.nav.AccountNav
 import ru.fav.moneytrace.navigation.NavigationManager
 
 @Composable
@@ -16,7 +16,7 @@ fun AppNavGraph(
 ) {
     NavHost(
         navController = navController,
-        startDestination = AccountFeature.navGraph.route,
+        startDestination = AccountNav.navGraph.route,
         modifier = modifier
     ) {
         navigationManager.buildNavGraph(this, navController)

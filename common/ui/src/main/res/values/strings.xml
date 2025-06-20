@@ -9,5 +9,25 @@
     <string name="details">Детали</string>
     <string name="more">Больше</string>
     <string name="total">Всего</string>
+    <string name="sum">Сумма</string>
     <string name="add">Добавить</string>
+
+    <string name="failure_network">Проблемы с сетью. Проверьте ваше подключение</string>
+
+    <string name="failure_bad_request">Неверный запрос</string>
+    <string name="failure_unauthorized">Необходима авторизация</string>
+    <string name="failure_forbidden">Доступ запрещен</string>
+    <string name="failure_not_found">Данные не найдены</string>
+    <string name="failure_server">Ошибка сервера. Попробуйте позже</string>
+    <string name="failure_unknown">Произошла неизвестная ошибка</string>
+    <string name="repeat">Повторить</string>
+    <string name="error">Произошла ошибка</string>
+    <string name="search">Поиск</string>
+    <string name="start">Начало</string>
+    <string name="end">Конец</string>
+    <string name="back">Назад</string>
+    <string name="analysis">Анализ</string>
+    <string name="my_history">Моя история</string>
+    <string name="exit">Закрыть</string>
+    <string name="ok">OK</string>
 </resources>
