@@ -80,9 +80,7 @@ fun BottomNavigationBar(
             NavigationBarItem(
                 selected = isSelected,
                 onClick = {
-                    if (!isSelected) {
-                        item.onClick()
-                    }
+                    item.onClick()
                 },
                 icon = {
                     Icon(

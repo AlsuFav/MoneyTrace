@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Theme.MoneyTrace" parent="android:Theme.Material.Light.NoActionBar">
-        <item name="windowSplashScreenBackground">@android:color/transparent</item>
-        <item name="windowSplashScreenAnimatedIcon">@null</item>
     </style>
 </resources>

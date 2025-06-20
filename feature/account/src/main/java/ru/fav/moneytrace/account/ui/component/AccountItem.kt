@@ -27,7 +27,7 @@ fun AccountItem(account: AccountUIModel) {
                     backgroundColor = Color.White
                 )
             },
-            title = account.name,
+            title = if (account.name.isEmpty()) stringResource(ru.fav.moneytrace.ui.R.string.account) else account.name,
             trailingTitle = account.balance,
             trailingIcon = {
                 MTIcon(
