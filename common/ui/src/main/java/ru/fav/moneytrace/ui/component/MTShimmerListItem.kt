@@ -17,6 +17,7 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.unit.Dp
 
 @Composable
 fun MTShimmerListItem(
@@ -30,6 +31,8 @@ fun MTShimmerListItem(
     showTrailingTitle: Boolean = false,
     showTrailingSubtitle: Boolean = false,
     showTrailingIcon: Boolean = false,
+    titleHeight: Dp = 20.dp,
+    subtitleHeight: Dp = 16.dp,
     backgroundColor: Color = Providers.color.surface,
     contentPadding: PaddingValues = PaddingValues(horizontal = Providers.spacing.m, vertical = Providers.spacing.xs),
     textPadding: PaddingValues = PaddingValues(
@@ -74,7 +77,7 @@ fun MTShimmerListItem(
                         Box(
                             modifier = Modifier
                                 .padding(textPadding)
-                                .height(20.dp)
+                                .height(titleHeight)
                                 .fillMaxWidth(0.7f)
                                 .clip(Providers.shape.xs)
                                 .background(shimmerBrush)
@@ -103,7 +106,7 @@ fun MTShimmerListItem(
                                         bottom = Providers.spacing.xxs,
                                     )
                                 )
-                                .height(20.dp)
+                                .height(titleHeight)
                                 .fillMaxWidth(0.7f)
                                 .clip(Providers.shape.xs)
                                 .background(shimmerBrush)
@@ -134,7 +137,7 @@ fun MTShimmerListItem(
                                         bottom = Providers.spacing.s,
                                     )
                                 )
-                                .height(16.dp)
+                                .height(subtitleHeight)
                                 .fillMaxWidth(0.4f)
                                 .clip(Providers.shape.xs)
                                 .background(shimmerBrush)
@@ -158,7 +161,7 @@ fun MTShimmerListItem(
                             Box(
                                 modifier = Modifier
                                     .padding(textPadding)
-                                    .height(20.dp)
+                                    .height(titleHeight)
                                     .width(60.dp)
                                     .clip(Providers.shape.xs)
                                     .background(shimmerBrush)
@@ -187,7 +190,7 @@ fun MTShimmerListItem(
                                             bottom = Providers.spacing.xs,
                                         )
                                     )
-                                    .height(20.dp)
+                                    .height(titleHeight)
                                     .width(60.dp)
                                     .clip(Providers.shape.xs)
                                     .background(shimmerBrush)
@@ -217,7 +220,7 @@ fun MTShimmerListItem(
                                             bottom = Providers.spacing.s,
                                         )
                                     )
-                                    .height(20.dp)
+                                    .height(titleHeight)
                                     .width(40.dp)
                                     .clip(Providers.shape.xs)
                                     .background(shimmerBrush)

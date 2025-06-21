@@ -70,21 +70,19 @@ fun IncomeTodayScreen(
             Column(
                 modifier = Modifier.fillMaxSize()
             ) {
-                if (state.isLoading) {
-                    IncomeTodayTotalShimmerItem()
-                } else {
-                    IncomeTodayTotalItem(
-                        totalSum = state.total,
-                    )
-                }
-
-                HorizontalDivider()
-
                 when {
                     state.isLoading -> {
+                        IncomeTodayTotalShimmerItem()
+                        HorizontalDivider()
                         IncomeTodayShimmerList()
                     }
                     else -> {
+                        IncomeTodayTotalItem(
+                            totalSum = state.total,
+                        )
+
+                        HorizontalDivider()
+
                         IncomeTodayList(
                             expenses = state.income,
                             onExpenseClick = { expense ->

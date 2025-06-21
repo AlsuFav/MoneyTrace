@@ -68,7 +68,6 @@ fun AccountScreen(
                     AccountShimmerItem(
                     )
                 }
-
                 else -> {
                     AccountItem(
                         account = state.account,

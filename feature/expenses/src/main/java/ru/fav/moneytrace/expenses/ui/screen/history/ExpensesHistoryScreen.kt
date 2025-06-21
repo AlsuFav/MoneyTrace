@@ -92,22 +92,19 @@ fun ExpensesHistoryScreen(
 
                 HorizontalDivider()
 
-                if (state.isLoading) {
-                    ExpensesHistoryTotalShimmerItem()
-                } else {
-
-                    ExpensesHistoryTotalItem(
-                        totalSum = state.total,
-                    )
-                }
-
-                HorizontalDivider()
-
                 when {
                     state.isLoading -> {
+                        ExpensesHistoryTotalShimmerItem()
+                        HorizontalDivider()
                         ExpensesHistoryShimmerList()
                     }
                     else -> {
+                        ExpensesHistoryTotalItem(
+                            totalSum = state.total,
+                        )
+
+                        HorizontalDivider()
+
                         ExpensesHistoryList(
                             expenses = state.expenses,
                             onExpenseClick = { expense ->
