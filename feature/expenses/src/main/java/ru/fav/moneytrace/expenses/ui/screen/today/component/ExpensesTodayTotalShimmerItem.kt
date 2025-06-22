@@ -11,10 +11,7 @@ import ru.fav.moneytrace.ui.theme.Providers
 fun ExpensesTodayTotalShimmerItem() {
     MTShimmerListItem(
         showTrailingTitle = true,
-        textPadding = PaddingValues(
-            horizontal = Providers.spacing.none,
-            vertical = Providers.spacing.m
-        ),
+        height = Providers.spacing.xxl,
         backgroundColor = Providers.color.secondaryContainer
     )
 }

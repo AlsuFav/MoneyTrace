@@ -31,14 +31,11 @@ fun MTShimmerListItem(
     showTrailingTitle: Boolean = false,
     showTrailingSubtitle: Boolean = false,
     showTrailingIcon: Boolean = false,
-    titleHeight: Dp = 20.dp,
-    subtitleHeight: Dp = 16.dp,
+    titleHeight: Dp = Providers.spacing.l,
+    subtitleHeight: Dp = Providers.spacing.m,
     backgroundColor: Color = Providers.color.surface,
-    contentPadding: PaddingValues = PaddingValues(horizontal = Providers.spacing.m, vertical = Providers.spacing.xs),
-    textPadding: PaddingValues = PaddingValues(
-        horizontal = Providers.spacing.none,
-        vertical = Providers.spacing.l
-    )
+    contentPadding: PaddingValues = PaddingValues(horizontal = Providers.spacing.m),
+    height: Dp = Providers.spacing.xxxl
 ) {
     val shimmerBrush = rememberShimmerBrush()
 
@@ -49,7 +46,8 @@ fun MTShimmerListItem(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(contentPadding),
+                .padding(contentPadding)
+                .height(height),
             verticalAlignment = Alignment.CenterVertically
         ) {
             if (showLeadingIcon) {
@@ -70,13 +68,11 @@ fun MTShimmerListItem(
                     if (title != null) {
                         MTText(
                             text = title,
-                            contentPadding = textPadding,
                             maxLines = 1
                         )
                     } else {
                         Box(
                             modifier = Modifier
-                                .padding(textPadding)
                                 .height(titleHeight)
                                 .fillMaxWidth(0.7f)
                                 .clip(Providers.shape.xs)
@@ -154,13 +150,11 @@ fun MTShimmerListItem(
                         if (trailingTitle != null) {
                             MTText(
                                 text = trailingTitle,
-                                contentPadding = textPadding,
                                 maxLines = 1
                             )
                         } else {
                             Box(
                                 modifier = Modifier
-                                    .padding(textPadding)
                                     .height(titleHeight)
                                     .width(60.dp)
                                     .clip(Providers.shape.xs)

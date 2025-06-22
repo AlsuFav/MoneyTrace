@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -14,6 +15,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
 import ru.fav.moneytrace.ui.theme.Providers
 
 @Composable
@@ -27,11 +29,8 @@ fun MTListItem(
     trailingIcon: @Composable (() -> Unit)? = null,
     backgroundColor: Color = Providers.color.surface,
     onClick: (() -> Unit)? = null,
-    contentPadding: PaddingValues = PaddingValues(horizontal = Providers.spacing.m, vertical = Providers.spacing.xs),
-    textPadding: PaddingValues = PaddingValues(
-        horizontal = Providers.spacing.none,
-        vertical = Providers.spacing.l
-    )
+    contentPadding: PaddingValues = PaddingValues(horizontal = Providers.spacing.m),
+    height: Dp = Providers.spacing.xxxl
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val clickableModifier = if (onClick != null) {
@@ -51,7 +50,8 @@ fun MTListItem(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(contentPadding),
+                .padding(contentPadding)
+                .height(height),
             verticalAlignment = Alignment.CenterVertically
         ) {
             leadingIcon?.let {
@@ -66,7 +66,6 @@ fun MTListItem(
                 if (subtitle.isNullOrEmpty()) {
                     MTText(
                         text = title,
-                        contentPadding = textPadding,
                         maxLines = 1
                     )
                 } else {
@@ -103,7 +102,6 @@ fun MTListItem(
                     if (trailingSubtitle.isNullOrEmpty()) {
                         MTText(
                             text = trailingTitle,
-                            contentPadding = textPadding,
                             maxLines = 1
                         )
                     } else {

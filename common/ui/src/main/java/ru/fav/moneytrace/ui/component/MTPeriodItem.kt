@@ -23,10 +23,7 @@ fun MTPeriodItem(
             title = stringResource(R.string.start),
             trailingTitle = startDate,
             onClick = onStartDateClick,
-            textPadding = PaddingValues(
-                horizontal = Providers.spacing.none,
-                vertical = Providers.spacing.m
-            ),
+            height = Providers.spacing.xxl,
             backgroundColor = Providers.color.secondaryContainer
         )
 
@@ -36,10 +33,7 @@ fun MTPeriodItem(
             title = stringResource(R.string.end),
             trailingTitle = endDate,
             onClick = onEndDateClick,
-            textPadding = PaddingValues(
-                horizontal = Providers.spacing.none,
-                vertical = Providers.spacing.m
-            ),
+            height = Providers.spacing.xxl,
             backgroundColor = Providers.color.secondaryContainer
         )
     }

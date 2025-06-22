@@ -17,10 +17,7 @@ fun IncomeTodayTotalItem(
         title = stringResource(R.string.total),
         trailingTitle = totalSum,
         onClick = { },
-        textPadding = PaddingValues(
-            horizontal = Providers.spacing.none,
-            vertical = Providers.spacing.m
-        ),
+        height = Providers.spacing.xxl,
         backgroundColor = Providers.color.secondaryContainer,
         modifier = modifier
     )

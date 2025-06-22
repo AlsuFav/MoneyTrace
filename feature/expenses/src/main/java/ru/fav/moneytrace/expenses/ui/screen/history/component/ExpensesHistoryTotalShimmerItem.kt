@@ -17,10 +17,7 @@ fun ExpensesHistoryTotalShimmerItem() {
         MTShimmerListItem(
             title = stringResource(R.string.sum),
             showTrailingTitle = true,
-            textPadding = PaddingValues(
-                horizontal = Providers.spacing.none,
-                vertical = Providers.spacing.m
-            ),
+            height = Providers.spacing.xxl,
             backgroundColor = Providers.color.secondaryContainer
         )
     }

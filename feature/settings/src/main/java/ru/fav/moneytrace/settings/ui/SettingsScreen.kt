@@ -56,10 +56,7 @@ fun SettingsScreen() {
                 onClick = {
                     isDarkMode = !isDarkMode
                 },
-                textPadding = PaddingValues(
-                    horizontal = Providers.spacing.none,
-                    vertical = Providers.spacing.m
-                )
+                height = Providers.spacing.xxl,
             )
 
             HorizontalDivider()
@@ -68,10 +65,7 @@ fun SettingsScreen() {
                 title = stringResource(R.string.main_color),
                 trailingIcon = moreIcon,
                 onClick = {  },
-                textPadding = PaddingValues(
-                    horizontal = Providers.spacing.none,
-                    vertical = Providers.spacing.m
-                )
+                height = Providers.spacing.xxl,
             )
 
             HorizontalDivider()
@@ -80,10 +74,7 @@ fun SettingsScreen() {
                 title = stringResource(R.string.sounds),
                 trailingIcon = moreIcon,
                 onClick = {  },
-                textPadding = PaddingValues(
-                    horizontal = Providers.spacing.none,
-                    vertical = Providers.spacing.m
-                )
+                height = Providers.spacing.xxl,
             )
 
             HorizontalDivider()
@@ -92,10 +83,7 @@ fun SettingsScreen() {
                 title = stringResource(R.string.haptics),
                 trailingIcon = moreIcon,
                 onClick = { /* Navigate to haptics settings */ },
-                textPadding = PaddingValues(
-                    horizontal = Providers.spacing.none,
-                    vertical = Providers.spacing.m
-                )
+                height = Providers.spacing.xxl,
             )
 
             HorizontalDivider(color = Providers.color.outline.copy(alpha = 0.2f))
@@ -104,10 +92,7 @@ fun SettingsScreen() {
                 title = stringResource(R.string.password),
                 trailingIcon = moreIcon,
                 onClick = { /* Navigate to password settings */ },
-                textPadding = PaddingValues(
-                    horizontal = Providers.spacing.none,
-                    vertical = Providers.spacing.m
-                )
+                height = Providers.spacing.xxl,
             )
 
             HorizontalDivider()
@@ -116,10 +101,7 @@ fun SettingsScreen() {
                 title = stringResource(R.string.synchronization),
                 trailingIcon = moreIcon,
                 onClick = { /* Navigate to sync settings */ },
-                textPadding = PaddingValues(
-                    horizontal = Providers.spacing.none,
-                    vertical = Providers.spacing.m
-                )
+                height = Providers.spacing.xxl,
             )
 
             HorizontalDivider()
@@ -128,10 +110,7 @@ fun SettingsScreen() {
                 title = stringResource(R.string.language),
                 trailingIcon = moreIcon,
                 onClick = { /* Navigate to language settings */ },
-                textPadding = PaddingValues(
-                    horizontal = Providers.spacing.none,
-                    vertical = Providers.spacing.m
-                )
+                height = Providers.spacing.xxl,
             )
 
             HorizontalDivider()
@@ -140,10 +119,7 @@ fun SettingsScreen() {
                 title = stringResource(R.string.about_program),
                 trailingIcon = moreIcon,
                 onClick = { /* Navigate to about screen */ },
-                textPadding = PaddingValues(
-                    horizontal = Providers.spacing.none,
-                    vertical = Providers.spacing.m
-                )
+                height = Providers.spacing.xxl,
             )
 
             HorizontalDivider()

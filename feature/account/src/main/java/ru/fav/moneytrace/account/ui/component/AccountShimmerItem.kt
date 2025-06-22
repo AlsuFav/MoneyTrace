@@ -16,10 +16,7 @@ fun AccountShimmerItem() {
             showLeadingIcon = true,
             showTrailingTitle = true,
             showTrailingIcon = true,
-            textPadding = PaddingValues(
-                horizontal = Providers.spacing.none,
-                vertical = Providers.spacing.m
-            ),
+            height = Providers.spacing.xxl,
             backgroundColor = Providers.color.secondaryContainer
         )
 
@@ -28,10 +25,7 @@ fun AccountShimmerItem() {
         MTShimmerListItem(
             showTrailingTitle = true,
             showTrailingIcon = true,
-            textPadding = PaddingValues(
-                horizontal = Providers.spacing.none,
-                vertical = Providers.spacing.m
-            ),
+            height = Providers.spacing.xxl,
             backgroundColor = Providers.color.secondaryContainer
         )
     }
