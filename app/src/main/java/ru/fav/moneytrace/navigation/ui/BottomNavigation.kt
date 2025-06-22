@@ -91,6 +91,7 @@ fun BottomNavigationBar(
                 label = {
                     Text(
                         text = stringResource(id = item.labelResourceId),
+                        maxLines = 1
                     )
                 },
                 alwaysShowLabel = true,

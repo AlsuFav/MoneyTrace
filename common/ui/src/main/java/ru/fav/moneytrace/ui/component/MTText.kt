@@ -18,7 +18,7 @@ fun MTText(
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(
         horizontal = Providers.spacing.none,
-        vertical = Providers.spacing.l
+        vertical = Providers.spacing.none
     )
 ) {
     Text(
