@@ -84,9 +84,6 @@ fun MTShimmerListItem(
                         MTText(
                             text = title,
                             contentPadding = PaddingValues(
-                                start = Providers.spacing.none,
-                                end = Providers.spacing.none,
-                                top = Providers.spacing.s,
                                 bottom = Providers.spacing.xxs,
                             ),
                             maxLines = 1
@@ -96,9 +93,6 @@ fun MTShimmerListItem(
                             modifier = Modifier
                                 .padding(
                                     PaddingValues(
-                                        start = Providers.spacing.none,
-                                        end = Providers.spacing.none,
-                                        top = Providers.spacing.s,
                                         bottom = Providers.spacing.xxs,
                                     )
                                 )
@@ -115,10 +109,7 @@ fun MTShimmerListItem(
                             style = Providers.typography.bodyM,
                             color = Providers.color.onSurfaceVariant,
                             contentPadding = PaddingValues(
-                                start = Providers.spacing.none,
-                                end = Providers.spacing.none,
                                 top = Providers.spacing.xxs,
-                                bottom = Providers.spacing.s,
                             ),
                             maxLines = 1
                         )
@@ -127,10 +118,7 @@ fun MTShimmerListItem(
                             modifier = Modifier
                                 .padding(
                                     PaddingValues(
-                                        start = Providers.spacing.none,
-                                        end = Providers.spacing.none,
                                         top = Providers.spacing.xxs,
-                                        bottom = Providers.spacing.s,
                                     )
                                 )
                                 .height(subtitleHeight)
@@ -166,9 +154,6 @@ fun MTShimmerListItem(
                             MTText(
                                 text = trailingTitle,
                                 contentPadding = PaddingValues(
-                                    start = Providers.spacing.none,
-                                    end = Providers.spacing.none,
-                                    top = Providers.spacing.s,
                                     bottom = Providers.spacing.xs,
                                 ),
                                 maxLines = 1
@@ -178,9 +163,6 @@ fun MTShimmerListItem(
                                 modifier = Modifier
                                     .padding(
                                         PaddingValues(
-                                            start = Providers.spacing.none,
-                                            end = Providers.spacing.none,
-                                            top = Providers.spacing.s,
                                             bottom = Providers.spacing.xs,
                                         )
                                     )
@@ -196,10 +178,7 @@ fun MTShimmerListItem(
                                 text = trailingSubtitle,
                                 color = Providers.color.onSurfaceVariant,
                                 contentPadding = PaddingValues(
-                                    start = Providers.spacing.none,
-                                    end = Providers.spacing.none,
                                     top = Providers.spacing.xs,
-                                    bottom = Providers.spacing.s,
                                 ),
                                 maxLines = 1
                             )
@@ -208,10 +187,7 @@ fun MTShimmerListItem(
                                 modifier = Modifier
                                     .padding(
                                         PaddingValues(
-                                            start = Providers.spacing.none,
-                                            end = Providers.spacing.none,
                                             top = Providers.spacing.xs,
-                                            bottom = Providers.spacing.s,
                                         )
                                     )
                                     .height(titleHeight)
