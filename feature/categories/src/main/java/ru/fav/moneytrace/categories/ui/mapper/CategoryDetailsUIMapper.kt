@@ -1,10 +1,7 @@
 package ru.fav.moneytrace.categories.ui.mapper
 
+import ru.fav.moneytrace.account.api.model.CategoryDetailsModel
 import ru.fav.moneytrace.categories.ui.model.CategoryDetailsUIModel
-import ru.fav.moneytrace.domain.model.AccountModel
-import ru.fav.moneytrace.domain.model.CategoryDetailsModel
-import ru.fav.moneytrace.util.extension.formatAmount
-import ru.fav.moneytrace.util.extension.toCurrencySymbol
 import javax.inject.Inject
 
 class CategoryDetailsUIMapper @Inject constructor() {

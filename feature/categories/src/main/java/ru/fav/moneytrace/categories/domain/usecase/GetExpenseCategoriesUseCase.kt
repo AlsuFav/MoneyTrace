@@ -2,9 +2,9 @@ package ru.fav.moneytrace.categories.domain.usecase
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import ru.fav.moneytrace.account.api.model.CategoryDetailsModel
+import ru.fav.moneytrace.account.api.repository.AccountRepository
 import ru.fav.moneytrace.domain.di.qualifier.IoDispatchers
-import ru.fav.moneytrace.domain.model.CategoryDetailsModel
-import ru.fav.moneytrace.domain.repository.AccountRepository
 import ru.fav.moneytrace.util.result.Result
 import javax.inject.Inject
 
@@ -25,8 +25,7 @@ class GetExpenseCategoriesUseCase @Inject constructor(
                             expenseCategories.addAll(detailsResult.data.expenseCategories)
                         }
 
-                        is Result.NetworkError -> return@withContext detailsResult
-                        is Result.HttpError -> return@withContext detailsResult
+                        is Result.Failure -> return@withContext detailsResult
                     }
 
                     val filteredCategories = if (query.isBlank()) {
@@ -40,8 +39,7 @@ class GetExpenseCategoriesUseCase @Inject constructor(
                     Result.Success(filteredCategories)
                 }
 
-                is Result.NetworkError -> accountsResult
-                is Result.HttpError -> accountsResult
+                is Result.Failure -> accountsResult
             }
         }
     }

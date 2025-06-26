@@ -35,22 +35,22 @@ class ApiClient @Inject constructor(
                     lastException = throwable
 
                     when (throwable) {
-                        is IOException -> return@withContext Result.NetworkError
+                        is IOException -> return@withContext Result.Failure(FailureReason.Network())
                         is HttpException -> {
                             if (throwable.code() in 500..599 && attempt < MAX_RETRY_ATTEMPTS - 1) {
                                 delay(RETRY_DELAY_MS)
                             } else {
-                                return@withContext Result.HttpError(throwable.toFailureReason())
+                                return@withContext Result.Failure(throwable.toFailureReason())
                             }
                         }
-                        else -> return@withContext Result.HttpError(FailureReason.Unknown(throwable.message))
+                        else -> return@withContext Result.Failure(FailureReason.Unknown(throwable.message))
                     }
                 }
             }
 
             when (lastException) {
-                is HttpException -> Result.HttpError(lastException.toFailureReason())
-                else -> Result.HttpError(FailureReason.Unknown(lastException?.message))
+                is HttpException -> Result.Failure(lastException.toFailureReason())
+                else -> Result.Failure(FailureReason.Unknown(lastException?.message))
             }
         }
     }

@@ -4,9 +4,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import ru.fav.moneytrace.categories.ui.mapper.CategoryDetailsUIMapper
 import ru.fav.moneytrace.categories.ui.model.CategoryDetailsUIModel
-import ru.fav.moneytrace.domain.model.CategoryDetailsModel
 import ru.fav.moneytrace.ui.component.MTEmojiIcon
 import ru.fav.moneytrace.ui.component.MTListItem
 

@@ -48,6 +48,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":feature:account:api"))
 
     implementation(project(":common:domain"))
     implementation(project(":common:ui"))

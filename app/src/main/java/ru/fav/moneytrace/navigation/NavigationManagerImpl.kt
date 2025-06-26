@@ -2,7 +2,7 @@ package ru.fav.moneytrace.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
-import ru.fav.moneytrace.account.ui.nav.AccountNav
+import ru.fav.moneytrace.account.impl.ui.nav.AccountNav
 import ru.fav.moneytrace.categories.ui.nav.CategoriesNav
 import ru.fav.moneytrace.expenses.ui.nav.ExpensesNav
 import ru.fav.moneytrace.income.ui.nav.IncomeNav

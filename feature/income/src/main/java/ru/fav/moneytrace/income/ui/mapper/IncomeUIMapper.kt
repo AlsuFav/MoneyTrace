@@ -1,7 +1,7 @@
 package ru.fav.moneytrace.income.ui.mapper
 
-import ru.fav.moneytrace.domain.model.TransactionModel
 import ru.fav.moneytrace.income.ui.model.IncomeUIModel
+import ru.fav.moneytrace.transaction.api.model.TransactionModel
 import ru.fav.moneytrace.util.extension.formatAmount
 import ru.fav.moneytrace.util.extension.toCurrencySymbol
 import ru.fav.moneytrace.util.DateHelper

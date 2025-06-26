@@ -9,7 +9,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
-import ru.fav.moneytrace.account.ui.nav.AccountNav
+import ru.fav.moneytrace.account.impl.ui.nav.AccountNav
 import ru.fav.moneytrace.categories.ui.nav.CategoriesNav
 import ru.fav.moneytrace.ui.R
 import ru.fav.moneytrace.expenses.ui.nav.ExpensesNav

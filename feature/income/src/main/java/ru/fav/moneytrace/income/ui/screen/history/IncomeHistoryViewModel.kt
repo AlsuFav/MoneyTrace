@@ -11,7 +11,6 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import ru.fav.moneytrace.domain.provider.ResourceProvider
-import ru.fav.moneytrace.domain.usecase.GetTransactionTotalSumUseCase
 import ru.fav.moneytrace.util.result.FailureReason
 import ru.fav.moneytrace.util.result.Result
 import ru.fav.moneytrace.income.domain.usecase.GetIncomeByPeriodUseCase
@@ -27,7 +26,6 @@ import javax.inject.Inject
 @HiltViewModel
 class IncomeHistoryViewModel @Inject constructor(
     private val getIncomeByPeriodUseCase: GetIncomeByPeriodUseCase,
-    private val getTransactionTotalSumUseCase: GetTransactionTotalSumUseCase,
     private val incomeUIMapper: IncomeUIMapper,
     private val resourceProvider: ResourceProvider
 ) : BaseViewModel<IncomeHistoryState, IncomeHistoryEvent, IncomeHistoryEffect>() {
@@ -106,7 +104,7 @@ class IncomeHistoryViewModel @Inject constructor(
             )) {
                 is Result.Success -> {
                     val income = result.data
-                    val totalSum = getTransactionTotalSumUseCase(income)
+                    val totalSum = income.sumOf { it.amount }
                     _state.update {
                         it.copy(
                             isLoading = false,
@@ -115,18 +113,8 @@ class IncomeHistoryViewModel @Inject constructor(
                         )
                     }
                 }
-                is Result.HttpError -> {
+                is Result.Failure -> {
                     handleFailure(result.reason)
-                }
-                is Result.NetworkError -> {
-                    val message = resourceProvider.getString(R.string.failure_network)
-                    _state.update {
-                        it.copy(
-                            isLoading = false,
-                            income = emptyList(),
-                            showErrorDialog = message
-                        )
-                    }
                 }
             }
         }
@@ -134,6 +122,7 @@ class IncomeHistoryViewModel @Inject constructor(
 
     private fun handleFailure(failureReason: FailureReason) {
         val message = when (failureReason) {
+            is FailureReason.Network -> resourceProvider.getString(R.string.failure_network)
             is FailureReason.Unauthorized -> resourceProvider.getString(R.string.failure_unauthorized)
             is FailureReason.Server -> resourceProvider.getString(R.string.failure_server)
             is FailureReason.BadRequest -> resourceProvider.getString(R.string.failure_bad_request)

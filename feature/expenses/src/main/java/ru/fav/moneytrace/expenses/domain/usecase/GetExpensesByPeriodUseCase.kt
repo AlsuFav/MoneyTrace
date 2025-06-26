@@ -2,10 +2,10 @@ package ru.fav.moneytrace.expenses.domain.usecase
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import ru.fav.moneytrace.account.api.repository.AccountRepository
 import ru.fav.moneytrace.domain.di.qualifier.IoDispatchers
-import ru.fav.moneytrace.domain.model.TransactionModel
-import ru.fav.moneytrace.domain.repository.AccountRepository
-import ru.fav.moneytrace.domain.repository.TransactionRepository
+import ru.fav.moneytrace.transaction.api.model.TransactionModel
+import ru.fav.moneytrace.transaction.api.repository.TransactionRepository
 import ru.fav.moneytrace.util.result.Result
 import ru.fav.moneytrace.util.DateHelper
 import java.util.Date
@@ -37,8 +37,7 @@ class GetExpensesByPeriodUseCase @Inject constructor(
                             transactions.addAll(transactionsResult.data)
                         }
 
-                        is Result.NetworkError -> return@withContext transactionsResult
-                        is Result.HttpError -> return@withContext transactionsResult
+                        is Result.Failure -> return@withContext transactionsResult
                     }
 
                     val filteredCategories = transactions.filter { transaction ->
@@ -50,8 +49,7 @@ class GetExpensesByPeriodUseCase @Inject constructor(
                     Result.Success(filteredCategories)
                 }
 
-                is Result.NetworkError -> accountsResult
-                is Result.HttpError -> accountsResult
+                is Result.Failure -> accountsResult
             }
         }
     }

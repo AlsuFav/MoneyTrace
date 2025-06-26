@@ -60,7 +60,10 @@ dependencies {
     implementation(project(path = ":common:util"))
     implementation(project(path = ":common:network"))
 
-    implementation(project(path = ":feature:account"))
+    implementation(project(path = ":feature:transaction:api"))
+    implementation(project(path = ":feature:transaction:impl"))
+    implementation(project(path = ":feature:account:api"))
+    implementation(project(path = ":feature:account:impl"))
     implementation(project(path = ":feature:settings"))
     implementation(project(path = ":feature:income"))
     implementation(project(path = ":feature:categories"))

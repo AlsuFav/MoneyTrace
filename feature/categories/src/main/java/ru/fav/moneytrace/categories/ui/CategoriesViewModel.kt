@@ -1,7 +1,5 @@
 package ru.fav.moneytrace.categories.ui
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -12,7 +10,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import ru.fav.moneytrace.categories.ui.state.CategoriesEffect
 import ru.fav.moneytrace.categories.ui.state.CategoriesEvent
 import ru.fav.moneytrace.categories.ui.state.CategoriesState
@@ -86,18 +83,8 @@ class CategoriesViewModel @Inject constructor(
                         )
                     }
                 }
-                is Result.HttpError -> {
+                is Result.Failure -> {
                     handleFailure(result.reason)
-                }
-                is Result.NetworkError -> {
-                    val message = resourceProvider.getString(R.string.failure_network)
-                    _state.update {
-                        it.copy(
-                            isLoading = false,
-                            categories = emptyList(),
-                            showErrorDialog = message
-                        )
-                    }
                 }
             }
         }
@@ -105,6 +92,7 @@ class CategoriesViewModel @Inject constructor(
 
     private fun handleFailure(failureReason: FailureReason) {
         val message = when (failureReason) {
+            is FailureReason.Network -> resourceProvider.getString(R.string.failure_network)
             is FailureReason.Unauthorized -> resourceProvider.getString(R.string.failure_unauthorized)
             is FailureReason.Server -> resourceProvider.getString(R.string.failure_server)
             is FailureReason.NotFound -> resourceProvider.getString(R.string.failure_not_found)

@@ -1,9 +1,7 @@
 package ru.fav.moneytrace.expenses.ui.mapper
 
-import android.icu.util.Currency
-import ru.fav.moneytrace.domain.model.CategoryDetailsModel
-import ru.fav.moneytrace.domain.model.TransactionModel
 import ru.fav.moneytrace.expenses.ui.model.ExpenseUIModel
+import ru.fav.moneytrace.transaction.api.model.TransactionModel
 import ru.fav.moneytrace.util.extension.formatAmount
 import ru.fav.moneytrace.util.extension.toCurrencySymbol
 import ru.fav.moneytrace.util.DateHelper
