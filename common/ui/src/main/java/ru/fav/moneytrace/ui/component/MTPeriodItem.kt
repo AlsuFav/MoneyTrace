@@ -10,6 +10,16 @@ import androidx.compose.ui.res.stringResource
 import ru.fav.moneytrace.ui.R
 import ru.fav.moneytrace.ui.theme.Providers
 
+/**
+ * Компонент для выбора периода дат (начальная и конечная дата).
+ *
+ * @param startDate Отформатированная начальная дата
+ * @param endDate Отформатированная конечная дата
+ * @param onStartDateClick Callback при нажатии на начальную дату
+ * @param onEndDateClick Callback при нажатии на конечную дату
+ * @param modifier Модификатор для настройки внешнего вида
+ */
+
 @Composable
 fun MTPeriodItem(
     startDate: String,

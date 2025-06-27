@@ -16,6 +16,14 @@ import ru.fav.moneytrace.navigation.ui.BottomNavigationBar
 import ru.fav.moneytrace.navigation.ui.rememberBottomNavItems
 import ru.fav.moneytrace.ui.theme.Providers
 
+/**
+ * Главный экран приложения с нижней навигацией.
+ *
+ * Содержит граф навигации и панель нижней навигации для переключения между основными разделами.
+ *
+ * @param navigationManager Менеджер навигации для управления переходами
+ */
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(navigationManager: NavigationManager) {

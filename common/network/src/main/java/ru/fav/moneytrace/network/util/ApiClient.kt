@@ -11,6 +11,17 @@ import ru.fav.moneytrace.util.result.Result
 import java.io.IOException
 import javax.inject.Inject
 
+/**
+ * Клиент для выполнения API запросов с обработкой ошибок и повторными попытками.
+ *
+ * Предоставляет единую точку для выполнения сетевых запросов с автоматической
+ * обработкой различных типов ошибок, повторными попытками для серверных ошибок
+ * и преобразованием исключений в типизированные результаты.
+ *
+ * @param dispatcher Диспетчер для выполнения сетевых операций
+ * @param gson Парсер JSON для обработки ошибок сервера
+ */
+
 class ApiClient @Inject constructor(
     @IoDispatchers private val dispatcher: CoroutineDispatcher,
     private val gson: Gson
@@ -35,22 +46,22 @@ class ApiClient @Inject constructor(
                     lastException = throwable
 
                     when (throwable) {
-                        is IOException -> return@withContext Result.NetworkError
+                        is IOException -> return@withContext Result.Failure(FailureReason.Network())
                         is HttpException -> {
                             if (throwable.code() in 500..599 && attempt < MAX_RETRY_ATTEMPTS - 1) {
                                 delay(RETRY_DELAY_MS)
                             } else {
-                                return@withContext Result.HttpError(throwable.toFailureReason())
+                                return@withContext Result.Failure(throwable.toFailureReason())
                             }
                         }
-                        else -> return@withContext Result.HttpError(FailureReason.Unknown(throwable.message))
+                        else -> return@withContext Result.Failure(FailureReason.Unknown(throwable.message))
                     }
                 }
             }
 
             when (lastException) {
-                is HttpException -> Result.HttpError(lastException.toFailureReason())
-                else -> Result.HttpError(FailureReason.Unknown(lastException?.message))
+                is HttpException -> Result.Failure(lastException.toFailureReason())
+                else -> Result.Failure(FailureReason.Unknown(lastException?.message))
             }
         }
     }

@@ -16,6 +16,22 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import ru.fav.moneytrace.ui.theme.Providers
 
+/**
+ * Кастомное текстовое поле в стиле приложения.
+ *
+ * @param value Текущее значение поля
+ * @param onValueChange Callback при изменении значения
+ * @param modifier Модификатор для настройки внешнего вида
+ * @param placeholder Текст-заполнитель
+ * @param leadingIcon Иконка в начале поля
+ * @param trailingIcon Иконка в конце поля
+ * @param backgroundColor Цвет фона поля
+ * @param contentPadding Внутренние отступы
+ * @param height Высота поля
+ * @param keyboardOptions Настройки клавиатуры
+ * @param keyboardActions Действия клавиатуры
+ */
+
 @Composable
 fun MTTextField(
     value: String,

@@ -10,6 +10,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import ru.fav.moneytrace.ui.theme.Providers
 
+/**
+ * Кастомная верхняя панель приложения с центрированным заголовком.
+ *
+ * @param title Заголовок панели
+ * @param navigationIcon Иконка навигации (обычно кнопка "Назад")
+ * @param actions Действия в правой части панели
+ * @param backgroundColor Цвет фона панели
+ * @param foregroundColor Цвет текста и иконок
+ */
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MTCenterAlignedTopAppBar(

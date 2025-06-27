@@ -6,6 +6,17 @@ import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
 
+/**
+ * Утилитный класс для работы с датами и их форматированием.
+ *
+ * Предоставляет методы для преобразования дат между различными форматами:
+ * - API формат для отправки на сервер
+ * - Отображаемый формат для пользователя
+ * - Парсинг дат из строк
+ *
+ * Поддерживает работу с UTC временной зоной для API запросов.
+ */
+
 object DateHelper {
     private const val API_DATE_FORMAT = "yyyy-MM-dd"
     private const val API_DATETIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"

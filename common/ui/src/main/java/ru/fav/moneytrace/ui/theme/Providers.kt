@@ -12,6 +12,13 @@ import ru.fav.moneytrace.ui.theme.designsystem.Shape
 import ru.fav.moneytrace.ui.theme.designsystem.Spacing
 import ru.fav.moneytrace.ui.theme.designsystem.Typography
 
+/**
+ * Провайдер для доступа к элементам дизайн-системы приложения.
+ *
+ * Предоставляет единую точку доступа к отступам, формам, типографике,
+ * цветам и размерам компонентов через Composition Local.
+ */
+
 object Providers {
     val spacing: Spacing
         @Composable

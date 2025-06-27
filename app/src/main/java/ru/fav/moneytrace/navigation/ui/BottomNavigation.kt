@@ -9,16 +9,78 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
-import ru.fav.moneytrace.account.ui.nav.AccountNav
-import ru.fav.moneytrace.categories.ui.nav.CategoriesNav
-import ru.fav.moneytrace.ui.R
-import ru.fav.moneytrace.expenses.ui.nav.ExpensesNav
-import ru.fav.moneytrace.income.ui.nav.IncomeNav
+import ru.fav.moneytrace.account.impl.ui.nav.AccountNav
+import ru.fav.moneytrace.categories.impl.ui.nav.CategoriesNav
+import ru.fav.moneytrace.expenses.impl.ui.nav.ExpensesNav
+import ru.fav.moneytrace.income.impl.ui.nav.IncomeNav
 import ru.fav.moneytrace.navigation.BottomNavIds
 import ru.fav.moneytrace.navigation.BottomNavItem
 import ru.fav.moneytrace.navigation.NavigationManager
-import ru.fav.moneytrace.settings.ui.SettingsNav
-import kotlin.collections.forEach
+import ru.fav.moneytrace.settings.impl.ui.nav.SettingsNav
+import ru.fav.moneytrace.ui.R
+
+/**
+ * Отображает нижнюю навигационную панель приложения.
+ *
+ * Создает панель навигации с вкладками для основных разделов приложения.
+ * Автоматически определяет и подсвечивает активную вкладку на основе
+ * текущего маршрута навигации.
+ *
+ * @param bottomNavItems Список элементов нижней навигации для отображения
+ * @param currentRoute Текущий маршрут навигации для определения активной вкладки
+ */
+
+@Composable
+fun BottomNavigationBar(
+    bottomNavItems: List<BottomNavItem>,
+    currentRoute: String?
+) {
+    NavigationBar {
+        bottomNavItems.forEach { item ->
+            val isSelected = when(item.id) {
+                BottomNavIds.Account.id -> currentRoute?.startsWith(AccountNav.navGraph.route) == true
+                BottomNavIds.Income.id -> currentRoute?.startsWith(IncomeNav.navGraph.route) == true
+                BottomNavIds.Settings.id -> currentRoute?.startsWith(SettingsNav.navGraph.route) == true
+                BottomNavIds.Expenses.id -> currentRoute?.startsWith(ExpensesNav.navGraph.route) == true
+                BottomNavIds.Categories.id -> currentRoute?.startsWith(CategoriesNav.navGraph.route) == true
+                else -> false
+            }
+
+            NavigationBarItem(
+                selected = isSelected,
+                onClick = {
+                    item.onClick()
+                },
+                icon = {
+                    Icon(
+                        painter = painterResource(id = item.iconResourceId),
+                        contentDescription = stringResource(id = item.labelResourceId),
+                    )
+                },
+                label = {
+                    Text(
+                        text = stringResource(id = item.labelResourceId),
+                        maxLines = 1
+                    )
+                },
+                alwaysShowLabel = true,
+            )
+        }
+    }
+}
+
+/**
+ * Создает и запоминает список элементов нижней навигационной панели.
+ *
+ * Использует remember для кэширования списка элементов, чтобы избежать
+ * ненужных пересозданий при перекомпозиции. Список обновляется только
+ * при изменении navController или navigationManager.
+ *
+ * @param navController Контроллер навигации для выполнения переходов
+ * @param navigationManager Менеджер навигации, содержащий логику навигации
+ * @return Список элементов нижней навигационной панели
+ */
+
 
 @Composable
 fun rememberBottomNavItems(
@@ -60,43 +122,3 @@ fun rememberBottomNavItems(
         )
     }
 }
-
-@Composable
-fun BottomNavigationBar(
-    bottomNavItems: List<BottomNavItem>,
-    currentRoute: String?
-) {
-    NavigationBar {
-        bottomNavItems.forEach { item ->
-            val isSelected = when(item.id) {
-                BottomNavIds.Account.id -> currentRoute?.startsWith(AccountNav.navGraph.route) == true
-                BottomNavIds.Income.id -> currentRoute?.startsWith(IncomeNav.navGraph.route) == true
-                BottomNavIds.Settings.id -> currentRoute?.startsWith(SettingsNav.navGraph.route) == true
-                BottomNavIds.Expenses.id -> currentRoute?.startsWith(ExpensesNav.navGraph.route) == true
-                BottomNavIds.Categories.id -> currentRoute?.startsWith(CategoriesNav.navGraph.route) == true
-                else -> false
-            }
-
-            NavigationBarItem(
-                selected = isSelected,
-                onClick = {
-                    item.onClick()
-                },
-                icon = {
-                    Icon(
-                        painter = painterResource(id = item.iconResourceId),
-                        contentDescription = stringResource(id = item.labelResourceId),
-                    )
-                },
-                label = {
-                    Text(
-                        text = stringResource(id = item.labelResourceId),
-                        maxLines = 1
-                    )
-                },
-                alwaysShowLabel = true,
-            )
-        }
-    }
-}
-

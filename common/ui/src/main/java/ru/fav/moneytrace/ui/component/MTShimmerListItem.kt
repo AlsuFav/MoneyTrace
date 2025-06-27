@@ -19,6 +19,26 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.unit.Dp
 
+/**
+ * Элемент списка с эффектом shimmer для состояния загрузки.
+ *
+ * @param modifier Модификатор для настройки внешнего вида
+ * @param title Текст заголовка (если null, показывается shimmer)
+ * @param subtitle Текст подзаголовка (если null, показывается shimmer)
+ * @param trailingTitle Текст в конце элемента (если null, показывается shimmer)
+ * @param trailingSubtitle Подзаголовок в конце элемента (если null, показывается shimmer)
+ * @param showLeadingIcon Показывать ли shimmer для иконки в начале
+ * @param showSubtitle Показывать ли область подзаголовка
+ * @param showTrailingTitle Показывать ли область заголовка в конце
+ * @param showTrailingSubtitle Показывать ли область подзаголовка в конце
+ * @param showTrailingIcon Показывать ли shimmer для иконки в конце
+ * @param titleHeight Высота области заголовка
+ * @param subtitleHeight Высота области подзаголовка
+ * @param backgroundColor Цвет фона элемента
+ * @param contentPadding Внутренние отступы
+ * @param height Высота элемента
+ */
+
 @Composable
 fun MTShimmerListItem(
     modifier: Modifier = Modifier,
@@ -213,6 +233,13 @@ fun MTShimmerListItem(
         }
     }
 }
+
+/**
+ * Создает анимированную кисть для эффекта shimmer.
+ *
+ * @param shimmerColor Цвет shimmer эффекта
+ * @return Анимированная кисть с градиентом
+ */
 
 @Composable
 fun rememberShimmerBrush(

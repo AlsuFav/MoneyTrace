@@ -18,6 +18,19 @@ import ru.fav.moneytrace.ui.theme.Providers
 import java.util.Calendar
 import java.util.Date
 
+/**
+ * Кастомный диалог выбора даты в стиле приложения.
+ *
+ * @param selectedDate Текущая выбранная дата
+ * @param onDateSelected Callback при выборе новой даты
+ * @param onDismiss Callback при закрытии диалога
+ * @param modifier Модификатор для настройки внешнего вида
+ * @param containerColor Цвет фона диалога
+ * @param textColor Цвет текста кнопок
+ * @param minDate Минимальная доступная для выбора дата
+ * @param maxDate Максимальная доступная для выбора дата
+ */
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MTDatePicker(
