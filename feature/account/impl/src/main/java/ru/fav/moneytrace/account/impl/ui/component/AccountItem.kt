@@ -15,6 +15,13 @@ import ru.fav.moneytrace.ui.component.MTIcon
 import ru.fav.moneytrace.ui.component.MTListItem
 import ru.fav.moneytrace.ui.theme.Providers
 
+/**
+ * Компонент для отображения информации о счете пользователя.
+ *
+ * Показывает название счета, баланс и валюту в виде двух связанных элементов списка.
+ *
+ * @param account Модель счета для отображения
+ */
 
 @Composable
 fun AccountItem(account: AccountUIModel) {

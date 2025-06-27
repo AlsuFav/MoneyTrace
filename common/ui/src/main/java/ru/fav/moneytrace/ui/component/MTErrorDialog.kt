@@ -22,6 +22,22 @@ import androidx.compose.ui.window.Dialog
 import ru.fav.moneytrace.ui.R
 import ru.fav.moneytrace.ui.theme.Providers
 
+/**
+ * Диалог для отображения ошибок в стиле приложения.
+ *
+ * @param title Заголовок диалога
+ * @param message Текст сообщения об ошибке
+ * @param onDismiss Callback при закрытии диалога
+ * @param modifier Модификатор для настройки внешнего вида
+ * @param confirmButtonText Текст кнопки подтверждения
+ * @param dismissButtonText Текст кнопки отмены (если null, кнопка не отображается)
+ * @param onConfirm Callback при нажатии кнопки подтверждения
+ * @param backgroundColor Цвет фона диалога
+ * @param contentColor Цвет текста
+ * @param iconTint Цвет иконки
+ * @param shape Форма диалога
+ */
+
 @Composable
 fun MTErrorDialog(
     title: String = stringResource(R.string.error),

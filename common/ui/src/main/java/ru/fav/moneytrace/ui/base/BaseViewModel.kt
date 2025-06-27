@@ -10,6 +10,18 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
+/**
+ * Базовый ViewModel с поддержкой MVI архитектуры.
+ *
+ * Предоставляет структуру для управления состоянием (State), обработки событий (Event)
+ * и побочных эффектов (Effect). Включает управление корутинами и автоматическую
+ * очистку ресурсов при уничтожении ViewModel.
+ *
+ * @param State Тип состояния UI
+ * @param Event Тип событий пользователя
+ * @param Effect Тип побочных эффектов (показ сообщений и т.д.)
+ */
+
 abstract class BaseViewModel<State, Event, Effect> : ViewModel() {
 
     private val jobs = mutableSetOf<Job>()

@@ -14,6 +14,15 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.sp
 import ru.fav.moneytrace.ui.theme.Providers
 
+/**
+ * Компонент для отображения эмодзи в круглом контейнере.
+ *
+ * @param emoji Эмодзи для отображения
+ * @param modifier Модификатор для настройки внешнего вида
+ * @param size Размер контейнера
+ * @param backgroundColor Цвет фона контейнера
+ */
+
 @Composable
 fun MTEmojiIcon(
     emoji: String,

@@ -8,6 +8,15 @@ import ru.fav.moneytrace.domain.di.qualifier.IoDispatchers
 import ru.fav.moneytrace.util.result.Result
 import javax.inject.Inject
 
+/**
+ * Use case для получения основного счета пользователя.
+ *
+ * Возвращает первый счет из списка всех счетов пользователя.
+ *
+ * @param accountRepository Репозиторий для доступа к данным счетов
+ * @param dispatcher Диспетчер для выполнения операций в фоновом потоке
+ */
+
 class GetAccountUseCase @Inject constructor(
     private val accountRepository: AccountRepository,
     @IoDispatchers private val dispatcher: CoroutineDispatcher

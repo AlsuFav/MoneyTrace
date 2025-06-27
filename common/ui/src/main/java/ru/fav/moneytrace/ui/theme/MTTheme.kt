@@ -15,6 +15,12 @@ import ru.fav.moneytrace.ui.theme.designsystem.Shape
 import ru.fav.moneytrace.ui.theme.designsystem.Spacing
 import ru.fav.moneytrace.ui.theme.designsystem.Typography
 
+/**
+ * Основная тема приложения, предоставляющая цветовую схему и дизайн-систему.
+ *
+ * @param darkTheme Использовать ли темную тему
+ * @param content Содержимое, к которому применяется тема
+ */
 
 @Composable
 fun MTTheme(

@@ -3,10 +3,10 @@ package ru.fav.moneytrace.navigation
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import ru.fav.moneytrace.account.impl.ui.nav.AccountNav
-import ru.fav.moneytrace.categories.ui.nav.CategoriesNav
-import ru.fav.moneytrace.expenses.ui.nav.ExpensesNav
-import ru.fav.moneytrace.income.ui.nav.IncomeNav
-import ru.fav.moneytrace.settings.ui.SettingsNav
+import ru.fav.moneytrace.categories.impl.ui.nav.CategoriesNav
+import ru.fav.moneytrace.expenses.impl.ui.nav.ExpensesNav
+import ru.fav.moneytrace.income.impl.ui.nav.IncomeNav
+import ru.fav.moneytrace.settings.impl.ui.nav.SettingsNav
 import javax.inject.Inject
 
 class NavigationManagerImpl @Inject constructor() : NavigationManager {
@@ -31,7 +31,7 @@ class NavigationManagerImpl @Inject constructor() : NavigationManager {
     override fun navigateToSettings(navController: NavController) {
         SettingsNav.navigate(navController)
     }
-    
+
     override fun navigateToIncome(navController: NavController) {
         IncomeNav.navigate(navController)
     }

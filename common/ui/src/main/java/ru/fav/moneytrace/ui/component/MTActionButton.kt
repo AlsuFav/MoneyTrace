@@ -14,6 +14,19 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.Dp
 import ru.fav.moneytrace.ui.theme.Providers
 
+/**
+ * Кастомная плавающая кнопка действия в стиле приложения.
+ *
+ * @param onClick Callback при нажатии на кнопку
+ * @param contentDescription Описание для accessibility
+ * @param painter Иконка кнопки
+ * @param modifier Модификатор для настройки внешнего вида
+ * @param backgroundColor Цвет фона кнопки
+ * @param iconTint Цвет иконки
+ * @param size Размер кнопки
+ * @param iconSize Размер иконки
+ */
+
 @Composable
 fun MTFloatingActionButton(
     onClick: () -> Unit,

@@ -8,6 +8,18 @@ import androidx.navigation.compose.rememberNavController
 import ru.fav.moneytrace.account.impl.ui.nav.AccountNav
 import ru.fav.moneytrace.navigation.NavigationManager
 
+/**
+ * Корневой навигационный граф приложения.
+ *
+ * Создает NavHost с настроенным навигационным контроллером и делегирует
+ * построение графа навигации менеджеру навигации. Устанавливает начальный
+ * пункт назначения на маршрут аккаунта.
+ *
+ * @param navigationManager Менеджер навигации для построения графа
+ * @param modifier Модификатор для настройки внешнего вида и поведения
+ * @param navController Контроллер навигации, по умолчанию создается новый
+ */
+
 @Composable
 fun AppNavGraph(
     navigationManager: NavigationManager,

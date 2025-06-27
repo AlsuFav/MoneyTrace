@@ -26,6 +26,15 @@ import ru.fav.moneytrace.ui.component.MTIcon
 import ru.fav.moneytrace.ui.component.MTIconButton
 import ru.fav.moneytrace.ui.theme.Providers
 
+/**
+ * Экран отображения информации о счете пользователя.
+ *
+ * Показывает данные счета с возможностью редактирования и добавления новых записей.
+ * Поддерживает состояния загрузки и обработки ошибок.
+ *
+ * @param viewModel ViewModel для управления состоянием экрана
+ */
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AccountScreen(

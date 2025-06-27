@@ -11,6 +11,17 @@ import ru.fav.moneytrace.util.result.Result
 import java.io.IOException
 import javax.inject.Inject
 
+/**
+ * Клиент для выполнения API запросов с обработкой ошибок и повторными попытками.
+ *
+ * Предоставляет единую точку для выполнения сетевых запросов с автоматической
+ * обработкой различных типов ошибок, повторными попытками для серверных ошибок
+ * и преобразованием исключений в типизированные результаты.
+ *
+ * @param dispatcher Диспетчер для выполнения сетевых операций
+ * @param gson Парсер JSON для обработки ошибок сервера
+ */
+
 class ApiClient @Inject constructor(
     @IoDispatchers private val dispatcher: CoroutineDispatcher,
     private val gson: Gson

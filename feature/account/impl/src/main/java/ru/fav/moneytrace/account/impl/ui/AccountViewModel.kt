@@ -23,6 +23,17 @@ import ru.fav.moneytrace.util.result.Result
 import ru.fav.moneytrace.ui.R
 import ru.fav.moneytrace.ui.base.BaseViewModel
 
+/**
+ * ViewModel для экрана счета пользователя.
+ *
+ * Управляет загрузкой данных счета, обработкой ошибок и состоянием UI.
+ * Реализует MVI паттерн для управления состоянием.
+ *
+ * @param getAccountUseCase Use case для получения данных счета
+ * @param accountUIMapper Маппер для преобразования доменной модели в UI модель
+ * @param resourceProvider Провайдер для доступа к строковым ресурсам
+ */
+
 @HiltViewModel
 class AccountViewModel @Inject constructor(
     private val getAccountUseCase: GetAccountUseCase,

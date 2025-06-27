@@ -18,6 +18,22 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import ru.fav.moneytrace.ui.theme.Providers
 
+/**
+ * Кастомный элемент списка в стиле приложения.
+ *
+ * @param modifier Модификатор для настройки внешнего вида
+ * @param leadingIcon Иконка в начале элемента
+ * @param title Основной заголовок
+ * @param subtitle Подзаголовок (опционально)
+ * @param trailingTitle Заголовок в конце элемента (опционально)
+ * @param trailingSubtitle Подзаголовок в конце элемента (опционально)
+ * @param trailingIcon Иконка в конце элемента
+ * @param backgroundColor Цвет фона элемента
+ * @param onClick Callback при нажатии на элемент
+ * @param contentPadding Внутренние отступы
+ * @param height Высота элемента
+ */
+
 @Composable
 fun MTListItem(
     modifier: Modifier = Modifier,

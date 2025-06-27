@@ -11,6 +11,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.airbnb.lottie.compose.*
 
+/**
+ * Экран загрузки с Lottie анимацией.
+ *
+ * @param onAnimationFinished Callback, вызываемый по завершении анимации
+ */
+
 @Composable
 fun SplashScreen(
     onAnimationFinished: () -> Unit
