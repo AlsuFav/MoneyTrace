@@ -1,4 +1,4 @@
-package ru.fav.moneytrace.account.impl.ui.component
+package ru.fav.moneytrace.account.impl.ui.main.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -50,7 +50,7 @@ fun AccountItem(account: AccountUIModel) {
 
         MTListItem(
             title = stringResource(ru.fav.moneytrace.account.impl.R.string.valute),
-            trailingTitle = account.currency,
+            trailingTitle = account.currencySymbol,
             trailingIcon = {
                 MTIcon(
                     painter = painterResource(R.drawable.ic_more),

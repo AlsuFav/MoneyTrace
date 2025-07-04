@@ -1,4 +1,4 @@
-package ru.fav.moneytrace.account.impl.ui.component
+package ru.fav.moneytrace.account.impl.ui.main.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues

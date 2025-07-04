@@ -1,4 +1,4 @@
-package ru.fav.moneytrace.account.impl.ui.state
+package ru.fav.moneytrace.account.impl.ui.main.state
 
 import androidx.compose.runtime.Immutable
 import ru.fav.moneytrace.account.impl.ui.model.AccountUIModel
