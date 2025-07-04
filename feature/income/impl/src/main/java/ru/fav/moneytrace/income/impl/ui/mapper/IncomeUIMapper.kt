@@ -2,8 +2,8 @@ package ru.fav.moneytrace.income.impl.ui.mapper
 
 import ru.fav.moneytrace.income.impl.ui.model.IncomeUIModel
 import ru.fav.moneytrace.transaction.api.model.TransactionModel
-import ru.fav.moneytrace.util.extension.formatAmount
-import ru.fav.moneytrace.util.extension.toCurrencySymbol
+import ru.fav.moneytrace.ui.util.extension.formatAmount
+import ru.fav.moneytrace.ui.util.extension.toCurrencySymbol
 import ru.fav.moneytrace.util.DateHelper
 import javax.inject.Inject
 

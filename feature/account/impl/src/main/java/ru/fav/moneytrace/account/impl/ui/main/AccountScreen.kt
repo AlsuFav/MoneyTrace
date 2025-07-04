@@ -1,4 +1,4 @@
-package ru.fav.moneytrace.account.impl.ui
+package ru.fav.moneytrace.account.impl.ui.main
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,9 +15,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import ru.fav.moneytrace.account.impl.ui.component.AccountItem
-import ru.fav.moneytrace.account.impl.ui.component.AccountShimmerItem
-import ru.fav.moneytrace.account.impl.ui.state.AccountEvent
+import ru.fav.moneytrace.account.impl.ui.main.component.AccountItem
+import ru.fav.moneytrace.account.impl.ui.main.component.AccountShimmerItem
+import ru.fav.moneytrace.account.impl.ui.main.state.AccountEvent
 import ru.fav.moneytrace.ui.R
 import ru.fav.moneytrace.ui.component.MTCenterAlignedTopAppBar
 import ru.fav.moneytrace.ui.component.MTErrorDialog

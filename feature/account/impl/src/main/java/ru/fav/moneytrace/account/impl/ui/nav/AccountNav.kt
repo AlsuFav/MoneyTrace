@@ -5,7 +5,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import ru.fav.moneytrace.account.impl.ui.AccountScreen
+import ru.fav.moneytrace.account.impl.ui.main.AccountScreen
 import ru.fav.moneytrace.navigation.FeatureNav
 import ru.fav.moneytrace.navigation.NavGraph
 import ru.fav.moneytrace.navigation.NavigationManager
