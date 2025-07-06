@@ -38,6 +38,7 @@ import ru.fav.moneytrace.ui.theme.Providers
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AccountScreen(
+    onUpdateClick: () -> Unit,
     viewModel: AccountViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -59,7 +60,7 @@ fun AccountScreen(
             title = stringResource(ru.fav.moneytrace.account.impl.R.string.my_account),
             actions = {
                 MTIconButton(
-                    onClick = { }
+                    onClick = onUpdateClick
                 ) {
                     MTIcon(
                         painter = painterResource(R.drawable.ic_edit),

@@ -21,6 +21,8 @@
     <string name="my_history">Моя история</string>
     <string name="exit">Закрыть</string>
     <string name="ok">OK</string>
+    <string name="done">Сохранить</string>
+    <string name="close">Отмена</string>
 
     <string name="currency_rub">Российский рубль</string>
     <string name="currency_usd">Американский доллар</string>

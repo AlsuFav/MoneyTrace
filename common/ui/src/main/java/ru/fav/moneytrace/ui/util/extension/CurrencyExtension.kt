@@ -25,6 +25,17 @@ fun String.toCurrencyNameResId(): Int {
     }
 }
 
+fun String.toCurrencyIconResId(): Int {
+    return when (this) {
+        "RUB" -> R.drawable.ic_ruble
+        "USD" -> R.drawable.ic_dollar
+        "EUR" -> R.drawable.ic_euro
+        "GBP" -> R.drawable.ic_pound
+        "JPY" -> R.drawable.ic_yen
+        else -> R.string.currency_unknown
+    }
+}
+
 fun Double.formatAmount(locale: Locale = Locale.US): String {
     return String.format(locale, "%.2f", this)
 }

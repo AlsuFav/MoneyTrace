@@ -6,15 +6,13 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import ru.fav.moneytrace.account.impl.ui.main.AccountScreen
+import ru.fav.moneytrace.account.impl.ui.update.AccountUpdateScreen
+import ru.fav.moneytrace.account.impl.ui.update.state.AccountUpdateEvent
 import ru.fav.moneytrace.navigation.FeatureNav
-import ru.fav.moneytrace.navigation.NavGraph
 import ru.fav.moneytrace.navigation.NavigationManager
 
 object AccountNav: FeatureNav {
-    override val navGraph = object : NavGraph() {
-        override val route = "account"
-        override val startDestination = "account_main_screen"
-    }
+    override val navGraph = AccountNavGraph()
 
     override val name: String = "AccountFeature"
 
@@ -28,12 +26,29 @@ object AccountNav: FeatureNav {
             route = navGraph.route
         ) {
             composable(route = navGraph.startDestination) {
-                AccountScreen()
+                AccountScreen(
+                    onUpdateClick = {
+                        navigateToAccountUpdate(navController)
+                    })
+            }
+            composable(route = navGraph.updateDestination) {
+                AccountUpdateScreen(
+                    onCloseClick = {
+                        navigationManager.navigateBack(navController)
+                    },
+                    onSaveClick = {
+                        navigationManager.navigateToAccount(navController)
+                    }
+                )
             }
         }
     }
 
     override fun navigate(navController: NavController, args: Bundle?) {
         navController.navigate(navGraph.route)
+    }
+
+    private fun navigateToAccountUpdate(navController: NavController) {
+        navController.navigate(navGraph.updateDestination)
     }
 }

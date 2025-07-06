@@ -20,5 +20,5 @@ interface AccountRepository {
         balance: String,
         currency: String,
     ) : Result<AccountModel>
-    suspend fun getCurrencies() : Result<List<String>>
+    suspend fun getAllCurrencies() : Result<List<String>>
 }

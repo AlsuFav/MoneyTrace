@@ -2,6 +2,7 @@ package ru.fav.moneytrace.account.impl.ui.main
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -9,6 +10,7 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import ru.fav.moneytrace.account.impl.ui.main.state.AccountEffect
 import ru.fav.moneytrace.account.impl.ui.main.state.AccountEvent
@@ -17,6 +19,7 @@ import ru.fav.moneytrace.domain.provider.ResourceProvider
 import ru.fav.moneytrace.account.impl.domain.usecase.GetAccountUseCase
 import ru.fav.moneytrace.account.impl.ui.mapper.AccountUIMapper
 import ru.fav.moneytrace.account.impl.ui.model.AccountUIModel
+import ru.fav.moneytrace.account.impl.ui.update.state.AccountUpdateEffect
 import ru.fav.moneytrace.util.result.FailureReason
 import javax.inject.Inject
 import ru.fav.moneytrace.util.result.Result
@@ -44,8 +47,8 @@ class AccountViewModel @Inject constructor(
     override val _state = MutableStateFlow(AccountState())
     override val state: StateFlow<AccountState> = _state.asStateFlow()
 
-    override val _effect = MutableSharedFlow<AccountEffect>()
-    override val effect: SharedFlow<AccountEffect> = _effect.asSharedFlow()
+    override val _effect = Channel<AccountEffect>(Channel.UNLIMITED)
+    override val effect = _effect.receiveAsFlow()
 
     private var loadAccountJob: Job? = null
 

@@ -58,7 +58,7 @@ class AccountRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getCurrencies(): Result<List<String>> {
+    override suspend fun getAllCurrencies(): Result<List<String>> {
         val currencies = listOf("RUB", "USD", "EUR", "GBP", "JPY")
         return Result.Success(currencies)
     }

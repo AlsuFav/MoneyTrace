@@ -2,4 +2,8 @@
 <resources>
     <string name="my_account">Мой счет</string>
     <string name="valute">Валюта</string>
+    <string name="account_name">Название счета</string>
+    <string name="balance">Баланс</string>
+    <string name="account_updated_successfully">Счет успешно обновлен</string>
+    <string name="account_not_updated">Ошибка при обновлении счета</string>
 </resources>
