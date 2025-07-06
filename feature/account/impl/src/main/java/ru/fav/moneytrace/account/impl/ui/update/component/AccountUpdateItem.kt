@@ -14,6 +14,7 @@ import ru.fav.moneytrace.ui.component.MTEmojiIcon
 import ru.fav.moneytrace.ui.component.MTIcon
 import ru.fav.moneytrace.ui.component.MTListItem
 import ru.fav.moneytrace.ui.theme.Providers
+import ru.fav.moneytrace.ui.util.pattern.BALANCE_PATTERN
 
 @Composable
 fun AccountUpdateItem(
@@ -30,8 +31,9 @@ fun AccountUpdateItem(
                     emoji = "\uD83D\uDCB0",
                 )
             },
+            placeholder = stringResource(R.string.account),
             title = stringResource(ru.fav.moneytrace.account.impl.R.string.account_name),
-            value = if (account.name.isEmpty()) stringResource(R.string.account) else account.name,
+            value = account.name,
             onValueChange = onNameChange,
         )
 
@@ -40,8 +42,12 @@ fun AccountUpdateItem(
         EditableAccountItem(
             title = stringResource(ru.fav.moneytrace.account.impl.R.string.balance),
             value = account.balance,
+            placeholder = "0.00",
             keyboardType = KeyboardType.Number,
             onValueChange = onBalanceChange,
+            inputFilter = { newValue ->
+                newValue.isEmpty() || BALANCE_PATTERN.matches(newValue)
+            },
         )
 
         HorizontalDivider()

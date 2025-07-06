@@ -27,6 +27,7 @@ fun EditableAccountItem(
     leadingIcon: @Composable (() -> Unit)? = null,
     modifier: Modifier = Modifier,
     placeholder: String = "",
+    inputFilter: (String) -> Boolean = { true },
     onValueChange: (String) -> Unit,
     keyboardType: KeyboardType = KeyboardType.Text,
     backgroundColor: Color = Providers.color.surface,
@@ -61,7 +62,11 @@ fun EditableAccountItem(
 
             BasicTextField(
                 value = value,
-                onValueChange = onValueChange,
+                onValueChange = { newValue ->
+                    if (inputFilter(newValue)) {
+                        onValueChange(newValue)
+                    }
+                },
                 textStyle = Providers.typography.bodyL.copy(
                     color = mainColor,
                     textAlign = TextAlign.End
