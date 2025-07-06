@@ -93,6 +93,22 @@ class AccountUpdateViewModel @Inject constructor(
                 }
 
             AccountUpdateEvent.OnDoneClicked -> updateAccount()
+            is AccountUpdateEvent.UpdateBalance ->
+                _state.update {
+                    it.copy(
+                        account = state.value.account.copy(
+                            balance = event.balance
+                        )
+                    )
+                }
+            is AccountUpdateEvent.UpdateName ->
+                _state.update {
+                    it.copy(
+                        account = state.value.account.copy(
+                            name = event.name
+                        )
+                    )
+                }
         }
     }
 

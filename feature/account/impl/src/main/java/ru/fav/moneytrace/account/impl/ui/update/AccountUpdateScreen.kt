@@ -95,6 +95,12 @@ fun AccountUpdateScreen(
                 else -> {
                     AccountUpdateItem(
                         account = state.account,
+                        onNameChange = { newName ->
+                            viewModel.reduce(AccountUpdateEvent.UpdateName(newName))
+                        },
+                        onBalanceChange = { newBalance ->
+                            viewModel.reduce(AccountUpdateEvent.UpdateBalance(newBalance))
+                        },
                         onCurrencyClick = {
                             viewModel.reduce(AccountUpdateEvent.ShowCurrencyBottomSheet)
                         }

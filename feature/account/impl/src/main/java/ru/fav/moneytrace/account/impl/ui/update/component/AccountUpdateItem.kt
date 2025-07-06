@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import ru.fav.moneytrace.account.impl.ui.model.AccountUIModel
 import ru.fav.moneytrace.ui.R
 import ru.fav.moneytrace.ui.component.MTEmojiIcon
@@ -17,29 +18,30 @@ import ru.fav.moneytrace.ui.theme.Providers
 @Composable
 fun AccountUpdateItem(
     account: AccountUIModel,
+    onNameChange: (String) -> Unit,
+    onBalanceChange: (String) -> Unit,
     onCurrencyClick: () -> Unit
 ) {
 
     Column(modifier = Modifier.fillMaxWidth()) {
-        MTListItem(
+        EditableAccountItem(
             leadingIcon = {
                 MTEmojiIcon(
                     emoji = "\uD83D\uDCB0",
                 )
             },
             title = stringResource(ru.fav.moneytrace.account.impl.R.string.account_name),
-            trailingTitle = if (account.name.isEmpty()) stringResource(R.string.account) else account.name,
-            onClick = { },
-            height = Providers.spacing.xxl,
+            value = if (account.name.isEmpty()) stringResource(R.string.account) else account.name,
+            onValueChange = onNameChange,
         )
 
         HorizontalDivider()
 
-        MTListItem(
+        EditableAccountItem(
             title = stringResource(ru.fav.moneytrace.account.impl.R.string.balance),
-            trailingTitle = account.balance,
-            onClick = { },
-            height = Providers.spacing.xxl,
+            value = account.balance,
+            keyboardType = KeyboardType.Number,
+            onValueChange = onBalanceChange,
         )
 
         HorizontalDivider()
