@@ -168,7 +168,9 @@ class AccountUpdateViewModel @Inject constructor(
             when (val result = updateAccountUseCase(
                 id = state.value.account.id,
                 name = state.value.account.name,
-                balance = state.value.account.balance,
+                balance = state.value.account.balance.let {
+                    if (it.isEmpty()) "0" else it
+                },
                 currency = state.value.account.currency.currency,
             )) {
                 is Result.Success -> {
