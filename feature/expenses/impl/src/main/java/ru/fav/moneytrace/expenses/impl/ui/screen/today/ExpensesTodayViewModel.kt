@@ -2,6 +2,7 @@ package ru.fav.moneytrace.expenses.impl.ui.screen.today
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -9,6 +10,7 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import ru.fav.moneytrace.domain.provider.ResourceProvider
 import ru.fav.moneytrace.expenses.impl.domain.usecase.GetTodayExpensesUseCase
@@ -44,8 +46,8 @@ class ExpensesTodayViewModel @Inject constructor(
     override val _state = MutableStateFlow(ExpensesTodayState())
     override val state: StateFlow<ExpensesTodayState> = _state.asStateFlow()
 
-    override val _effect = MutableSharedFlow<ExpensesTodayEffect>()
-    override val effect: SharedFlow<ExpensesTodayEffect> = _effect.asSharedFlow()
+    override val _effect = Channel<ExpensesTodayEffect>(Channel.UNLIMITED)
+    override val effect = _effect.receiveAsFlow()
 
     private var loadExpensesJob: Job? = null
 

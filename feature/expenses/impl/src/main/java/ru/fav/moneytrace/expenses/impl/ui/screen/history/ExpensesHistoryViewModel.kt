@@ -2,6 +2,7 @@ package ru.fav.moneytrace.expenses.impl.ui.screen.history
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -9,6 +10,7 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import ru.fav.moneytrace.domain.provider.ResourceProvider
 import ru.fav.moneytrace.util.result.FailureReason
@@ -45,8 +47,8 @@ class ExpensesHistoryViewModel @Inject constructor(
     override val _state = MutableStateFlow(ExpensesHistoryState())
     override val state: StateFlow<ExpensesHistoryState> = _state.asStateFlow()
 
-    override val _effect = MutableSharedFlow<ExpensesHistoryEffect>()
-    override val effect: SharedFlow<ExpensesHistoryEffect> = _effect.asSharedFlow()
+    override val _effect = Channel<ExpensesHistoryEffect>(Channel.UNLIMITED)
+    override val effect = _effect.receiveAsFlow()
 
     private var loadExpensesJob: Job? = null
 

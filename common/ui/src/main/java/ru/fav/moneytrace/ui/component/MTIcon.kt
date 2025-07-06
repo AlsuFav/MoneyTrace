@@ -12,8 +12,8 @@ import ru.fav.moneytrace.ui.theme.Providers
 @Composable
 fun MTIcon(
     painter: Painter,
-    contentDescription: String?,
     modifier: Modifier = Modifier,
+    contentDescription: String? = null,
     size: Dp = Providers.componentSize.iconMedium,
     tint: Color = Providers.color.onSurfaceVariant
 ) {

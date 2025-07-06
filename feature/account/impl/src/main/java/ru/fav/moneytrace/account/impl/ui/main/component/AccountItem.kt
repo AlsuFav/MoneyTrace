@@ -1,4 +1,4 @@
-package ru.fav.moneytrace.account.impl.ui.component
+package ru.fav.moneytrace.account.impl.ui.main.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,6 +14,8 @@ import ru.fav.moneytrace.ui.component.MTEmojiIcon
 import ru.fav.moneytrace.ui.component.MTIcon
 import ru.fav.moneytrace.ui.component.MTListItem
 import ru.fav.moneytrace.ui.theme.Providers
+import ru.fav.moneytrace.ui.util.extension.formatAmount
+import ru.fav.moneytrace.ui.util.extension.toCurrencySymbol
 
 /**
  * Компонент для отображения информации о счете пользователя.
@@ -34,7 +36,7 @@ fun AccountItem(account: AccountUIModel) {
                 )
             },
             title = if (account.name.isEmpty()) stringResource(R.string.account) else account.name,
-            trailingTitle = account.balance,
+            trailingTitle = "${account.balance} ${account.currency.symbol}",
             trailingIcon = {
                 MTIcon(
                     painter = painterResource(R.drawable.ic_more),
@@ -50,7 +52,7 @@ fun AccountItem(account: AccountUIModel) {
 
         MTListItem(
             title = stringResource(ru.fav.moneytrace.account.impl.R.string.valute),
-            trailingTitle = account.currency,
+            trailingTitle = account.currency.symbol,
             trailingIcon = {
                 MTIcon(
                     painter = painterResource(R.drawable.ic_more),

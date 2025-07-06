@@ -44,6 +44,8 @@ fun MTListItem(
     trailingSubtitle: String? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
     backgroundColor: Color = Providers.color.surface,
+    mainColor: Color = Providers.color.onSurface,
+    variantColor: Color = Providers.color.onSurfaceVariant,
     onClick: (() -> Unit)? = null,
     contentPadding: PaddingValues = PaddingValues(horizontal = Providers.spacing.m),
     height: Dp = Providers.spacing.xxxl
@@ -82,7 +84,8 @@ fun MTListItem(
                 if (subtitle.isNullOrEmpty()) {
                     MTText(
                         text = title,
-                        maxLines = 1
+                        maxLines = 1,
+                        color = mainColor
                     )
                 } else {
                     MTText(
@@ -90,13 +93,14 @@ fun MTListItem(
                         contentPadding = PaddingValues(
                             bottom = Providers.spacing.xxs,
                         ),
-                        maxLines = 1
+                        maxLines = 1,
+                        color = mainColor
                     )
 
                     MTText(
                         text = subtitle,
                         style = Providers.typography.bodyM,
-                        color = Providers.color.onSurfaceVariant,
+                        color = variantColor,
                         contentPadding = PaddingValues(
                             top = Providers.spacing.xxs,
                         ),
@@ -112,7 +116,8 @@ fun MTListItem(
                     if (trailingSubtitle.isNullOrEmpty()) {
                         MTText(
                             text = trailingTitle,
-                            maxLines = 1
+                            maxLines = 1,
+                            color = mainColor
                         )
                     } else {
                         MTText(
@@ -120,12 +125,13 @@ fun MTListItem(
                             contentPadding = PaddingValues(
                                 bottom = Providers.spacing.xs,
                             ),
-                            maxLines = 1
+                            maxLines = 1,
+                            color = mainColor
                         )
 
                         MTText(
                             text = trailingSubtitle,
-                            color = Providers.color.onSurfaceVariant,
+                            color = variantColor,
                             contentPadding = PaddingValues(
                                 top = Providers.spacing.xs,
                             ),

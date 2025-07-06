@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -29,8 +31,8 @@ abstract class BaseViewModel<State, Event, Effect> : ViewModel() {
     protected abstract val _state: MutableStateFlow<State>
     abstract val state: StateFlow<State>
 
-    protected abstract val _effect: MutableSharedFlow<Effect>
-    abstract val effect: SharedFlow<Effect>
+    protected abstract val _effect: Channel<Effect>
+    abstract val effect: Flow<Effect>
 
     abstract fun reduce(event: Event)
 
@@ -43,7 +45,7 @@ abstract class BaseViewModel<State, Event, Effect> : ViewModel() {
 
     protected fun sendEffect(effect: Effect) {
         viewModelScope.launch {
-            _effect.emit(effect)
+            _effect.send(effect)
         }
     }
 

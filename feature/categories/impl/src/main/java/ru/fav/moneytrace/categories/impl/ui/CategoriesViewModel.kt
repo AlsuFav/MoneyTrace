@@ -2,6 +2,7 @@ package ru.fav.moneytrace.categories.impl.ui
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -9,6 +10,7 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import ru.fav.moneytrace.categories.impl.ui.state.CategoriesEffect
 import ru.fav.moneytrace.categories.impl.ui.state.CategoriesEvent
@@ -43,8 +45,8 @@ class CategoriesViewModel @Inject constructor(
     override val _state = MutableStateFlow(CategoriesState())
     override val state: StateFlow<CategoriesState> = _state.asStateFlow()
 
-    override val _effect = MutableSharedFlow<CategoriesEffect>()
-    override val effect: SharedFlow<CategoriesEffect> = _effect.asSharedFlow()
+    override val _effect = Channel<CategoriesEffect>(Channel.UNLIMITED)
+    override val effect = _effect.receiveAsFlow()
 
     private var loadCategoriesJob: Job? = null
 
