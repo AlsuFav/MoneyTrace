@@ -174,23 +174,19 @@ class AccountUpdateViewModel @Inject constructor(
                 currency = state.value.account.currency.currency,
             )) {
                 is Result.Success -> {
-                    _state.update {
-                        it.copy(
-                            isLoading = false,
-                        )
-                    }
                     sendEffect(AccountUpdateEffect.ShowToast(
                         resourceProvider.getString(
                             ru.fav.moneytrace.account.impl.R.string.account_updated_successfully
                         )))
                     sendEffect(AccountUpdateEffect.AccountUpdated)
+                    _state.update {
+                        it.copy(
+                            isLoading = false,
+                        )
+                    }
                 }
                 is Result.Failure -> {
                     handleFailure(result.reason)
-                    sendEffect(AccountUpdateEffect.ShowToast(
-                        resourceProvider.getString(
-                            ru.fav.moneytrace.account.impl.R.string.account_not_updated
-                        )))
                 }
             }
         }
