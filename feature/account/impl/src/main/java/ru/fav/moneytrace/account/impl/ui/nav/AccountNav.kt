@@ -37,7 +37,7 @@ object AccountNav: FeatureNav {
                         navigationManager.navigateBack(navController)
                     },
                     onSaveClick = {
-                        navigationManager.navigateToAccount(navController)
+                        navigate(navController)
                     }
                 )
             }
