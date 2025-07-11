@@ -8,6 +8,8 @@ import ru.fav.moneytrace.categories.impl.ui.nav.CategoriesNav
 import ru.fav.moneytrace.expenses.impl.ui.nav.ExpensesNav
 import ru.fav.moneytrace.income.impl.ui.nav.IncomeNav
 import ru.fav.moneytrace.settings.impl.ui.nav.SettingsNav
+import ru.fav.moneytrace.transaction.api.model.TransactionType
+import ru.fav.moneytrace.transaction.impl.ui.nav.TransactionNav
 import javax.inject.Inject
 
 class NavigationManagerImpl @Inject constructor() : NavigationManager {
@@ -19,7 +21,8 @@ class NavigationManagerImpl @Inject constructor() : NavigationManager {
         SettingsNav,
         IncomeNav,
         ExpensesNav,
-        CategoriesNav
+        CategoriesNav,
+        TransactionNav
     )
 
     override fun buildNavGraph(
@@ -57,6 +60,26 @@ class NavigationManagerImpl @Inject constructor() : NavigationManager {
 
     override fun navigateToExpenses(navController: NavController) {
         navigateToFeature(navController, ExpensesNav)
+    }
+
+    override fun navigateToTransactionCreate(navController: NavController) {
+        val transactionType = determineTransactionType(navController)
+        TransactionNav.navigateToCreate(navController, transactionType)
+    }
+
+    override fun navigateToTransactionUpdate(navController: NavController, transactionId: Int) {
+        val transactionType = determineTransactionType(navController)
+        TransactionNav.navigateToUpdate(navController, transactionId, transactionType)
+    }
+
+    private fun determineTransactionType(navController: NavController): TransactionType {
+        val currentRoute = navController.currentDestination?.route ?: ""
+
+        return when {
+            currentRoute.startsWith(IncomeNav.navGraph.route) -> TransactionType.INCOME
+            currentRoute.startsWith(ExpensesNav.navGraph.route) -> TransactionType.EXPENSE
+            else -> TransactionType.ANY
+        }
     }
 
     private fun navigateToFeature(navController: NavController, feature: FeatureNav) {

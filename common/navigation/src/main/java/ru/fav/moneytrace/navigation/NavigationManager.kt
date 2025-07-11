@@ -21,6 +21,8 @@ interface NavigationManager {
     fun navigateToExpenses(navController: NavController)
     fun navigateToCategories(navController: NavController)
     fun navigateToAccount(navController: NavController)
+    fun navigateToTransactionCreate(navController: NavController)
+    fun navigateToTransactionUpdate(navController: NavController, transactionId: Int)
 
     fun navigateBack(navController: NavController)
 }

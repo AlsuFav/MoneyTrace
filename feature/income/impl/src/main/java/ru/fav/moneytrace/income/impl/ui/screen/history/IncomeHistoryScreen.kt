@@ -32,6 +32,7 @@ import ru.fav.moneytrace.util.DateHelper
 @Composable
 fun IncomeHistoryScreen(
     onBackClick: () -> Unit,
+    onIncomeClick: (Int) -> Unit,
     viewModel: IncomeHistoryViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -107,8 +108,7 @@ fun IncomeHistoryScreen(
 
                         IncomeHistoryList(
                             expenses = state.income,
-                            onIncomeClick = { expense ->
-                            }
+                            onIncomeClick = onIncomeClick
                         )
                     }
                 }

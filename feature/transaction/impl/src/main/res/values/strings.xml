@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="transaction_updated_successfully">Транзакция успешно обновлена</string>
+    <string name="my_income">Мои доходы</string>
+    <string name="my_expenses">Мои расходы</string>
+    <string name="delete_income">Удалить доход</string>
+    <string name="delete_expense">Удалить расход</string>
+    <string name="category">Статья</string>
+    <string name="date">Дата</string>
+    <string name="time">Время</string>
+    <string name="comment">Комментарий</string>
+    <string name="transaction_created_successfully">Транзакция успешно создана</string>
+    <string name="error_empty_account">Пожалуйста, выберите счет</string>
+    <string name="error_empty_category">Пожалуйста, выберите категорию</string>
+    <string name="transaction_deleted_successfully">Транзакция успешно удалена</string>
+    <string name="my_transaction">Моя транзакция</string>
+    <string name="delete_transaction">Удалить транзакцию</string>
+</resources>

@@ -26,7 +26,7 @@ import ru.fav.moneytrace.ui.theme.Providers
 @Composable
 fun IncomeTodayList(
     expenses: List<IncomeUIModel>,
-    onExpenseClick: (IncomeUIModel) -> Unit,
+    onIncomeClick: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(modifier = modifier) {
@@ -45,7 +45,7 @@ fun IncomeTodayList(
                         contentDescription = stringResource(R.string.more),
                     )
                 },
-                onClick = { onExpenseClick(expense) }
+                onClick = { onIncomeClick(expense.id) }
             )
             HorizontalDivider()
         }

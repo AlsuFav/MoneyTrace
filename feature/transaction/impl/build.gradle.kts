@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.detekt)
     alias(libs.plugins.ktlint)
     alias(libs.plugins.kotlin.ksp)
@@ -41,17 +42,43 @@ android {
         jvmTarget = libs.versions.java.get()
     }
     buildFeatures {
+        compose = true
         buildConfig = true
     }
 }
 
 dependencies {
 
-    implementation(project(path = ":common:network"))
-    implementation(project(path = ":common:util"))
-    implementation(project(path = ":feature:transaction:api"))
+    implementation(project(":common:domain"))
+    implementation(project(":common:network"))
+    implementation(project(":common:ui"))
+    implementation(project(":common:util"))
+    implementation(project(":common:navigation"))
+    implementation(project(":common:domain"))
+
+    implementation(project(":feature:transaction:api"))
+    implementation(project(":feature:categories:api"))
+    implementation(project(":feature:account:api"))
+
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.activity.compose)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.ui.graphics)
+    implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.material3)
+    implementation(libs.androidx.navigation.compose)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(libs.androidx.ui.test.junit4)
+    debugImplementation(libs.androidx.ui.tooling)
+    debugImplementation(libs.androidx.ui.test.manifest)
 
     implementation(libs.hilt)
+    implementation(libs.hilt.compose)
     ksp(libs.hilt.compiler)
 
     implementation (libs.retrofit)

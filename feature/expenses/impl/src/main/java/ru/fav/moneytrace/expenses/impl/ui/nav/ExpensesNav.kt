@@ -27,13 +27,21 @@ object ExpensesNav: FeatureNav {
                 ExpensesTodayScreen(
                     onHistoryClick = {
                         navigateToHistory(navController)
-                })
+                    },
+                    onExpenseClick = { id ->
+                        navigationManager.navigateToTransactionUpdate(navController, id)
+                    },
+                    onAddClick = { navigationManager.navigateToTransactionCreate(navController) },
+                )
             }
             composable(route = navGraph.historyDestination) {
                 ExpensesHistoryScreen(
                     onBackClick = {
                         navigationManager.navigateBack(navController)
-                    }
+                    },
+                    onExpenseClick = { id ->
+                        navigationManager.navigateToTransactionUpdate(navController, id)
+                    },
                 )
             }
         }

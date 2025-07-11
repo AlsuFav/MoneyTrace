@@ -13,9 +13,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
+import ru.fav.moneytrace.account.api.usecase.GetAccountUseCase
 import ru.fav.moneytrace.account.impl.ui.main.state.AccountEffect
 import ru.fav.moneytrace.domain.provider.ResourceProvider
-import ru.fav.moneytrace.account.impl.domain.usecase.GetAccountUseCase
 import ru.fav.moneytrace.account.impl.domain.usecase.GetAllCurrenciesUseCase
 import ru.fav.moneytrace.account.impl.domain.usecase.UpdateAccountUseCase
 import ru.fav.moneytrace.account.impl.ui.update.state.AccountUpdateEvent

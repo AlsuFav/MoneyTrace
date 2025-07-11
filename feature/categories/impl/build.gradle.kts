@@ -49,8 +49,11 @@ android {
 
 dependencies {
     implementation(project(":feature:account:api"))
+    implementation(project(":feature:transaction:api"))
+    implementation(project(":feature:categories:api"))
 
     implementation(project(":common:domain"))
+    implementation(project(":common:network"))
     implementation(project(":common:ui"))
     implementation(project(":common:util"))
     implementation(project(":common:navigation"))
@@ -75,4 +78,10 @@ dependencies {
     implementation(libs.hilt)
     implementation(libs.hilt.compose)
     ksp(libs.hilt.compiler)
+
+    implementation (libs.retrofit)
+    implementation(libs.retrofit.gson.converter)
+    implementation (libs.gson)
+    implementation (libs.okhttp)
+    implementation(libs.http.logging.interceptor)
 }

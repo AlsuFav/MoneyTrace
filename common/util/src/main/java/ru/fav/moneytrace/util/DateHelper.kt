@@ -20,6 +20,8 @@ import java.util.TimeZone
 object DateHelper {
     private const val API_DATE_FORMAT = "yyyy-MM-dd"
     private const val API_DATETIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+    private const val API_DATETIME_FORMAT_NO_MILLIS = "yyyy-MM-dd'T'HH:mm:ss'Z'"
+    private const val API_DATETIME_FORMAT_EXTENDED = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'"
     private const val DISPLAY_DATE_FORMAT = "dd.MM.yyyy"
     private const val DISPLAY_DATETIME_FORMAT = "dd.MM.yyyy HH:mm"
     private const val DISPLAY_TIME_FORMAT = "HH:mm"
@@ -28,9 +30,14 @@ object DateHelper {
     private val apiDateTimeFormatter = SimpleDateFormat(API_DATETIME_FORMAT, Locale.getDefault()).apply {
         timeZone = TimeZone.getTimeZone("UTC")
     }
+    private val apiDateTimeFormatterNoMillis = SimpleDateFormat(API_DATETIME_FORMAT_NO_MILLIS, Locale.getDefault()).apply {
+        timeZone = TimeZone.getTimeZone("UTC")
+    }
+    private val apiDateTimeFormatterExtended = SimpleDateFormat(API_DATETIME_FORMAT_EXTENDED, Locale.getDefault()).apply {
+        timeZone = TimeZone.getTimeZone("UTC")
+    }
     private val displayDateFormatter = SimpleDateFormat(DISPLAY_DATE_FORMAT, Locale.getDefault())
-    private val displayDateTimeFormatter =
-        SimpleDateFormat(DISPLAY_DATETIME_FORMAT, Locale.getDefault())
+    private val displayDateTimeFormatter = SimpleDateFormat(DISPLAY_DATETIME_FORMAT, Locale.getDefault())
     private val displayTimeFormatter = SimpleDateFormat(DISPLAY_TIME_FORMAT, Locale.getDefault())
 
     fun getTodayApiFormat(): String {
@@ -46,14 +53,21 @@ object DateHelper {
     fun getTodayDisplayFormat(): String {
         return displayDateFormatter.format(Date())
     }
+    fun getCurrentTimeDisplayFormat(): String {
+        return displayTimeFormatter.format(Date())
+    }
 
     fun dateToApiFormat(date: Date): String {
         return apiDateFormatter.format(date)
     }
 
+    fun dateTimeToApiFormat(date: Date): String {
+        return apiDateTimeFormatter.format(date)
+    }
+
     fun parseApiDate(apiDateString: String): Date {
         return try {
-            apiDateFormatter.parse(apiDateString)
+            apiDateFormatter.parse(apiDateString) ?: Date()
         } catch (e: Exception) {
             Date()
         }
@@ -61,23 +75,32 @@ object DateHelper {
 
     fun parseDisplayDate(displayDateString: String): Date {
         return try {
-            displayDateFormatter.parse(displayDateString)
+            displayDateFormatter.parse(displayDateString) ?: Date()
         } catch (e: Exception) {
             Date()
         }
     }
 
     fun parseApiDateTime(apiDateTimeString: String): Date {
-        return try {
-            apiDateTimeFormatter.parse(apiDateTimeString)
-        } catch (e: Exception) {
-            Date()
+        val formatters = listOf(
+            apiDateTimeFormatterExtended,
+            apiDateTimeFormatter,
+            apiDateTimeFormatterNoMillis
+        )
+
+        for (formatter in formatters) {
+            try {
+                formatter.parse(apiDateTimeString)?.let { return it }
+            } catch (e: Exception) {
+            }
         }
+
+        return Date()
     }
 
     fun formatDateForDisplay(date: Date): String? {
         return try {
-            date.let { displayDateFormatter.format(it) }
+            displayDateFormatter.format(date)
         } catch (e: Exception) {
             null
         }
@@ -85,7 +108,7 @@ object DateHelper {
 
     fun formatDateTimeForDisplay(date: Date): String? {
         return try {
-            date.let { displayDateTimeFormatter.format(it) }
+            displayDateTimeFormatter.format(date)
         } catch (e: Exception) {
             null
         }
@@ -93,9 +116,18 @@ object DateHelper {
 
     fun formatTimeForDisplay(date: Date): String? {
         return try {
-            date.let { displayTimeFormatter.format(it) }
+            displayTimeFormatter.format(date)
         } catch (e: Exception) {
             null
+        }
+    }
+
+    fun parseDisplayDateAndTime(dateString: String, timeString: String): Date {
+        return try {
+            val combinedString = "$dateString $timeString"
+            displayDateTimeFormatter.parse(combinedString) ?: Date()
+        } catch (e: Exception) {
+            Date()
         }
     }
 }
