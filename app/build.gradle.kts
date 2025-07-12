@@ -66,6 +66,7 @@ dependencies {
     implementation(project(path = ":feature:account:impl"))
     implementation(project(path = ":feature:settings:impl"))
     implementation(project(path = ":feature:income:impl"))
+    implementation(project(path = ":feature:categories:api"))
     implementation(project(path = ":feature:categories:impl"))
     implementation(project(path = ":feature:expenses:impl"))
 

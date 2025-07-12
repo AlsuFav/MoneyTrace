@@ -10,6 +10,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import ru.fav.moneytrace.account.impl.ui.model.AccountUIModel
 import ru.fav.moneytrace.ui.R
+import ru.fav.moneytrace.ui.component.MTEditableListItem
 import ru.fav.moneytrace.ui.component.MTEmojiIcon
 import ru.fav.moneytrace.ui.component.MTIcon
 import ru.fav.moneytrace.ui.component.MTListItem
@@ -25,7 +26,7 @@ fun AccountUpdateItem(
 ) {
 
     Column(modifier = Modifier.fillMaxWidth()) {
-        EditableAccountItem(
+        MTEditableListItem(
             leadingIcon = {
                 MTEmojiIcon(
                     emoji = "\uD83D\uDCB0",
@@ -35,11 +36,12 @@ fun AccountUpdateItem(
             title = stringResource(ru.fav.moneytrace.account.impl.R.string.account_name),
             value = account.name,
             onValueChange = onNameChange,
+            height = Providers.spacing.xxl,
         )
 
         HorizontalDivider()
 
-        EditableAccountItem(
+        MTEditableListItem(
             title = stringResource(ru.fav.moneytrace.account.impl.R.string.balance),
             value = account.balance,
             placeholder = "0.00",
@@ -48,6 +50,7 @@ fun AccountUpdateItem(
             inputFilter = { newValue ->
                 newValue.isEmpty() || BALANCE_PATTERN.matches(newValue)
             },
+            height = Providers.spacing.xxl,
         )
 
         HorizontalDivider()

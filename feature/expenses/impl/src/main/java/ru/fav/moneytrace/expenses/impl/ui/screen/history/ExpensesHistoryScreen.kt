@@ -43,6 +43,7 @@ import ru.fav.moneytrace.util.DateHelper
 @Composable
 fun ExpensesHistoryScreen(
     onBackClick: () -> Unit,
+    onExpenseClick: (Int) -> Unit,
     viewModel: ExpensesHistoryViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -118,8 +119,7 @@ fun ExpensesHistoryScreen(
 
                         ExpensesHistoryList(
                             expenses = state.expenses,
-                            onExpenseClick = { expense ->
-                            }
+                            onExpenseClick = onExpenseClick
                         )
                     }
                 }

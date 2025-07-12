@@ -44,6 +44,8 @@ import ru.fav.moneytrace.ui.component.MTErrorDialog
 @Composable
 fun ExpensesTodayScreen(
     onHistoryClick: () -> Unit,
+    onExpenseClick: (Int) -> Unit,
+    onAddClick: () -> Unit,
     viewModel: ExpensesTodayViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -96,15 +98,14 @@ fun ExpensesTodayScreen(
 
                         ExpensesTodayList(
                             expenses = state.expenses,
-                            onExpenseClick = { expense ->
-                            }
+                            onExpenseClick = onExpenseClick
                         )
                     }
                 }
             }
 
             MTFloatingActionButton(
-                onClick = { },
+                onClick = onAddClick,
                 contentDescription = stringResource(ru.fav.moneytrace.ui.R.string.add),
                 painter = painterResource(ru.fav.moneytrace.ui.R.drawable.ic_add),
                 modifier = Modifier

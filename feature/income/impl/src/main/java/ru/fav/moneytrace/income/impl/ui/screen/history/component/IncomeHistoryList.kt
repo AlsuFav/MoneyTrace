@@ -23,7 +23,7 @@ import ru.fav.moneytrace.ui.component.MTListItem
 @Composable
 fun IncomeHistoryList(
     expenses: List<IncomeUIModel>,
-    onIncomeClick: (IncomeUIModel) -> Unit,
+    onIncomeClick: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(modifier = modifier) {
@@ -31,19 +31,19 @@ fun IncomeHistoryList(
             count = expenses.size,
             key = { index -> expenses[index].id }
         ) { index ->
-            val expense = expenses[index]
+            val income = expenses[index]
             MTListItem(
-                title = expense.name,
-                subtitle = expense.comment,
-                trailingTitle = expense.amount,
-                trailingSubtitle = expense.date,
+                title = income.name,
+                subtitle = income.comment,
+                trailingTitle = income.amount,
+                trailingSubtitle = income.date,
                 trailingIcon = {
                     MTIcon(
                         painter = painterResource(R.drawable.ic_more),
                         contentDescription = stringResource(R.string.more),
                     )
                 },
-                onClick = { onIncomeClick(expense) }
+                onClick = { onIncomeClick(income.id) }
             )
             HorizontalDivider()
         }

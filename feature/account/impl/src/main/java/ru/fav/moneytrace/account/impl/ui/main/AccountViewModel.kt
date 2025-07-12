@@ -12,11 +12,11 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
+import ru.fav.moneytrace.account.api.usecase.GetAccountUseCase
 import ru.fav.moneytrace.account.impl.ui.main.state.AccountEffect
 import ru.fav.moneytrace.account.impl.ui.main.state.AccountEvent
 import ru.fav.moneytrace.account.impl.ui.main.state.AccountState
 import ru.fav.moneytrace.domain.provider.ResourceProvider
-import ru.fav.moneytrace.account.impl.domain.usecase.GetAccountUseCase
 import ru.fav.moneytrace.account.impl.ui.mapper.AccountUIMapper
 import ru.fav.moneytrace.account.impl.ui.model.AccountUIModel
 import ru.fav.moneytrace.account.impl.ui.update.state.AccountUpdateEffect

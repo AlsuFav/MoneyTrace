@@ -31,13 +31,21 @@ IncomeNav: FeatureNav {
                         navigateToHistory(
                             navController
                         )
-                    })
+                    },
+                    onIncomeClick = { id ->
+                        navigationManager.navigateToTransactionUpdate(navController, id)
+                    },
+                    onAddClick = { navigationManager.navigateToTransactionCreate(navController) },
+                )
             }
             composable(route = navGraph.historyDestination) {
                 IncomeHistoryScreen(
                     onBackClick = {
                         navigationManager.navigateBack(navController)
-                    }
+                    },
+                    onIncomeClick = { id ->
+                        navigationManager.navigateToTransactionUpdate(navController, id)
+                    },
                 )
             }
         }

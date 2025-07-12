@@ -4,20 +4,19 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
+import ru.fav.moneytrace.categories.api.usecase.GetCategoriesUseCase
+import ru.fav.moneytrace.categories.impl.domain.usecase.GetUsedCategoriesUseCase
 import ru.fav.moneytrace.categories.impl.ui.state.CategoriesEffect
 import ru.fav.moneytrace.categories.impl.ui.state.CategoriesEvent
 import ru.fav.moneytrace.categories.impl.ui.state.CategoriesState
 import ru.fav.moneytrace.domain.provider.ResourceProvider
-import ru.fav.moneytrace.categories.impl.domain.usecase.GetExpenseCategoriesUseCase
 import ru.fav.moneytrace.categories.impl.ui.mapper.CategoryDetailsUIMapper
+import ru.fav.moneytrace.transaction.api.model.TransactionType
 import ru.fav.moneytrace.util.result.FailureReason
 import ru.fav.moneytrace.ui.R
 import ru.fav.moneytrace.ui.base.BaseViewModel
@@ -30,14 +29,14 @@ import ru.fav.moneytrace.util.result.Result
  * Управляет загрузкой и фильтрацией категорий, обработкой поискового запроса
  * и состоянием UI. Реализует MVI паттерн для управления состоянием.
  *
- * @param getExpenseCategoriesUseCase Use case для получения категорий расходов
+ * @param getCategoriesUseCase Use case для получения категорий
  * @param categoryDetailsUIMapper Маппер для преобразования доменных моделей в UI модели
  * @param resourceProvider Провайдер для доступа к строковым ресурсам
  */
 
 @HiltViewModel
 class CategoriesViewModel @Inject constructor(
-    private val getExpenseCategoriesUseCase: GetExpenseCategoriesUseCase,
+    private val getUsedCategoriesUseCase: GetUsedCategoriesUseCase,
     private val categoryDetailsUIMapper: CategoryDetailsUIMapper,
     private val resourceProvider: ResourceProvider
 ) : BaseViewModel<CategoriesState, CategoriesEvent, CategoriesEffect>() {
@@ -87,7 +86,10 @@ class CategoriesViewModel @Inject constructor(
             _state.update { it.copy(isLoading = true) }
             delay(1000)
 
-            when (val result = getExpenseCategoriesUseCase(query = state.value.input)) {
+            when (val result = getUsedCategoriesUseCase(
+                transactionType = TransactionType.EXPENSE,
+                query = state.value.input
+            )) {
                 is Result.Success -> {
                     _state.update {
                         it.copy(

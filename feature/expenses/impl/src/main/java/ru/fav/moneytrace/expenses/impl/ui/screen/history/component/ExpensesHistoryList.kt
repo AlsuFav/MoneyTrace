@@ -23,7 +23,7 @@ import ru.fav.moneytrace.ui.component.MTListItem
 @Composable
 fun ExpensesHistoryList(
     expenses: List<ExpenseUIModel>,
-    onExpenseClick: (ExpenseUIModel) -> Unit,
+    onExpenseClick: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(modifier = modifier) {
@@ -48,7 +48,7 @@ fun ExpensesHistoryList(
                         contentDescription = stringResource(R.string.more),
                     )
                 },
-                onClick = { onExpenseClick(expense) }
+                onClick = { onExpenseClick(expense.id) }
             )
             HorizontalDivider()
         }

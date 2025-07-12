@@ -4,6 +4,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import ru.fav.moneytrace.account.api.model.AccountModel
 import ru.fav.moneytrace.account.api.repository.AccountRepository
+import ru.fav.moneytrace.account.api.usecase.GetAccountUseCase
 import ru.fav.moneytrace.domain.di.qualifier.IoDispatchers
 import ru.fav.moneytrace.util.result.Result
 import javax.inject.Inject
@@ -17,11 +18,11 @@ import javax.inject.Inject
  * @param dispatcher Диспетчер для выполнения операций в фоновом потоке
  */
 
-class GetAccountUseCase @Inject constructor(
+class GetAccountUseCaseImpl @Inject constructor(
     private val accountRepository: AccountRepository,
     @IoDispatchers private val dispatcher: CoroutineDispatcher
-) {
-    suspend operator fun invoke(): Result<AccountModel> {
+) : GetAccountUseCase {
+    override suspend operator fun invoke(): Result<AccountModel> {
         return withContext(dispatcher) {
             when (val result = accountRepository.getAllAccounts()) {
                 is Result.Success -> {

@@ -1,4 +1,4 @@
-package ru.fav.moneytrace.account.impl.ui.update.component
+package ru.fav.moneytrace.ui.component
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -17,13 +17,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
-import ru.fav.moneytrace.ui.component.MTText
 import ru.fav.moneytrace.ui.theme.Providers
 
 @Composable
-fun EditableAccountItem(
-    title: String,
+fun MTEditableListItem(
+    title: String? = null,
     value: String,
+    trailingTitle: String? = null,
     leadingIcon: @Composable (() -> Unit)? = null,
     modifier: Modifier = Modifier,
     placeholder: String = "",
@@ -34,7 +34,7 @@ fun EditableAccountItem(
     mainColor: Color = Providers.color.onSurface,
     variantColor: Color = Providers.color.onSurfaceVariant,
     contentPadding: PaddingValues = PaddingValues(horizontal = Providers.spacing.m),
-    height: Dp = Providers.spacing.xxl
+    height: Dp = Providers.spacing.xxxl
 ) {
     Surface(
         modifier = modifier,
@@ -53,12 +53,14 @@ fun EditableAccountItem(
                 }
             }
 
-            MTText(
-                text = title,
-                maxLines = 1,
-                color = mainColor,
-                modifier = Modifier.weight(1f)
-            )
+            if (title != null) {
+                MTText(
+                    text = title,
+                    maxLines = 1,
+                    color = mainColor,
+                    modifier = Modifier.weight(1f)
+                )
+            }
 
             BasicTextField(
                 value = value,
@@ -69,20 +71,23 @@ fun EditableAccountItem(
                 },
                 textStyle = Providers.typography.bodyL.copy(
                     color = mainColor,
-                    textAlign = TextAlign.End
+                    textAlign = if (title != null) TextAlign.End else TextAlign.Start
                 ),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = keyboardType
                 ),
                 singleLine = true,
+                modifier = Modifier.weight(1f),
                 decorationBox = { innerTextField ->
-                    Box(contentAlignment = Alignment.CenterEnd) {
+                    Box(
+                        contentAlignment = if (title != null) Alignment.CenterEnd else Alignment.CenterStart
+                    ) {
                         if (value.isEmpty()) {
                             Text(
                                 text = placeholder,
                                 style = Providers.typography.bodyL.copy(
                                     color = variantColor,
-                                    textAlign = TextAlign.End
+                                    textAlign = if (title != null) TextAlign.End else TextAlign.Start
                                 )
                             )
                         }
@@ -90,6 +95,14 @@ fun EditableAccountItem(
                     }
                 }
             )
+
+            if (trailingTitle != null) {
+                MTText(
+                    text = trailingTitle,
+                    maxLines = 1,
+                    color = mainColor,
+                )
+            }
         }
     }
 }
