@@ -28,8 +28,6 @@ import ru.fav.moneytrace.ui.theme.Providers
 @Composable
 fun MainScreen(navigationManager: NavigationManager) {
     val navController = rememberNavController()
-    val currentBackStackEntry = navController.currentBackStackEntryAsState()
-    val currentRoute = currentBackStackEntry.value?.destination?.route
     val bottomNavItems = rememberBottomNavItems(navController, navigationManager)
 
 
@@ -47,7 +45,7 @@ fun MainScreen(navigationManager: NavigationManager) {
 
         BottomNavigationBar(
             bottomNavItems = bottomNavItems,
-            currentRoute = currentRoute
+            navController = navController
         )
     }
 }
