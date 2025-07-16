@@ -11,7 +11,7 @@
     <string name="comment">Комментарий</string>
     <string name="transaction_created_successfully">Транзакция успешно создана</string>
     <string name="error_empty_account">Пожалуйста, выберите счет</string>
-    <string name="error_empty_category">Пожалуйста, выберите категорию</string>
+    <string name="error_empty_category">Пожалуйста, выберите статью</string>
     <string name="transaction_deleted_successfully">Транзакция успешно удалена</string>
     <string name="my_transaction">Моя транзакция</string>
     <string name="delete_transaction">Удалить транзакцию</string>

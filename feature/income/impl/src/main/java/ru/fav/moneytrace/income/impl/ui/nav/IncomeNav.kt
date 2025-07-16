@@ -28,9 +28,7 @@ IncomeNav: FeatureNav {
             composable(route = navGraph.startDestination) {
                 IncomeTodayScreen(
                     onHistoryClick = {
-                        navigateToHistory(
-                            navController
-                        )
+                        navigateToHistory(navController)
                     },
                     onIncomeClick = { id ->
                         navigationManager.navigateToTransactionUpdate(navController, id)
@@ -41,7 +39,7 @@ IncomeNav: FeatureNav {
             composable(route = navGraph.historyDestination) {
                 IncomeHistoryScreen(
                     onBackClick = {
-                        navigationManager.navigateBack(navController)
+                        navigate(navController)
                     },
                     onIncomeClick = { id ->
                         navigationManager.navigateToTransactionUpdate(navController, id)

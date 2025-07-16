@@ -12,8 +12,4 @@ sealed class BottomNavIds(val id: String) {
     object Settings : BottomNavIds(SettingsNav.navGraph.route)
     object Expenses : BottomNavIds(ExpensesNav.navGraph.route)
     object Categories : BottomNavIds(CategoriesNav.navGraph.route)
-
-    companion object {
-        val all = listOf(Account, Income, Settings, Expenses, Categories)
-    }
 }

@@ -37,7 +37,7 @@ object ExpensesNav: FeatureNav {
             composable(route = navGraph.historyDestination) {
                 ExpensesHistoryScreen(
                     onBackClick = {
-                        navigationManager.navigateBack(navController)
+                        navigate(navController)
                     },
                     onExpenseClick = { id ->
                         navigationManager.navigateToTransactionUpdate(navController, id)
