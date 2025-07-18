@@ -1,4 +1,4 @@
-package ru.fav.moneytrace.categories.impl.data.remote.remote.pojo.response
+package ru.fav.moneytrace.categories.impl.data.remote.pojo.response
 
 import com.google.gson.annotations.SerializedName
 
