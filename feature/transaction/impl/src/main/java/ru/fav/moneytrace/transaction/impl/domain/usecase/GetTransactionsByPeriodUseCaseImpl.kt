@@ -1,33 +1,29 @@
-package ru.fav.moneytrace.expenses.impl.domain.usecase
+package ru.fav.moneytrace.transaction.impl.domain.usecase
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import ru.fav.moneytrace.account.api.repository.AccountRepository
 import ru.fav.moneytrace.domain.di.qualifier.IoDispatchers
 import ru.fav.moneytrace.transaction.api.model.TransactionModel
+import ru.fav.moneytrace.transaction.api.model.TransactionType
 import ru.fav.moneytrace.transaction.api.repository.TransactionRepository
+import ru.fav.moneytrace.transaction.api.usecase.GetTransactionsByPeriodUseCase
 import ru.fav.moneytrace.util.result.Result
 import ru.fav.moneytrace.util.DateHelper
 import java.util.Date
 import javax.inject.Inject
 
-/**
- * Use case для получения расходов за указанный период.
- *
- * Загружает транзакции основного счета за заданный период, фильтрует только расходы
- * (исключая доходы) и сортирует их по дате в убывающем порядке.
- *
- * @param accountRepository Репозиторий для доступа к данным счетов
- * @param transactionRepository Репозиторий для доступа к данным транзакций
- * @param dispatcher Диспетчер для выполнения операций в фоновом потоке
- */
 
-class GetExpensesByPeriodUseCase @Inject constructor(
+class GetTransactionsByPeriodUseCaseImpl @Inject constructor(
     private val accountRepository: AccountRepository,
     private val transactionRepository: TransactionRepository,
     @IoDispatchers private val dispatcher: CoroutineDispatcher
-) {
-    suspend operator fun invoke(startDate: Date, endDate: Date): Result<List<TransactionModel>> {
+) : GetTransactionsByPeriodUseCase {
+    override suspend operator fun invoke(
+        startDate: Date,
+        endDate: Date,
+        transactionType: TransactionType
+    ): Result<List<TransactionModel>> {
         return withContext(dispatcher) {
             when (val accountsResult = accountRepository.getAllAccounts()) {
                 is Result.Success -> {
@@ -52,7 +48,11 @@ class GetExpensesByPeriodUseCase @Inject constructor(
                     }
 
                     val filteredCategories = transactions.filter { transaction ->
-                        !transaction.category.isIncome
+                        when(transactionType) {
+                            TransactionType.INCOME -> transaction.category.isIncome
+                            TransactionType.EXPENSE -> !transaction.category.isIncome
+                            TransactionType.ANY -> true
+                        }
                     }.sortedBy {
                         transaction -> transaction.transactionDate
                     }.reversed()

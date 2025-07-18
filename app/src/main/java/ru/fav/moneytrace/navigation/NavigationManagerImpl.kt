@@ -4,6 +4,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
 import ru.fav.moneytrace.account.impl.ui.nav.AccountNav
+import ru.fav.moneytrace.analysis.impl.ui.nav.AnalysisNav
 import ru.fav.moneytrace.categories.impl.ui.nav.CategoriesNav
 import ru.fav.moneytrace.expenses.impl.ui.nav.ExpensesNav
 import ru.fav.moneytrace.income.impl.ui.nav.IncomeNav
@@ -22,7 +23,8 @@ class NavigationManagerImpl @Inject constructor() : NavigationManager {
         IncomeNav,
         ExpensesNav,
         CategoriesNav,
-        TransactionNav
+        TransactionNav,
+        AnalysisNav
     )
 
     override fun buildNavGraph(
@@ -70,6 +72,11 @@ class NavigationManagerImpl @Inject constructor() : NavigationManager {
     override fun navigateToTransactionUpdate(navController: NavController, transactionId: Int) {
         val transactionType = determineTransactionType(navController)
         TransactionNav.navigateToUpdate(navController, transactionId, transactionType)
+    }
+
+    override fun navigateToAnalysis(navController: NavController) {
+        val transactionType = determineTransactionType(navController)
+        AnalysisNav.navigateToAnalysis(navController, transactionType)
     }
 
     private fun determineTransactionType(navController: NavController): TransactionType {

@@ -5,7 +5,7 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import ru.fav.moneytrace.categories.api.repository.CategoryRepository
-import ru.fav.moneytrace.categories.impl.data.remote.repository.CategoryRepositoryImpl
+import ru.fav.moneytrace.categories.impl.data.repository.CategoryRepositoryImpl
 import javax.inject.Singleton
 
 @Module

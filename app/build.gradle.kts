@@ -69,6 +69,7 @@ dependencies {
     implementation(project(path = ":feature:categories:api"))
     implementation(project(path = ":feature:categories:impl"))
     implementation(project(path = ":feature:expenses:impl"))
+    implementation(project(path = ":feature:analysis:impl"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -92,4 +93,8 @@ dependencies {
     implementation(libs.hilt)
     implementation(libs.hilt.compose)
     ksp(libs.hilt.compiler)
+
+    implementation(libs.room)
+    implementation(libs.room.ktx)
+    ksp(libs.room.ksp)
 }

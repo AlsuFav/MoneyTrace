@@ -36,5 +36,5 @@ interface TransactionRepository {
         comment: String? = null,
     ) : Result<TransactionModel>
 
-    suspend fun deleteTransactionBuId(id: Int) :  Result<Unit>
+    suspend fun deleteTransactionById(id: Int) :  Result<Unit>
 }

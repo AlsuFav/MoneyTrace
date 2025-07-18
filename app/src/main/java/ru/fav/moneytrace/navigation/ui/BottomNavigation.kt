@@ -11,6 +11,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import ru.fav.moneytrace.account.impl.ui.nav.AccountNav
+import ru.fav.moneytrace.analysis.impl.ui.nav.AnalysisNav
 import ru.fav.moneytrace.categories.impl.ui.nav.CategoriesNav
 import ru.fav.moneytrace.expenses.impl.ui.nav.ExpensesNav
 import ru.fav.moneytrace.income.impl.ui.nav.IncomeNav
@@ -40,7 +41,10 @@ fun BottomNavigationBar(
     val currentBackStackEntry = navController.currentBackStackEntryAsState()
     val currentRoute = currentBackStackEntry.value?.destination?.route
 
-    val transactionType = if (currentRoute?.startsWith(TransactionNav.navGraph.route) == true) {
+    val transactionTypeUsed = (currentRoute?.startsWith(TransactionNav.navGraph.route) == true
+            || currentRoute?.startsWith(AnalysisNav.navGraph.route) == true)
+
+    val transactionType = if(transactionTypeUsed)  {
         val transactionTypeArg = navController.currentBackStackEntry
             ?.arguments?.getString("transactionType")
         TransactionType.fromString(transactionTypeArg ?: "")
@@ -49,7 +53,7 @@ fun BottomNavigationBar(
     NavigationBar {
         bottomNavItems.forEach { item ->
             val isSelected = when {
-                currentRoute?.startsWith(TransactionNav.navGraph.route) == true -> {
+                transactionTypeUsed -> {
                     when (transactionType) {
                         TransactionType.INCOME -> item.id == BottomNavIds.Income.id
                         TransactionType.EXPENSE -> item.id == BottomNavIds.Expenses.id

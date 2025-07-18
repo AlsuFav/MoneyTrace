@@ -43,6 +43,7 @@ import ru.fav.moneytrace.util.DateHelper
 @Composable
 fun ExpensesHistoryScreen(
     onBackClick: () -> Unit,
+    onAnalysisClick: () -> Unit,
     onExpenseClick: (Int) -> Unit,
     viewModel: ExpensesHistoryViewModel = hiltViewModel()
 ) {
@@ -75,7 +76,7 @@ fun ExpensesHistoryScreen(
             },
             actions = {
                 MTIconButton(
-                    onClick = { }
+                    onClick = onAnalysisClick
                 ) {
                     MTIcon(
                         painter = painterResource(R.drawable.ic_analysis),

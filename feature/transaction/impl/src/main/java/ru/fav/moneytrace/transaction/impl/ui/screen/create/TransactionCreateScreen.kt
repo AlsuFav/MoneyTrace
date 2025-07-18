@@ -22,9 +22,6 @@ import ru.fav.moneytrace.transaction.impl.ui.component.TransactionItem
 import ru.fav.moneytrace.transaction.impl.ui.component.TransactionShimmerItem
 import ru.fav.moneytrace.transaction.impl.ui.screen.create.state.TransactionCreateEffect
 import ru.fav.moneytrace.transaction.impl.ui.screen.create.state.TransactionCreateEvent
-import ru.fav.moneytrace.transaction.impl.ui.screen.update.TransactionUpdateViewModel
-import ru.fav.moneytrace.transaction.impl.ui.screen.update.state.TransactionUpdateEffect
-import ru.fav.moneytrace.transaction.impl.ui.screen.update.state.TransactionUpdateEvent
 import ru.fav.moneytrace.ui.R
 import ru.fav.moneytrace.ui.component.MTCenterAlignedTopAppBar
 import ru.fav.moneytrace.ui.component.MTDatePicker
