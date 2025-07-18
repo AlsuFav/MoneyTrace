@@ -1,27 +1,22 @@
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.detekt)
     alias(libs.plugins.ktlint)
     alias(libs.plugins.kotlin.ksp)
     alias(libs.plugins.hilt)
-    alias(libs.plugins.safe.args)
-    alias(libs.plugins.gradle.secrets)
 }
 
 android {
-    namespace = "ru.fav.moneytrace"
+    namespace = "ru.fav.moneytrace.analysis.impl"
     compileSdk = libs.versions.sdk.compile.get().toInt()
 
     defaultConfig {
-        applicationId = "ru.fav.moneytrace"
         minSdk = libs.versions.sdk.min.get().toInt()
-        targetSdk = libs.versions.sdk.target.get().toInt()
-        versionCode = rootProject.extra.get("versionCode") as Int
-        versionName = rootProject.extra.get("versionName") as String
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
     }
 
     buildTypes {
@@ -53,23 +48,16 @@ android {
 }
 
 dependencies {
-    implementation(project(path = ":common:domain"))
-    implementation(project(path = ":common:data"))
-    implementation(project(path = ":common:ui"))
-    implementation(project(path = ":common:navigation"))
-    implementation(project(path = ":common:util"))
-    implementation(project(path = ":common:network"))
 
-    implementation(project(path = ":feature:transaction:api"))
-    implementation(project(path = ":feature:transaction:impl"))
-    implementation(project(path = ":feature:account:api"))
-    implementation(project(path = ":feature:account:impl"))
-    implementation(project(path = ":feature:settings:impl"))
-    implementation(project(path = ":feature:income:impl"))
-    implementation(project(path = ":feature:categories:api"))
-    implementation(project(path = ":feature:categories:impl"))
-    implementation(project(path = ":feature:expenses:impl"))
-    implementation(project(path = ":feature:analysis:impl"))
+    implementation(project(":common:domain"))
+    implementation(project(":common:ui"))
+    implementation(project(":common:util"))
+    implementation(project(":common:navigation"))
+    implementation(project(":common:domain"))
+
+    implementation(project(":feature:transaction:api"))
+    implementation(project(":feature:categories:api"))
+    implementation(project(":feature:account:api"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -80,8 +68,6 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.splash)
-    implementation(libs.lotti)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

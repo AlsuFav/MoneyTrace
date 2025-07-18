@@ -1,4 +1,4 @@
-package ru.fav.moneytrace.income.impl.ui.screen.history
+package ru.fav.moneytrace.analysis.impl.ui.screen
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -9,44 +9,44 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
+import ru.fav.moneytrace.analysis.impl.domain.usecase.GetCategoriesWithSortedPercentageUseCase
+import ru.fav.moneytrace.analysis.impl.ui.mapper.CategoryAnalysisUIMapper
+import ru.fav.moneytrace.analysis.impl.ui.screen.state.AnalysisEffect
+import ru.fav.moneytrace.analysis.impl.ui.screen.state.AnalysisEvent
+import ru.fav.moneytrace.analysis.impl.ui.screen.state.AnalysisState
 import ru.fav.moneytrace.domain.provider.ResourceProvider
-import ru.fav.moneytrace.util.result.FailureReason
-import ru.fav.moneytrace.util.result.Result
-import ru.fav.moneytrace.income.impl.ui.mapper.IncomeUIMapper
-import ru.fav.moneytrace.income.impl.ui.screen.history.state.IncomeHistoryEffect
-import ru.fav.moneytrace.income.impl.ui.screen.history.state.IncomeHistoryEvent
-import ru.fav.moneytrace.income.impl.ui.screen.history.state.IncomeHistoryState
 import ru.fav.moneytrace.transaction.api.model.TransactionType
-import ru.fav.moneytrace.transaction.api.usecase.GetTransactionsByPeriodUseCase
 import ru.fav.moneytrace.ui.R
 import ru.fav.moneytrace.ui.base.BaseViewModel
 import ru.fav.moneytrace.util.DateHelper
+import ru.fav.moneytrace.util.result.FailureReason
 import javax.inject.Inject
+import ru.fav.moneytrace.util.result.Result
 
 @HiltViewModel
-class IncomeHistoryViewModel @Inject constructor(
-    private val getTransactionsByPeriodUseCase: GetTransactionsByPeriodUseCase,
-    private val incomeUIMapper: IncomeUIMapper,
+class AnalysisViewModel @Inject constructor(
+    private val getCategoriesWithSortedPercentageUseCase: GetCategoriesWithSortedPercentageUseCase,
+    private val categoryAnalysisUIMapper: CategoryAnalysisUIMapper,
     private val resourceProvider: ResourceProvider
-) : BaseViewModel<IncomeHistoryState, IncomeHistoryEvent, IncomeHistoryEffect>() {
+) : BaseViewModel<AnalysisState, AnalysisEvent, AnalysisEffect>() {
 
-    override val _state = MutableStateFlow(IncomeHistoryState())
-    override val state: StateFlow<IncomeHistoryState> = _state.asStateFlow()
+    override val _state = MutableStateFlow(AnalysisState())
+    override val state: StateFlow<AnalysisState> = _state.asStateFlow()
 
-    override val _effect = Channel<IncomeHistoryEffect>(Channel.UNLIMITED)
+    override val _effect = Channel<AnalysisEffect>(Channel.UNLIMITED)
     override val effect = _effect.receiveAsFlow()
 
     private var loadIncomeJob: Job? = null
 
-    override fun reduce(event: IncomeHistoryEvent) {
+    override fun reduce(event: AnalysisEvent) {
         when (event) {
-            is IncomeHistoryEvent.ShowStartDatePicker -> {
+            is AnalysisEvent.ShowStartDatePicker -> {
                 _state.update { it.copy(showStartDatePicker = true) }
             }
-            is IncomeHistoryEvent.ShowEndDatePicker -> {
+            is AnalysisEvent.ShowEndDatePicker -> {
                 _state.update { it.copy(showEndDatePicker = true) }
             }
-            is IncomeHistoryEvent.HideDatePicker -> {
+            is AnalysisEvent.HideDatePicker -> {
                 _state.update {
                     it.copy(
                         showStartDatePicker = false,
@@ -54,7 +54,7 @@ class IncomeHistoryViewModel @Inject constructor(
                     )
                 }
             }
-            is IncomeHistoryEvent.OnStartDateSelected -> {
+            is AnalysisEvent.OnStartDateSelected -> {
                 val formattedDate = DateHelper.formatDateForDisplay(event.date) ?: return
                 _state.update {
                     it.copy(
@@ -62,9 +62,9 @@ class IncomeHistoryViewModel @Inject constructor(
                         showStartDatePicker = false
                     )
                 }
-                loadIncomeByPeriod()
+                loadAnalysisByPeriod(event.transactionType)
             }
-            is IncomeHistoryEvent.OnEndDateSelected -> {
+            is AnalysisEvent.OnEndDateSelected -> {
                 val formattedDate = DateHelper.formatDateForDisplay(event.date) ?: return
                 _state.update {
                     it.copy(
@@ -72,45 +72,45 @@ class IncomeHistoryViewModel @Inject constructor(
                         showEndDatePicker = false
                     )
                 }
-                loadIncomeByPeriod()
+                loadAnalysisByPeriod(event.transactionType)
             }
-            IncomeHistoryEvent.HideErrorDialog ->
+            is AnalysisEvent.HideErrorDialog ->
                 _state.update {
                     it.copy(
                         showErrorDialog = null
                     )
                 }
-            IncomeHistoryEvent.LoadIncome -> {
+            is AnalysisEvent.LoadAnalysis -> {
                 _state.update {
                     it.copy(
                         showErrorDialog = null
                     )
                 }
-                loadIncomeByPeriod()
+                loadAnalysisByPeriod(event.transactionType)
             }
         }
     }
 
-    private fun loadIncomeByPeriod() {
+    private fun loadAnalysisByPeriod(transactionType: TransactionType) {
         loadIncomeJob?.cancel()
 
         loadIncomeJob = launchTask {
             _state.update { it.copy(isLoading = true) }
             delay(1000)
 
-            when (val result = getTransactionsByPeriodUseCase(
+            when (val result = getCategoriesWithSortedPercentageUseCase(
                 startDate = DateHelper.parseDisplayDate(state.value.startDate),
                 endDate = DateHelper.parseDisplayDate(state.value.endDate),
-                transactionType = TransactionType.INCOME
+                transactionType = transactionType
             )) {
                 is Result.Success -> {
-                    val income = result.data
-                    val totalSum = income.sumOf { it.amount }
+                    val categories = result.data
+                    val totalSum = categories.sumOf { it.amount }
                     _state.update {
                         it.copy(
                             isLoading = false,
-                            income = incomeUIMapper.mapList(income),
-                            total = incomeUIMapper.mapTotal(totalSum, income.firstOrNull()?.account?.currency ?: "RUB")
+                            categories = categoryAnalysisUIMapper.mapList(categories),
+                            total = categoryAnalysisUIMapper.mapTotal(totalSum, categories.firstOrNull()?.currency ?: "RUB")
                         )
                     }
                 }
@@ -132,7 +132,7 @@ class IncomeHistoryViewModel @Inject constructor(
         _state.update {
             it.copy(
                 isLoading = false,
-                income = emptyList(),
+                categories = emptyList(),
                 showErrorDialog = message
             )
         }

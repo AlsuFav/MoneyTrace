@@ -15,11 +15,12 @@ import kotlinx.coroutines.flow.update
 import ru.fav.moneytrace.domain.provider.ResourceProvider
 import ru.fav.moneytrace.util.result.FailureReason
 import ru.fav.moneytrace.util.result.Result
-import ru.fav.moneytrace.expenses.impl.domain.usecase.GetExpensesByPeriodUseCase
 import ru.fav.moneytrace.expenses.impl.ui.screen.history.state.ExpensesHistoryEffect
 import ru.fav.moneytrace.expenses.impl.ui.screen.history.state.ExpensesHistoryEvent
 import ru.fav.moneytrace.expenses.impl.ui.screen.history.state.ExpensesHistoryState
 import ru.fav.moneytrace.expenses.impl.ui.mapper.ExpenseUIMapper
+import ru.fav.moneytrace.transaction.api.model.TransactionType
+import ru.fav.moneytrace.transaction.api.usecase.GetTransactionsByPeriodUseCase
 import ru.fav.moneytrace.ui.R
 import ru.fav.moneytrace.ui.base.BaseViewModel
 import ru.fav.moneytrace.util.DateHelper
@@ -39,7 +40,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ExpensesHistoryViewModel @Inject constructor(
-    private val getExpensesByPeriodUseCase: GetExpensesByPeriodUseCase,
+    private val getTransactionsByPeriodUseCase: GetTransactionsByPeriodUseCase,
     private val expenseUIMapper: ExpenseUIMapper,
     private val resourceProvider: ResourceProvider
 ) : BaseViewModel<ExpensesHistoryState, ExpensesHistoryEvent, ExpensesHistoryEffect>() {
@@ -112,9 +113,10 @@ class ExpensesHistoryViewModel @Inject constructor(
             _state.update { it.copy(isLoading = true) }
             delay(1000)
 
-            when (val result = getExpensesByPeriodUseCase(
+            when (val result = getTransactionsByPeriodUseCase(
                 startDate = DateHelper.parseDisplayDate(state.value.startDate),
                 endDate = DateHelper.parseDisplayDate(state.value.endDate),
+                transactionType = TransactionType.EXPENSE
             )) {
                 is Result.Success -> {
                     val expenses = result.data
