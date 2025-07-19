@@ -2,9 +2,31 @@ package ru.fav.moneytrace.transaction.impl.data.local.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "transactions")
+@Entity(
+    tableName = "transactions",
+    foreignKeys = [
+        ForeignKey(
+            entity = AccountStateEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["account_id"],
+            onDelete = ForeignKey.Companion.CASCADE
+        ),
+        ForeignKey(
+            entity = TransactionCategoryEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["category_id"],
+            onDelete = ForeignKey.Companion.CASCADE
+        )
+    ],
+    indices = [
+        Index("account_id"),
+        Index("category_id")
+    ]
+)
 data class TransactionEntity(
     @PrimaryKey
     @ColumnInfo(name = "id")
@@ -13,39 +35,21 @@ data class TransactionEntity(
     @ColumnInfo(name = "account_id")
     val accountId: Int,
 
-    @ColumnInfo(name = "account_name")
-    val accountName: String,
-
-    @ColumnInfo(name = "account_balance")
-    val accountBalance: Double,
-
-    @ColumnInfo(name = "account_currency")
-    val accountCurrency: String,
-
     @ColumnInfo(name = "category_id")
     val categoryId: Int,
-
-    @ColumnInfo(name = "category_name")
-    val categoryName: String,
-
-    @ColumnInfo(name = "category_emoji")
-    val categoryEmoji: String,
-
-    @ColumnInfo(name = "category_is_income")
-    val categoryIsIncome: Boolean,
 
     @ColumnInfo(name = "amount")
     val amount: Double,
 
     @ColumnInfo(name = "transaction_date")
-    val transactionDate: Long,
+    val transactionDate: String,
 
     @ColumnInfo(name = "comment")
     val comment: String,
 
     @ColumnInfo(name = "created_at")
-    val createdAt: Long,
+    val createdAt: String,
 
     @ColumnInfo(name = "updated_at")
-    val updatedAt: Long
+    val updatedAt: String
 )

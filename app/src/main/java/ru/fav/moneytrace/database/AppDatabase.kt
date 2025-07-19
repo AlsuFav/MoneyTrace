@@ -9,6 +9,8 @@ import ru.fav.moneytrace.account.impl.data.local.entity.AccountEntity
 import ru.fav.moneytrace.categories.impl.data.local.dao.CategoryDao
 import ru.fav.moneytrace.categories.impl.data.local.entity.CategoryEntity
 import ru.fav.moneytrace.transaction.impl.data.local.dao.TransactionDao
+import ru.fav.moneytrace.transaction.impl.data.local.entity.AccountStateEntity
+import ru.fav.moneytrace.transaction.impl.data.local.entity.TransactionCategoryEntity
 import ru.fav.moneytrace.transaction.impl.data.local.entity.TransactionEntity
 
 @Database(
@@ -16,6 +18,8 @@ import ru.fav.moneytrace.transaction.impl.data.local.entity.TransactionEntity
         AccountCategoryDetailsEntity::class,
         AccountDetailsEntity::class,
         CategoryEntity::class,
+        AccountStateEntity::class,
+        TransactionCategoryEntity::class,
         TransactionEntity::class
                ],
     version = 1

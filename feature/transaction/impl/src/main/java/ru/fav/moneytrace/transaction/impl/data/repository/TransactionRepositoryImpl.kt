@@ -32,25 +32,21 @@ class TransactionRepositoryImpl @Inject constructor(
             )
         }) {
             is Result.Success -> {
-                val domainModels = transactionMapper.mapNetworkToDomainList(networkResult.data)
-                val entities = transactionMapper.mapDomainToEntityList(domainModels)
+                val domainModels = transactionMapper.mapList(networkResult.data)
+                val (transactions, accounts, categories) = transactionMapper.mapDomainToEntitiesLists(domainModels)
 
-                transactionDao.deleteTransactionsByAccount(accountId)
-                transactionDao.insertTransactions(entities)
-
+                transactionDao.insertTransactionsWithRelations(transactions, accounts, categories)
                 Result.Success(domainModels)
             }
             is Result.Failure -> {
                 if (networkResult.reason is FailureReason.Network) {
-                    val startTimestamp = startDate?.let { DateHelper.parseApiDateTime(it).time }
-                    val endTimestamp = endDate?.let { DateHelper.parseApiDateTime(it).time }
 
                     val cachedTransactions = transactionDao.getTransactionsByAccountAndPeriod(
-                        accountId, startTimestamp, endTimestamp
+                        accountId, startDate, endDate
                     )
 
                     if (cachedTransactions.isNotEmpty()) {
-                        val domainModels = transactionMapper.mapEntityToDomainList(cachedTransactions)
+                        val domainModels = transactionMapper.mapJoinDataToDomainList(cachedTransactions)
                         Result.Success(domainModels)
                     } else {
                         networkResult
@@ -65,16 +61,17 @@ class TransactionRepositoryImpl @Inject constructor(
     override suspend fun getTransactionById(id: Int): Result<TransactionModel> {
         return when (val networkResult = apiClient.call { transactionApi.getTransactionById(id) }) {
             is Result.Success -> {
-                val domainModel = transactionMapper.mapNetworkToDomain(networkResult.data)
-                val entity = transactionMapper.mapDomainToEntity(domainModel)
-                transactionDao.insertTransaction(entity)
+                val domainModel = transactionMapper.map(networkResult.data)
+                val (transaction, account, category) = transactionMapper.mapDomainToEntities(domainModel)
+
+                transactionDao.insertTransactionWithRelations(transaction, account, category)
                 Result.Success(domainModel)
             }
             is Result.Failure -> {
                 if (networkResult.reason is FailureReason.Network) {
                     val cachedTransaction = transactionDao.getTransactionById(id)
                     if (cachedTransaction != null) {
-                        val domainModel = transactionMapper.mapEntityToDomain(cachedTransaction)
+                        val domainModel = transactionMapper.mapJoinDataToDomain(cachedTransaction)
                         Result.Success(domainModel)
                     } else {
                         networkResult
@@ -105,9 +102,10 @@ class TransactionRepositoryImpl @Inject constructor(
             )
         }) {
             is Result.Success -> {
-                val domainModel = transactionMapper.mapNetworkToDomain(result.data)
-                val entity = transactionMapper.mapDomainToEntity(domainModel)
-                transactionDao.insertTransaction(entity)
+                val domainModel = transactionMapper.map(result.data)
+                val (transaction, account, category) = transactionMapper.mapDomainToEntities(domainModel)
+
+                transactionDao.insertTransactionWithRelations(transaction, account, category)
                 Result.Success(domainModel)
             }
             is Result.Failure -> result
@@ -135,9 +133,10 @@ class TransactionRepositoryImpl @Inject constructor(
             )
         }) {
             is Result.Success -> {
-                val domainModel = transactionMapper.mapNetworkToDomain(result.data)
-                val entity = transactionMapper.mapDomainToEntity(domainModel)
-                transactionDao.insertTransaction(entity)
+                val domainModel = transactionMapper.map(result.data)
+                val (transaction, account, category) = transactionMapper.mapDomainToEntities(domainModel)
+
+                transactionDao.insertTransactionWithRelations(transaction, account, category)
                 Result.Success(domainModel)
             }
             is Result.Failure -> result
