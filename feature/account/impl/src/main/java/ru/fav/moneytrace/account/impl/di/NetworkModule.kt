@@ -18,15 +18,8 @@ class NetworkModule {
     @Provides
     @Singleton
     fun provideAccountApi(
-        okHttpClient: OkHttpClient,
-        converterFactory: GsonConverterFactory,
+        retrofit: Retrofit,
     ): AccountApi {
-        val retrofit = Retrofit.Builder()
-            .baseUrl(BuildConfig.MONEYTRACE_BASE_URL)
-            .client(okHttpClient)
-            .addConverterFactory(converterFactory)
-            .build()
-
         return retrofit.create(AccountApi::class.java)
     }
 }

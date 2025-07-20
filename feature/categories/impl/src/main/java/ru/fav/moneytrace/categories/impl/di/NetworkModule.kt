@@ -18,15 +18,8 @@ class NetworkModule {
     @Provides
     @Singleton
     fun provideCategoryApi(
-        okHttpClient: OkHttpClient,
-        converterFactory: GsonConverterFactory,
+        retrofit: Retrofit,
     ): CategoryApi {
-        val retrofit = Retrofit.Builder()
-            .baseUrl(BuildConfig.MONEYTRACE_BASE_URL)
-            .client(okHttpClient)
-            .addConverterFactory(converterFactory)
-            .build()
-
         return retrofit.create(CategoryApi::class.java)
     }
 }

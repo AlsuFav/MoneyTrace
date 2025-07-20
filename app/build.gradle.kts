@@ -82,6 +82,7 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.splash)
     implementation(libs.lotti)
+    implementation(libs.androidx.work)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -92,6 +93,7 @@ dependencies {
 
     implementation(libs.hilt)
     implementation(libs.hilt.compose)
+    implementation(libs.hilt.work)
     ksp(libs.hilt.compiler)
 
     implementation(libs.room)
