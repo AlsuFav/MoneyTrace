@@ -83,7 +83,8 @@ class AccountViewModel @Inject constructor(
                     _state.update {
                         it.copy(
                             isLoading = false,
-                            account = accountUIMapper.map(result.data)
+                            account = accountUIMapper.map(result.data),
+                            showErrorDialog = if (result.cached) resourceProvider.getString(R.string.failure_network) else null
                         )
                     }
                 }

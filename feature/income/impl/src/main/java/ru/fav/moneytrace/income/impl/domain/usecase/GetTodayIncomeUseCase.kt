@@ -31,6 +31,7 @@ class GetTodayIncomeUseCase @Inject constructor(
             when (val accountsResult = accountRepository.getAllAccounts()) {
                 is Result.Success -> {
                     val transactions = mutableListOf<TransactionModel>()
+                    var cachedTransactions: Boolean
 
                     val account = accountsResult.data[0]
 
@@ -44,18 +45,19 @@ class GetTodayIncomeUseCase @Inject constructor(
                         )) {
                         is Result.Success -> {
                             transactions.addAll(transactionsResult.data)
+                            cachedTransactions = transactionsResult.cached
                         }
 
                         is Result.Failure -> return@withContext transactionsResult
                     }
 
-                    val filteredCategories = transactions.filter { transaction ->
+                    val filteredTransactions = transactions.filter { transaction ->
                         transaction.category.isIncome
                     }.sortedBy {
                         transaction -> transaction.transactionDate
                     }.reversed()
 
-                    Result.Success(filteredCategories)
+                    Result.Success(filteredTransactions, cached = accountsResult.cached || cachedTransactions)
                 }
 
                 is Result.Failure -> accountsResult

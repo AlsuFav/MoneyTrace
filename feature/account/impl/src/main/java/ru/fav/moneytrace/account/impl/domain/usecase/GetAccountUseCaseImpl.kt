@@ -27,7 +27,7 @@ class GetAccountUseCaseImpl @Inject constructor(
             when (val result = accountRepository.getAllAccounts()) {
                 is Result.Success -> {
                     val account = result.data[0]
-                    Result.Success(account)
+                    Result.Success(account, cached = result.cached)
                 }
 
                 is Result.Failure -> result

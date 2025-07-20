@@ -27,6 +27,7 @@ class GetCategoriesWithSortedPercentageUseCase @Inject constructor(
             when (val accountsResult = accountRepository.getAllAccounts()) {
                 is Result.Success -> {
                     val transactions = mutableListOf<TransactionModel>()
+                    var transactionsCached: Boolean
 
                     val account = accountsResult.data[0]
 
@@ -46,6 +47,7 @@ class GetCategoriesWithSortedPercentageUseCase @Inject constructor(
                         )) {
                         is Result.Success -> {
                             transactions.addAll(transactionsResult.data)
+                            transactionsCached = transactionsResult.cached
                         }
 
                         is Result.Failure -> return@withContext transactionsResult
@@ -89,7 +91,7 @@ class GetCategoriesWithSortedPercentageUseCase @Inject constructor(
                         )
                     }.sortedByDescending { it.amount }
 
-                    Result.Success(categoriesWithPercentage)
+                    Result.Success(categoriesWithPercentage, cached = (accountsResult.cached || transactionsCached))
                 }
 
                 is Result.Failure -> accountsResult

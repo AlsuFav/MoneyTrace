@@ -31,7 +31,7 @@ class CreateTransactionUseCase @Inject constructor(
             )) {
                 is Result.Success -> {
                     val transaction = result.data
-                    Result.Success(transaction)
+                    Result.Success(transaction, cached = result.cached)
                 }
 
                 is Result.Failure -> result

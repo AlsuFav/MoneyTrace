@@ -34,7 +34,7 @@ class CategoryRepositoryImpl @Inject constructor(
 
                     if (cachedCategories.isNotEmpty()) {
                         val domainModels = categoryMapper.mapEntityToDomainList(cachedCategories)
-                        Result.Success(domainModels)
+                        Result.Success(domainModels, cached = true)
                     } else {
                         networkResult
                     }

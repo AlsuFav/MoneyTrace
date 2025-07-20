@@ -27,7 +27,7 @@ class UpdateAccountUseCase @Inject constructor(
             )) {
                 is Result.Success -> {
                     val account = result.data
-                    Result.Success(account)
+                    Result.Success(account, cached = result.cached)
                 }
 
                 is Result.Failure -> result

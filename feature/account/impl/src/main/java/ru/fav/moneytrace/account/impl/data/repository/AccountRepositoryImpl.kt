@@ -34,7 +34,7 @@ class AccountRepositoryImpl @Inject constructor(
                     val cachedAccounts = accountDao.getAllAccounts()
                     if (cachedAccounts.isNotEmpty()) {
                         val domainModels = accountMapper.mapEntityToDomainList(cachedAccounts)
-                        Result.Success(domainModels)
+                        Result.Success(domainModels, cached = true)
                     } else {
                         networkResult
                     }
@@ -66,7 +66,7 @@ class AccountRepositoryImpl @Inject constructor(
                             incomeCategories,
                             expenseCategories
                         )
-                        Result.Success(domainModel)
+                        Result.Success(domainModel, cached = true)
                     } else {
                         networkResult
                     }

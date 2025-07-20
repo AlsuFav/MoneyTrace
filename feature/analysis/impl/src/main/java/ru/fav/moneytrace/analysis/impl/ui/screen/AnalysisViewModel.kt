@@ -110,7 +110,8 @@ class AnalysisViewModel @Inject constructor(
                         it.copy(
                             isLoading = false,
                             categories = categoryAnalysisUIMapper.mapList(categories),
-                            total = categoryAnalysisUIMapper.mapTotal(totalSum, categories.firstOrNull()?.currency ?: "RUB")
+                            total = categoryAnalysisUIMapper.mapTotal(totalSum, categories.firstOrNull()?.currency ?: "RUB"),
+                            showErrorDialog = if (result.cached) resourceProvider.getString(R.string.failure_network) else null
                         )
                     }
                 }

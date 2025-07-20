@@ -31,6 +31,7 @@ class GetTodayExpensesUseCase @Inject constructor(
             when (val accountsResult = accountRepository.getAllAccounts()) {
                 is Result.Success -> {
                     val transactions = mutableListOf<TransactionModel>()
+                    var cachedTransactions: Boolean
 
                     val account = accountsResult.data[0]
 
@@ -43,6 +44,7 @@ class GetTodayExpensesUseCase @Inject constructor(
                             endDate = todayDate
                         )) {
                         is Result.Success -> {
+                            cachedTransactions = transactionsResult.cached
                             transactions.addAll(transactionsResult.data)
                         }
 
@@ -55,7 +57,7 @@ class GetTodayExpensesUseCase @Inject constructor(
                         transaction -> transaction.transactionDate
                     }.reversed()
 
-                    Result.Success(filteredCategories)
+                    Result.Success(filteredCategories, cached = accountsResult.cached || cachedTransactions)
                 }
 
                 is Result.Failure -> accountsResult

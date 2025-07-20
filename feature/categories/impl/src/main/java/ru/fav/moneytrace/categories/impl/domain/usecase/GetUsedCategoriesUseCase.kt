@@ -20,11 +20,13 @@ class GetUsedCategoriesUseCase @Inject constructor(
             when (val accountsResult = accountRepository.getAllAccounts()) {
                 is Result.Success -> {
                     val categories = mutableListOf<CategoryDetailsModel>()
+                    var cachedCategories: Boolean
 
                     val account = accountsResult.data[0]
 
                     when (val detailsResult = accountRepository.getAccountDetails(account.id)) {
                         is Result.Success -> {
+                            cachedCategories = detailsResult.cached
                             when(transactionType) {
                                 TransactionType.EXPENSE -> categories.addAll(detailsResult.data.expenseCategories)
                                 TransactionType.INCOME -> categories.addAll(detailsResult.data.incomeCategories)
@@ -47,7 +49,7 @@ class GetUsedCategoriesUseCase @Inject constructor(
                         }
                     }
 
-                    Result.Success(filteredCategories)
+                    Result.Success(filteredCategories, cached = accountsResult.cached || cachedCategories)
                 }
 
                 is Result.Failure -> accountsResult

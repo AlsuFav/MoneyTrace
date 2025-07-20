@@ -28,6 +28,7 @@ class GetTransactionsByPeriodUseCaseImpl @Inject constructor(
             when (val accountsResult = accountRepository.getAllAccounts()) {
                 is Result.Success -> {
                     val transactions = mutableListOf<TransactionModel>()
+                    var cachedTransactions: Boolean
 
                     val account = accountsResult.data[0]
 
@@ -41,13 +42,14 @@ class GetTransactionsByPeriodUseCaseImpl @Inject constructor(
                             endDate = endDate
                         )) {
                         is Result.Success -> {
+                            cachedTransactions = transactionsResult.cached
                             transactions.addAll(transactionsResult.data)
                         }
 
                         is Result.Failure -> return@withContext transactionsResult
                     }
 
-                    val filteredCategories = transactions.filter { transaction ->
+                    val filteredTransactions = transactions.filter { transaction ->
                         when(transactionType) {
                             TransactionType.INCOME -> transaction.category.isIncome
                             TransactionType.EXPENSE -> !transaction.category.isIncome
@@ -57,7 +59,7 @@ class GetTransactionsByPeriodUseCaseImpl @Inject constructor(
                         transaction -> transaction.transactionDate
                     }.reversed()
 
-                    Result.Success(filteredCategories)
+                    Result.Success(filteredTransactions, cached = accountsResult.cached || cachedTransactions)
                 }
 
                 is Result.Failure -> accountsResult

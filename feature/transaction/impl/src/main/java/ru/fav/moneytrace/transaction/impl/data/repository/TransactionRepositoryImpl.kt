@@ -47,7 +47,7 @@ class TransactionRepositoryImpl @Inject constructor(
 
                     if (cachedTransactions.isNotEmpty()) {
                         val domainModels = transactionMapper.mapJoinDataToDomainList(cachedTransactions)
-                        Result.Success(domainModels)
+                        Result.Success(domainModels, cached = true)
                     } else {
                         networkResult
                     }
@@ -72,7 +72,7 @@ class TransactionRepositoryImpl @Inject constructor(
                     val cachedTransaction = transactionDao.getTransactionById(id)
                     if (cachedTransaction != null) {
                         val domainModel = transactionMapper.mapJoinDataToDomain(cachedTransaction)
-                        Result.Success(domainModel)
+                        Result.Success(domainModel, cached = true)
                     } else {
                         networkResult
                     }

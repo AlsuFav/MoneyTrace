@@ -212,7 +212,8 @@ class TransactionCreateViewModel @Inject constructor(
                     _state.update {
                         it.copy(
                             isLoading = false,
-                            categories = categoryUIMapper.mapList(result.data)
+                            categories = categoryUIMapper.mapList(result.data),
+                            showErrorDialog = if (result.cached) resourceProvider.getString(R.string.failure_network) else null
                         )
                     }
                 }
@@ -236,7 +237,8 @@ class TransactionCreateViewModel @Inject constructor(
                         it.copy(
                             transaction = it.transaction.copy(
                                 account = accountUIMapper.map(result.data)
-                            )
+                            ),
+                            showErrorDialog = if (result.cached) resourceProvider.getString(R.string.failure_network) else null
                         )
                     }
                 }

@@ -85,7 +85,8 @@ class ExpensesTodayViewModel @Inject constructor(
                         it.copy(
                             isLoading = false,
                             expenses = expenseUIMapper.mapList(expenses),
-                            total = expenseUIMapper.mapTotal(totalSum, expenses.firstOrNull()?.account?.currency ?: "RUB")
+                            total = expenseUIMapper.mapTotal(totalSum, expenses.firstOrNull()?.account?.currency ?: "RUB"),
+                            showErrorDialog = if (result.cached) resourceProvider.getString(R.string.failure_network) else null
                         )
                     }
                 }
