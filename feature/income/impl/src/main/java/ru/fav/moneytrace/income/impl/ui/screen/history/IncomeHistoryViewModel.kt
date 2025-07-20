@@ -4,22 +4,20 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import ru.fav.moneytrace.domain.provider.ResourceProvider
 import ru.fav.moneytrace.util.result.FailureReason
 import ru.fav.moneytrace.util.result.Result
-import ru.fav.moneytrace.income.impl.domain.usecase.GetIncomeByPeriodUseCase
 import ru.fav.moneytrace.income.impl.ui.mapper.IncomeUIMapper
 import ru.fav.moneytrace.income.impl.ui.screen.history.state.IncomeHistoryEffect
 import ru.fav.moneytrace.income.impl.ui.screen.history.state.IncomeHistoryEvent
 import ru.fav.moneytrace.income.impl.ui.screen.history.state.IncomeHistoryState
+import ru.fav.moneytrace.transaction.api.model.TransactionType
+import ru.fav.moneytrace.transaction.api.usecase.GetTransactionsByPeriodUseCase
 import ru.fav.moneytrace.ui.R
 import ru.fav.moneytrace.ui.base.BaseViewModel
 import ru.fav.moneytrace.util.DateHelper
@@ -27,7 +25,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class IncomeHistoryViewModel @Inject constructor(
-    private val getIncomeByPeriodUseCase: GetIncomeByPeriodUseCase,
+    private val getTransactionsByPeriodUseCase: GetTransactionsByPeriodUseCase,
     private val incomeUIMapper: IncomeUIMapper,
     private val resourceProvider: ResourceProvider
 ) : BaseViewModel<IncomeHistoryState, IncomeHistoryEvent, IncomeHistoryEffect>() {
@@ -100,9 +98,10 @@ class IncomeHistoryViewModel @Inject constructor(
             _state.update { it.copy(isLoading = true) }
             delay(1000)
 
-            when (val result = getIncomeByPeriodUseCase(
+            when (val result = getTransactionsByPeriodUseCase(
                 startDate = DateHelper.parseDisplayDate(state.value.startDate),
                 endDate = DateHelper.parseDisplayDate(state.value.endDate),
+                transactionType = TransactionType.INCOME
             )) {
                 is Result.Success -> {
                     val income = result.data
@@ -111,7 +110,8 @@ class IncomeHistoryViewModel @Inject constructor(
                         it.copy(
                             isLoading = false,
                             income = incomeUIMapper.mapList(income),
-                            total = incomeUIMapper.mapTotal(totalSum, income.firstOrNull()?.account?.currency ?: "RUB")
+                            total = incomeUIMapper.mapTotal(totalSum, income.firstOrNull()?.account?.currency ?: "RUB"),
+                            showErrorDialog = if (result.cached) resourceProvider.getString(R.string.failure_network) else null
                         )
                     }
                 }

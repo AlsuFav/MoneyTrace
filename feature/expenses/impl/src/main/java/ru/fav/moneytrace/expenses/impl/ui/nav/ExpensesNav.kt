@@ -39,6 +39,9 @@ object ExpensesNav: FeatureNav {
                     onBackClick = {
                         navigate(navController)
                     },
+                    onAnalysisClick = {
+                        navigationManager.navigateToAnalysis(navController)
+                    },
                     onExpenseClick = { id ->
                         navigationManager.navigateToTransactionUpdate(navController, id)
                     },

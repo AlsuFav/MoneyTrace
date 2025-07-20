@@ -124,7 +124,8 @@ class AccountUpdateViewModel @Inject constructor(
                     _state.update {
                         it.copy(
                             isLoading = false,
-                            account = accountUIMapper.map(result.data)
+                            account = accountUIMapper.map(result.data),
+                            showErrorDialog = if (result.cached) resourceProvider.getString(R.string.failure_network) else null
                         )
                     }
                 }
@@ -147,7 +148,8 @@ class AccountUpdateViewModel @Inject constructor(
                     _state.update {
                         it.copy(
                             isLoading = false,
-                            currencies = currencyUIMapper.mapList(result.data)
+                            currencies = currencyUIMapper.mapList(result.data),
+                            showErrorDialog = if (result.cached) resourceProvider.getString(R.string.failure_network) else null
                         )
                     }
                 }

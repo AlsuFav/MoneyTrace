@@ -28,7 +28,7 @@ class GetCategoriesUseCaseImpl @Inject constructor(
 
                     when {
                         incomeResult is Result.Success && expenseResult is Result.Success -> {
-                            Result.Success(incomeResult.data + expenseResult.data)
+                            Result.Success(incomeResult.data + expenseResult.data, cached = (incomeResult.cached || expenseResult.cached))
                         }
                         incomeResult is Result.Failure -> incomeResult
                         expenseResult is Result.Failure -> expenseResult

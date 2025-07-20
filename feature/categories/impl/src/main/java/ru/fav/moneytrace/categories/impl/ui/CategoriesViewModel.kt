@@ -94,7 +94,8 @@ class CategoriesViewModel @Inject constructor(
                     _state.update {
                         it.copy(
                             isLoading = false,
-                            categories = categoryDetailsUIMapper.mapList(result.data)
+                            categories = categoryDetailsUIMapper.mapList(result.data),
+                            showErrorDialog = if (result.cached) resourceProvider.getString(R.string.failure_network) else null
                         )
                     }
                 }

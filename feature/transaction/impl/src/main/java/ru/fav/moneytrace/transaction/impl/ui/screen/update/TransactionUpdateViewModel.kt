@@ -163,6 +163,7 @@ class TransactionUpdateViewModel @Inject constructor(
                         it.copy(
                             isLoading = false,
                             transaction = transactionUIMapper.map(transaction),
+                            showErrorDialog = if (result.cached) resourceProvider.getString(R.string.failure_network) else null
                         )
                     }
                 }
@@ -224,7 +225,8 @@ class TransactionUpdateViewModel @Inject constructor(
                     _state.update {
                         it.copy(
                             isLoading = false,
-                            categories = categoryUIMapper.mapList(result.data)
+                            categories = categoryUIMapper.mapList(result.data),
+                            showErrorDialog = if (result.cached) resourceProvider.getString(R.string.failure_network) else null
                         )
                     }
                 }

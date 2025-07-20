@@ -84,4 +84,8 @@ dependencies {
     implementation (libs.gson)
     implementation (libs.okhttp)
     implementation(libs.http.logging.interceptor)
+
+    implementation(libs.room)
+    implementation(libs.room.ktx)
+    ksp(libs.room.ksp)
 }

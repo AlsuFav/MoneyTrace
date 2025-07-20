@@ -86,6 +86,7 @@ class IncomeTodayViewModel @Inject constructor(
                             isLoading = false,
                             income = incomeUIMapper.mapList(income),
                             total = incomeUIMapper.mapTotal(totalSum, income.firstOrNull()?.account?.currency ?: "RUB"),
+                            showErrorDialog = if (result.cached) resourceProvider.getString(R.string.failure_network) else null
                         )
                     }
                 }
